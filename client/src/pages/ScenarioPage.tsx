@@ -21,6 +21,18 @@ const VILLAGE_COLORS: Record<string, string> = {
   inheritance: "text-orange-700 bg-orange-50 border-orange-200",
 };
 
+const DIFFICULTY_LABEL: Record<string, string> = {
+  easy: "初級",
+  medium: "中級",
+  hard: "高級",
+};
+
+const DIFFICULTY_COLOR: Record<string, string> = {
+  easy: "text-emerald-700 bg-emerald-50 border-emerald-200",
+  medium: "text-amber-700 bg-amber-50 border-amber-200",
+  hard: "text-red-700 bg-red-50 border-red-200",
+};
+
 export default function ScenarioPage() {
   const { scenarioId } = useParams<{ scenarioId: string }>();
   const [, navigate] = useLocation();
@@ -37,6 +49,8 @@ export default function ScenarioPage() {
   const [isGradingEssay, setIsGradingEssay] = useState(false);
   const [showApiKeyInput, setShowApiKeyInput] = useState(false);
   const [apiKeyInput, setApiKeyInput] = useState(gameState.geminiApiKey || "");
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const storyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { setGeminiApiKey } = useGame();
 
@@ -48,6 +62,8 @@ export default function ScenarioPage() {
     setIsCorrect(null);
     setEssayText("");
     setAiFeedback("");
+    setImageLoaded(false);
+    setImageError(false);
   }, [scenarioId]);
 
   // 故事逐行顯示
@@ -76,6 +92,7 @@ export default function ScenarioPage() {
   }
 
   const colors = VILLAGE_COLORS[scenario.villageId] ?? VILLAGE_COLORS.general;
+  const difficultyColor = DIFFICULTY_COLOR[scenario.difficulty] ?? DIFFICULTY_COLOR.easy;
   const relatedArticles = scenario.relatedArticles.map((id) => getArticleById(id)).filter(Boolean);
 
   const handleChoiceSelect = (choiceId: number) => {
@@ -213,15 +230,61 @@ ${essayText}
               {scenario.title}
             </span>
           </div>
-          {isScenarioCompleted(scenario.id) && (
-            <Badge variant="secondary" className="text-xs bg-emerald-100 text-emerald-700 border-emerald-200 shrink-0">
-              已完成
+          <div className="flex items-center gap-2 shrink-0">
+            <Badge variant="outline" className={`text-xs ${difficultyColor}`}>
+              {DIFFICULTY_LABEL[scenario.difficulty] ?? scenario.difficulty}
             </Badge>
-          )}
+            {isScenarioCompleted(scenario.id) && (
+              <Badge variant="secondary" className="text-xs bg-emerald-100 text-emerald-700 border-emerald-200">
+                已完成
+              </Badge>
+            )}
+          </div>
         </div>
       </header>
 
       <main className="container max-w-3xl mx-auto px-4 py-8 space-y-6">
+
+        {/* ===== 情境插圖 ===== */}
+        {scenario.imageUrl && (
+          <section className="rounded-2xl overflow-hidden border border-border shadow-sm bg-card">
+            <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+              {!imageLoaded && !imageError && (
+                <div className="absolute inset-0 flex items-center justify-center bg-secondary">
+                  <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                    <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                    <span className="text-xs">載入插圖中...</span>
+                  </div>
+                </div>
+              )}
+              {imageError && (
+                <div className="absolute inset-0 flex items-center justify-center bg-secondary">
+                  <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                    <span className="text-4xl">🖼️</span>
+                    <span className="text-xs">{scenario.chapter} · {scenario.title}</span>
+                  </div>
+                </div>
+              )}
+              {!imageError && (
+                <img
+                  src={scenario.imageUrl}
+                  alt={`${scenario.title} 情境插圖`}
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                    imageLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                  onLoad={() => setImageLoaded(true)}
+                  onError={() => setImageError(true)}
+                />
+              )}
+              {imageLoaded && !imageError && (
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 py-3">
+                  <p className="text-white text-sm font-medium">{scenario.title}</p>
+                  <p className="text-white/70 text-xs">{scenario.chapter}</p>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* ===== 故事情境 ===== */}
         <section className="bg-card rounded-2xl border border-border p-6 shadow-sm">
@@ -370,7 +433,7 @@ ${essayText}
                       <div className="flex items-start gap-3">
                         <div className="shrink-0">
                           <Badge variant="outline" className={`text-xs ${colors}`}>
-                            第 {article.number} 條
+                            {article.number}
                           </Badge>
                         </div>
                         <div>
@@ -437,16 +500,23 @@ ${essayText}
                       <div className="flex items-center gap-2 mb-2">
                         <Key className="w-4 h-4 text-blue-600" />
                         <p className="text-sm font-medium text-blue-800">設定 Gemini API Key</p>
+                        <a
+                          href="/settings"
+                          className="ml-auto text-xs text-blue-600 hover:text-blue-800 underline flex items-center gap-0.5"
+                        >
+                          詳細教學
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
                       </div>
                       <p className="text-xs text-blue-700 mb-3 leading-relaxed">
-                        AI 批改功能使用您自己的 Google Gemini API 額度，不會向您收取額外費用。
+                        AI 批改功能使用您自己的 Google Gemini API 額度，完全免費，不會向您收取額外費用。
                         <a
                           href="https://aistudio.google.com/app/apikey"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="ml-1 underline inline-flex items-center gap-0.5"
                         >
-                          點此取得免費 API Key
+                          前往 Google AI Studio 取得
                           <ExternalLink className="w-3 h-3" />
                         </a>
                       </p>
@@ -463,7 +533,7 @@ ${essayText}
                         </Button>
                       </div>
                       <p className="text-xs text-blue-600 mt-2">
-                        📌 如何取得：前往 Google AI Studio → 建立 API 金鑰 → 複製貼上
+                        📌 步驟：前往 Google AI Studio → 建立 API 金鑰 → 複製貼上
                       </p>
                     </div>
                   ) : (

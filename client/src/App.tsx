@@ -10,6 +10,8 @@ import VillagePage from "./pages/VillagePage";
 import ScenarioPage from "./pages/ScenarioPage";
 import KnowledgePage from "./pages/KnowledgePage";
 import ProgressPage from "./pages/ProgressPage";
+import SettingsPage from "./pages/SettingsPage";
+import LineFloatButton from "./components/LineFloatButton";
 
 function Router() {
   return (
@@ -19,6 +21,7 @@ function Router() {
       <Route path="/scenario/:scenarioId" component={ScenarioPage} />
       <Route path="/knowledge" component={KnowledgePage} />
       <Route path="/progress" component={ProgressPage} />
+      <Route path="/settings" component={SettingsPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
@@ -33,6 +36,7 @@ function App() {
           <GameProvider>
             <Toaster richColors position="top-center" />
             <Router />
+            <LineFloatButton />
           </GameProvider>
         </TooltipProvider>
       </ThemeProvider>
