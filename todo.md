@@ -56,3 +56,13 @@
 - [x] 加入 LINE 官方帳號浮動按鈕（https://lin.ee/spAOCZ9）
 - [x] 修正 general-009 雙重正確答案 bug（Vitest 全部通過）
 - [x] 情境圖片載入失敗加入 fallback UI（佔位圖示 + 章節標題）
+
+## 第三輪：廣告整合 + 移除登入 + 純 localStorage
+- [x] 加入 Google AdSense 腳本（ca-pub-9753491901026477）到 index.html head
+- [x] 建立 client/public/ads.txt（Google AdSense 審核用）
+- [x] 加入 Google Analytics G-MFXSFT8HY7 到 index.html head
+- [x] 移除首頁、導覽列的登入按鈕
+- [x] 移除 ScenarioPage 申論題的「登入才能使用 AI 批改」限制
+- [x] 所有人直接可使用 Gemini API Key 設定（不需登入）
+- [x] 首頁顯示「進度自動儲存在您的瀏覽器中」說明
+- [x] 各頁面預留廣告空間（頂部 Leaderboard + 底部 banner，不遮擋內容）

@@ -8,8 +8,6 @@ import { useLocation, useParams } from "wouter";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, XCircle, Lightbulb, Sparkles, SkipForward, Key, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
-import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
 
 type GamePhase = "story" | "question" | "result" | "essay";
 
@@ -37,8 +35,6 @@ export default function ScenarioPage() {
   const { scenarioId } = useParams<{ scenarioId: string }>();
   const [, navigate] = useLocation();
   const { gameState, recordAnswer, isScenarioCompleted } = useGame();
-  const { isAuthenticated } = useAuth();
-
   const scenario = SCENARIOS.find((s) => s.id === scenarioId);
   const [phase, setPhase] = useState<GamePhase>("story");
   const [visibleLines, setVisibleLines] = useState(0);
@@ -480,22 +476,8 @@ ${essayText}
               />
 
               {/* AI 批改區域 */}
-              {!isAuthenticated ? (
-                <div className="bg-secondary rounded-xl p-4 text-center">
-                  <p className="text-sm text-muted-foreground mb-2">
-                    登入帳號後可使用 AI 申論批改功能
-                  </p>
-                  <Button
-                    size="sm"
-                    onClick={() => window.location.href = getLoginUrl()}
-                    className="gap-1.5"
-                  >
-                    登入使用 AI 批改
-                  </Button>
-                </div>
-              ) : (
-                <>
-                  {showApiKeyInput || !gameState.geminiApiKey ? (
+              <>
+              {showApiKeyInput || !gameState.geminiApiKey ? (
                     <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-3">
                       <div className="flex items-center gap-2 mb-2">
                         <Key className="w-4 h-4 text-blue-600" />
@@ -568,8 +550,7 @@ ${essayText}
                       </>
                     )}
                   </Button>
-                </>
-              )}
+              </>
 
               {/* AI 批改結果 */}
               {aiFeedback && (
@@ -620,6 +601,16 @@ ${essayText}
             </button>
           </div>
         )}
+
+        {/* 廣告區 */}
+        <div className="flex justify-center items-center py-6 mt-4">
+          <ins className="adsbygoogle"
+            style={{ display: "block", width: "100%", maxWidth: "728px", height: "90px" }}
+            data-ad-client="ca-pub-9753491901026477"
+            data-ad-slot="auto"
+            data-ad-format="horizontal"
+            data-full-width-responsive="true"></ins>
+        </div>
       </main>
     </div>
   );

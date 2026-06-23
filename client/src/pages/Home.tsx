@@ -1,14 +1,11 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { useGame } from "@/contexts/GameContext";
 import { VILLAGES, SCENARIOS, getScenariosByVillage } from "../../../shared/gameData";
-import { getLoginUrl } from "@/const";
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { BookOpen, Trophy, Map, LogIn, LogOut, User, Sparkles, ChevronRight } from "lucide-react";
+import { BookOpen, Trophy, Map, User, Sparkles, ChevronRight, Key } from "lucide-react";
 import { toast } from "sonner";
 
 const VILLAGE_COLORS: Record<string, { bg: string; border: string; text: string; icon: string }> = {
@@ -20,7 +17,6 @@ const VILLAGE_COLORS: Record<string, { bg: string; border: string; text: string;
 };
 
 export default function Home() {
-  const { user, isAuthenticated, logout } = useAuth();
   const { gameState, setPlayerName, getVillageProgress, getOverallStats } = useGame();
   const [nameInput, setNameInput] = useState(gameState.playerName || "");
   const [, navigate] = useLocation();
@@ -85,29 +81,28 @@ export default function Home() {
               <Trophy className="w-4 h-4" />
               <span className="hidden sm:inline">進度</span>
             </Button>
-            {isAuthenticated ? (
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground hidden sm:inline">
-                  {user?.name}
-                </span>
-                <Button variant="outline" size="sm" onClick={logout} className="gap-1.5">
-                  <LogOut className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">登出</span>
-                </Button>
-              </div>
-            ) : (
-              <Button
-                size="sm"
-                onClick={() => window.location.href = getLoginUrl()}
-                className="gap-1.5 bg-primary hover:bg-primary/90"
-              >
-                <LogIn className="w-3.5 h-3.5" />
-                登入
-              </Button>
-            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/settings")}
+              className="text-muted-foreground hover:text-foreground gap-1.5"
+            >
+              <Key className="w-4 h-4" />
+              <span className="hidden sm:inline">AI 設定</span>
+            </Button>
           </nav>
         </div>
       </header>
+
+      {/* 頂部橫幅廣告區（728x90 Leaderboard，僅桌機顯示） */}
+      <div className="hidden md:flex justify-center items-center py-3 bg-card/50 border-b border-border min-h-[100px]">
+        <ins className="adsbygoogle"
+          style={{ display: "block", width: "728px", height: "90px" }}
+          data-ad-client="ca-pub-9753491901026477"
+          data-ad-slot="auto"
+          data-ad-format="horizontal"
+          data-full-width-responsive="false"></ins>
+      </div>
 
       <main className="container max-w-6xl mx-auto px-4 py-8">
         {/* 英雄區塊 */}
@@ -150,18 +145,9 @@ export default function Home() {
                 {gameState.playerName ? "更新" : "出發！"}
               </Button>
             </div>
-            {!isAuthenticated && (
-              <p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
-                <LogIn className="w-3 h-3" />
-                <button
-                  onClick={() => window.location.href = getLoginUrl()}
-                  className="text-primary hover:underline"
-                >
-                  登入帳號
-                </button>
-                可將進度雲端儲存，並使用 AI 申論批改功能
-              </p>
-            )}
+            <p className="text-xs text-muted-foreground mt-3">
+              📱 遊戲進度自動儲存在您的瀏覽器中
+            </p>
           </div>
         </section>
 
@@ -270,7 +256,7 @@ export default function Home() {
         </section>
 
         {/* 功能介紹 */}
-        <section className="max-w-5xl mx-auto mt-16 pb-12">
+        <section className="max-w-5xl mx-auto mt-16 pb-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               {
@@ -297,6 +283,16 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        {/* 底部廣告區（響應式） */}
+        <div className="flex justify-center items-center py-6 mt-4">
+          <ins className="adsbygoogle"
+            style={{ display: "block", width: "100%", maxWidth: "728px", height: "90px" }}
+            data-ad-client="ca-pub-9753491901026477"
+            data-ad-slot="auto"
+            data-ad-format="horizontal"
+            data-full-width-responsive="true"></ins>
+        </div>
       </main>
 
       <footer className="border-t border-border bg-card/50 py-6 text-center text-sm text-muted-foreground">
