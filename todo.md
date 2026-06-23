@@ -66,3 +66,8 @@
 - [x] 所有人直接可使用 Gemini API Key 設定（不需登入）
 - [x] 首頁顯示「進度自動儲存在您的瀏覽器中」說明
 - [x] 各頁面預留廣告空間（頂部 Leaderboard + 底部 banner，不遮擋內容）
+
+## 第四輪：修正 key 錯誤 + 圖片外部圖床遷移
+- [x] 修正 VillagePage 重複 key 錯誤（改用 Set 去除重複 chapter）
+- [x] 將 70 張插圖壓縮（463MB -> 14MB，1280x720）並上傳至 Imgur/catbox.moe
+- [x] 更新 gameData.ts 所有 70 個 imageUrl 為外部 HTTPS 網址（70 個全部成功）

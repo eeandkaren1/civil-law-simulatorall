@@ -74,9 +74,9 @@ export default function VillagePage() {
               </h1>
               <p className="text-muted-foreground mb-4">{village.description}</p>
               <div className="flex flex-wrap gap-2">
-                {scenarios.slice(0, 4).map((s) => (
-                  <Badge key={s.chapter} variant="secondary" className="text-xs">
-                    {s.chapter}
+                {Array.from(new Set(scenarios.map((s) => s.chapter))).slice(0, 4).map((chapter) => (
+                  <Badge key={chapter} variant="secondary" className="text-xs">
+                    {chapter}
                   </Badge>
                 ))}
               </div>
