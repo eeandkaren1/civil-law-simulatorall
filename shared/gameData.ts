@@ -199,7 +199,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明民法上「胎兒視為既已出生」的原則，以及其適用範圍與限制。",
     essayHint: "可從民法第7條出發，討論胎兒保護的目的、適用條件（非死產）、以及在繼承、損害賠償等方面的具體應用。",
     tags: ["自然人", "權利能力", "胎兒", "繼承"],
-    imageUrl: "/manus-storage/scenario-general-01.jpg",
+    imageUrl: "/manus-storage/scenario-general-01_97046039.jpg",
   },
   {
     id: "general-002",
@@ -224,7 +224,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明限制行為能力人所為法律行為的效力，以及法定代理人承認或拒絕的法律效果。",
     essayHint: "可討論民法第13條、第79條、第80條的規定，以及相對人催告權的行使方式。",
     tags: ["行為能力", "限制行為能力人", "法律行為", "效力未定"],
-    imageUrl: "/manus-storage/scenario-general-02.jpg",
+    imageUrl: "/manus-storage/scenario-general-02_e281af65.jpg",
   },
   {
     id: "general-003",
@@ -249,7 +249,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請比較「監護宣告」與「輔助宣告」在要件與法律效果上的異同。",
     essayHint: "可從民法第14條（監護宣告）與第15條之1（輔助宣告）出發，比較兩者的聲請要件、法律效果及適用情境。",
     tags: ["行為能力", "監護宣告", "無行為能力", "失智症"],
-    imageUrl: "/manus-storage/scenario-general-03.jpg",
+    imageUrl: "/manus-storage/scenario-general-03_f03938f0.jpg",
   },
   {
     id: "general-004",
@@ -274,7 +274,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明民法上「被詐欺之意思表示」的撤銷要件，以及第三人詐欺與相對人詐欺的差異。",
     essayHint: "可從民法第92條出發，討論詐欺的構成要件、第三人詐欺的特殊規定，以及撤銷後對善意第三人的效力。",
     tags: ["意思表示", "詐欺", "撤銷", "善意第三人"],
-    imageUrl: "/manus-storage/scenario-general-04.jpg",
+    imageUrl: "/manus-storage/scenario-general-04_3074b60d.jpg",
   },
   {
     id: "general-005",
@@ -299,7 +299,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明無權代理的法律效果，以及本人、相對人和無權代理人各自的權利義務。",
     essayHint: "可從民法第170條出發，討論無權代理的效力未定狀態、本人的承認與拒絕、相對人的催告權與撤回權，以及無權代理人的責任。",
     tags: ["代理", "無權代理", "代理權限", "效力未定"],
-    imageUrl: "/manus-storage/scenario-general-05.jpg",
+    imageUrl: "/manus-storage/scenario-general-05_8660ec55.jpg",
   },
   {
     id: "general-006",
@@ -324,7 +324,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明消滅時效的意義、效果，以及時效中斷與不完成的情形。",
     essayHint: "可從民法第125條出發，討論時效的立法目的、時效完成後的法律效果（抗辯權而非請求權消滅），以及時效中斷（民法第129條）的事由。",
     tags: ["消滅時效", "請求權", "時效抗辯", "借款"],
-    imageUrl: "/manus-storage/scenario-general-06.jpg",
+    imageUrl: "/manus-storage/scenario-general-06_74af2399.jpg",
   },
   {
     id: "general-007",
@@ -349,7 +349,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明通謀虛偽意思表示的法律效果，以及善意第三人保護的原則。",
     essayHint: "可從民法第87條出發，討論虛偽意思表示的無效性、隱藏行為的效力，以及善意第三人保護的範圍與限制。",
     tags: ["意思表示", "通謀虛偽", "善意第三人", "無效"],
-    imageUrl: "/manus-storage/scenario-general-07.jpg",
+    imageUrl: "/manus-storage/scenario-general-07_6f36dad4.jpg",
   },
 
   // ========== 債編村 ==========
@@ -376,7 +376,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明契約成立的要件，以及網路購物中要約與承諾的認定方式。",
     essayHint: "可從民法第153條出發，討論要約與承諾的定義、網路購物的特殊性，以及錯誤標價的法律處理方式。",
     tags: ["契約", "要約", "承諾", "買賣", "網路購物"],
-    imageUrl: "/manus-storage/scenario-debt-01.jpg",
+    imageUrl: "/manus-storage/scenario-debt-01_368a7b14.jpg",
   },
   {
     id: "obligation-002",
@@ -401,7 +401,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明侵權行為損害賠償的構成要件，以及「與有過失」對賠償金額的影響。",
     essayHint: "可從民法第184條出發，討論侵權行為的四個要件（行為、故意過失、損害、因果關係），以及民法第217條與有過失的規定。",
     tags: ["侵權行為", "損害賠償", "過失", "車禍"],
-    imageUrl: "/manus-storage/scenario-debt-02.jpg",
+    imageUrl: "/manus-storage/scenario-debt-02_f52204c8.jpg",
   },
   {
     id: "obligation-003",
@@ -426,7 +426,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明僱用人責任（民法第188條）的構成要件，以及僱用人免責的條件。",
     essayHint: "可從民法第188條出發，討論「執行職務」的認定、僱用人的免責事由（選任及監督已盡相當注意），以及僱用人賠償後對受僱人的求償權。",
     tags: ["侵權行為", "僱用人責任", "連帶賠償", "執行職務"],
-    imageUrl: "/manus-storage/scenario-debt-03.jpg",
+    imageUrl: "/manus-storage/scenario-debt-03_c6ca64cb.jpg",
   },
   {
     id: "obligation-004",
@@ -451,7 +451,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明不當得利的構成要件，以及善意受領人與惡意受領人在返還義務上的差異。",
     essayHint: "可從民法第179條出發，討論不當得利的四個要件，以及民法第182條善意受領人（現存利益）與惡意受領人（加計利息）的不同返還義務。",
     tags: ["不當得利", "返還義務", "善意受領人", "現存利益"],
-    imageUrl: "/manus-storage/scenario-debt-04.jpg",
+    imageUrl: "/manus-storage/scenario-debt-04_5962b731.jpg",
   },
   {
     id: "obligation-005",
@@ -476,7 +476,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明租賃關係中承租人的保管義務，以及押金的法律性質與退還條件。",
     essayHint: "可從民法第421條（租賃定義）、第432條（保管義務）出發，討論自然耗損與人為損壞的區別，以及押金的擔保性質與退還時機。",
     tags: ["租賃", "押金", "自然耗損", "保管義務"],
-    imageUrl: "/manus-storage/scenario-debt-05.jpg",
+    imageUrl: "/manus-storage/scenario-debt-05_4d8c6781.jpg",
   },
   {
     id: "obligation-006",
@@ -501,7 +501,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明消費借貸契約的成立要件，以及借款人不履行返還義務時，出借人的法律救濟途徑。",
     essayHint: "可從民法第474條出發，討論消費借貸的要物性（交付生效）、借款人的返還義務，以及債務不履行的法律效果（遲延利息、強制執行）。",
     tags: ["借貸", "消費借貸", "債務不履行", "強制執行"],
-    imageUrl: "/manus-storage/scenario-debt-06.jpg",
+    imageUrl: "/manus-storage/scenario-debt-06_d22e94e2.jpg",
   },
   {
     id: "obligation-007",
@@ -526,7 +526,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明無因管理的構成要件，以及管理人與本人之間的權利義務關係。",
     essayHint: "可從民法第172條出發，討論無因管理的三個要件（未受委任、無義務、為他人管理），以及管理人的費用償還請求權（第176條）和本人的承認效果（第178條）。",
     tags: ["無因管理", "費用償還", "本人利益", "委任"],
-    imageUrl: "/manus-storage/scenario-debt-07.jpg",
+    imageUrl: "/manus-storage/scenario-debt-07_f4b8a439.jpg",
   },
 
   // ========== 物權村 ==========
@@ -553,7 +553,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明不動產物權登記的法律效力，以及「一物二賣」情形下各方當事人的法律關係。",
     essayHint: "可從民法第758條（登記生效主義）出發，討論不動產物權變動的要件，以及一物二賣時先登記者取得所有權，後買者只能向出賣人請求損害賠償的法律關係。",
     tags: ["不動產物權", "登記", "所有權", "一物二賣"],
-    imageUrl: "/manus-storage/scenario-property-01.jpg",
+    imageUrl: "/manus-storage/scenario-property-01_a822b7a6.jpg",
   },
   {
     id: "property-002",
@@ -578,7 +578,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明動產善意取得的要件，以及盜贓、遺失物的特殊規定。",
     essayHint: "可從民法第801條（善意取得）出發，討論善意取得的四個要件，以及民法第949條盜贓遺失物的例外規定（二年內可請求回復），兩者之間的衝突與調和。",
     tags: ["善意取得", "盜贓", "動產所有權", "占有"],
-    imageUrl: "/manus-storage/scenario-property-02.jpg",
+    imageUrl: "/manus-storage/scenario-property-02_a4686a6b.jpg",
   },
   {
     id: "property-003",
@@ -603,7 +603,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明抵押權的性質、效力，以及抵押權人與普通債權人在債務人財產不足清償時的受償順序。",
     essayHint: "可從民法第860條出發，討論抵押權的擔保物權性質、優先受償效力、不移轉占有的特點，以及拍賣程序中各類債權人的受償順序。",
     tags: ["抵押權", "優先受償", "擔保物權", "拍賣"],
-    imageUrl: "/manus-storage/scenario-property-03.jpg",
+    imageUrl: "/manus-storage/scenario-property-03_fb6f6ced.jpg",
   },
   {
     id: "property-004",
@@ -628,7 +628,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明所有權的內容（民法第765條），以及所有物返還請求權（民法第767條）的行使要件。",
     essayHint: "可從民法第765條（使用、收益、處分、排除干涉）出發，討論所有物返還請求權的要件（所有人、無權占有人、占有所有物），以及與債權請求權的區別。",
     tags: ["所有權", "所有物返還請求權", "無權占有", "借用"],
-    imageUrl: "/manus-storage/scenario-property-04.jpg",
+    imageUrl: "/manus-storage/scenario-property-04_b73869d0.jpg",
   },
   {
     id: "property-005",
@@ -653,7 +653,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明地上權的性質、設定要件，以及地上權對土地所有人的限制效力。",
     essayHint: "可從民法第832條出發，討論地上權的物權性質、設定登記的效力、地上權人的權利（使用土地）與義務（支付地租），以及土地所有權移轉後地上權的存續。",
     tags: ["地上權", "物權", "追及效力", "登記"],
-    imageUrl: "/manus-storage/scenario-property-05.jpg",
+    imageUrl: "/manus-storage/scenario-property-05_08e87294.jpg",
   },
   {
     id: "property-006",
@@ -678,7 +678,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明民法上占有保護的意義，以及占有人在占有被侵奪或妨害時的各種請求權。",
     essayHint: "可從民法第966條出發，討論占有保護的三種請求權（返還、除去妨害、防止妨害），以及占有保護請求權的一年除斥期間，並與所有物返還請求權比較。",
     tags: ["占有", "占有保護", "侵奪", "請求權"],
-    imageUrl: "/manus-storage/scenario-property-06.jpg",
+    imageUrl: "/manus-storage/scenario-property-06_30990823.jpg",
   },
   {
     id: "property-007",
@@ -703,7 +703,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明動產質權的設定要件、效力，以及質權人在債務人不履行時的救濟途徑。",
     essayHint: "可從民法第884條出發，討論動產質權的設定要件（移轉占有）、質權的效力（優先受償、留置），以及債務到期未清償時的拍賣程序（民法第893條）。",
     tags: ["質權", "動產質權", "優先受償", "拍賣"],
-    imageUrl: "/manus-storage/scenario-property-07.jpg",
+    imageUrl: "/manus-storage/scenario-property-07_d8b342fb.jpg",
   },
 
   // ========== 親屬村 ==========
@@ -730,7 +730,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明現行民法結婚的方式要件，以及違反方式要件的法律效果。",
     essayHint: "可從民法第982條（登記婚制度）出發，討論2008年修法廢除儀式婚的背景、現行登記婚的要件（書面、二人以上證人、戶政登記），以及違反要件的無效效果（民法第988條）。",
     tags: ["婚姻", "結婚要件", "登記婚", "無效婚姻"],
-    imageUrl: "/manus-storage/scenario-family-01.jpg",
+    imageUrl: "/manus-storage/scenario-family-01_d70587d1.jpg",
   },
   {
     id: "family-002",
@@ -755,7 +755,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明民法裁判離婚的事由，以及第1052條第1項列舉事由與第2項概括條款的關係。",
     essayHint: "可從民法第1052條出發，討論第1項十款列舉事由（重婚、不堪虐待等）與第2項概括條款（難以維持婚姻之重大事由）的適用，以及有責配偶不得請求離婚的限制。",
     tags: ["離婚", "裁判離婚", "重大事由", "婚姻"],
-    imageUrl: "/manus-storage/scenario-family-02.jpg",
+    imageUrl: "/manus-storage/scenario-family-02_ce8e5411.jpg",
   },
   {
     id: "family-003",
@@ -780,7 +780,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明離婚後子女監護的相關規定，以及「子女最佳利益原則」在監護裁定中的適用。",
     essayHint: "可從民法第1055條（離婚後監護）、第1055條之1（改定監護）出發，討論子女最佳利益原則的內涵、法院裁量的考量因素，以及監護改定的申請要件。",
     tags: ["監護權", "子女最佳利益", "離婚", "親權"],
-    imageUrl: "/manus-storage/scenario-family-03.jpg",
+    imageUrl: "/manus-storage/scenario-family-03_25630818.jpg",
   },
   {
     id: "family-004",
@@ -805,7 +805,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明民法扶養義務的主體、範圍，以及扶養費用的分擔方式。",
     essayHint: "可從民法第1114條（扶養義務人）出發，討論直系血親間的互相扶養義務、扶養義務的順序（民法第1115條）、費用分擔（依經濟能力）及免除扶養義務的條件（民法第1118條）。",
     tags: ["扶養", "扶養義務", "直系血親", "經濟能力"],
-    imageUrl: "/manus-storage/scenario-family-04.jpg",
+    imageUrl: "/manus-storage/scenario-family-04_f2ceefe8.jpg",
   },
   {
     id: "family-005",
@@ -830,7 +830,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明法定財產制下剩餘財產分配請求權的計算方式，以及哪些財產不計入剩餘財產。",
     essayHint: "可從民法第1030條之1出發，討論剩餘財產分配的計算公式（婚後財產-婚後債務=剩餘財產，差額平均分配），以及排除計算的財產（繼承、贈與等無償取得、慰撫金）。",
     tags: ["夫妻財產制", "剩餘財產分配", "法定財產制", "離婚"],
-    imageUrl: "/manus-storage/scenario-family-05.jpg",
+    imageUrl: "/manus-storage/scenario-family-05_fff1a82f.jpg",
   },
   {
     id: "family-006",
@@ -855,7 +855,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明現行民法關於子女姓氏的規定，以及子女成年後申請改姓的條件。",
     essayHint: "可從民法第1059條出發，討論父母約定姓氏的時間（出生登記前）與方式（書面），未約定的抽籤機制，以及子女成年後申請改姓的規定（第1059條第5項）。",
     tags: ["子女姓氏", "父母子女", "出生登記", "改姓"],
-    imageUrl: "/manus-storage/scenario-family-06.jpg",
+    imageUrl: "/manus-storage/scenario-family-06_0ff27912.jpg",
   },
   {
     id: "family-007",
@@ -880,7 +880,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明民法未成年人監護人的選定順序，以及法院在監護人選定中的角色。",
     essayHint: "可從民法第1094條出發，討論法定監護人的選定順序（同居祖父母→同居兄姊→不同居祖父母），以及法院依職權選定監護人的情形和「子女最佳利益」原則的適用。",
     tags: ["監護", "監護人", "未成年人", "祖父母"],
-    imageUrl: "/manus-storage/scenario-family-07.jpg",
+    imageUrl: "/manus-storage/scenario-family-07_9ecec117.jpg",
   },
 
   // ========== 繼承村 ==========
@@ -907,7 +907,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明民法繼承人的順序，以及配偶在繼承中的特殊地位。",
     essayHint: "可從民法第1138條（繼承順序）、第1144條（配偶應繼分）出發，討論四個順序繼承人的規定，配偶與各順序同時繼承的特殊地位，以及代位繼承（民法第1140條）的情形。",
     tags: ["繼承人", "繼承順序", "配偶", "應繼分"],
-    imageUrl: "/manus-storage/scenario-inherit-01.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-01_a40800eb.jpg",
   },
   {
     id: "inheritance-002",
@@ -932,7 +932,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明配偶的應繼分計算方式，以及在不同繼承順序下的差異。",
     essayHint: "可從民法第1144條出發，討論配偶與第一至第四順序繼承人同為繼承時的應繼分計算（平均、1/2、2/3、全部），以及無其他繼承人時配偶獨自繼承的情形。",
     tags: ["應繼分", "配偶繼承", "平均繼承", "計算"],
-    imageUrl: "/manus-storage/scenario-inherit-02.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-02_60752411.jpg",
   },
   {
     id: "inheritance-003",
@@ -957,7 +957,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明特留分制度的意義、各類繼承人的特留分比例，以及遺囑侵害特留分時的法律效果。",
     essayHint: "可從民法第1223條（特留分比例）出發，討論特留分制度的立法目的（保障繼承人最低繼承利益）、各類繼承人的特留分比例，以及民法第1225條遺贈扣減請求權的行使方式。",
     tags: ["特留分", "遺囑自由", "遺贈扣減", "繼承"],
-    imageUrl: "/manus-storage/scenario-inherit-03.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-03_d12dcfa2.jpg",
   },
   {
     id: "inheritance-004",
@@ -982,7 +982,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明繼承拋棄的要件、程序，以及拋棄後對其他繼承人的影響。",
     essayHint: "可從民法第1174條出發，討論拋棄繼承的時間限制（三個月）、方式（書面向法院）、效果（視為自始非繼承人），以及民法第1176條拋棄後應繼分的歸屬。",
     tags: ["繼承拋棄", "書面聲明", "法院", "債務繼承"],
-    imageUrl: "/manus-storage/scenario-inherit-04.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-04_6c6b2dab.jpg",
   },
   {
     id: "inheritance-005",
@@ -1007,7 +1007,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明民法各種遺囑方式的要件，以及自書遺囑與公證遺囑的差異。",
     essayHint: "可從民法第1189條（五種遺囑方式）出發，重點說明自書遺囑（第1210條：自書全文、年月日、簽名）與公證遺囑（第1191條：公證人、見證人）的要件差異，以及遺囑無效的法律效果。",
     tags: ["遺囑", "自書遺囑", "遺囑要件", "無效"],
-    imageUrl: "/manus-storage/scenario-inherit-05.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-05_1d600d9b.jpg",
   },
   {
     id: "inheritance-006",
@@ -1032,7 +1032,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明2009年民法繼承編修正後，繼承人對被繼承人債務的清償責任，以及修法前後的差異。",
     essayHint: "可從民法第1148條第2項出發，討論修法前「概括繼承」（繼承人需以自己財產清償）與修法後「有限繼承」（以遺產為限）的差異，以及遺產清冊的申報（第1156條）對繼承人的保護意義。",
     tags: ["限定繼承", "有限繼承", "債務清償", "遺產"],
-    imageUrl: "/manus-storage/scenario-inherit-06.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-06_fa0760a7.jpg",
   },
   {
     id: "inheritance-007",
@@ -1057,7 +1057,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明代位繼承的意義、要件，以及代位繼承人所繼承的應繼分計算。",
     essayHint: "可從民法第1140條出發，討論代位繼承的要件（第一順序繼承人於繼承開始前死亡或喪失繼承權）、代位繼承人的範圍（直系血親卑親屬）、代位繼承的應繼分（繼承被代位人的份額），以及與拋棄繼承的區別（拋棄不發生代位）。",
     tags: ["代位繼承", "繼承人", "應繼分", "死亡"],
-    imageUrl: "/manus-storage/scenario-inherit-07.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-07_e80c3f17.jpg",
   },
   // ========== 總則村 新增題目 8-14 ==========
   {
@@ -1083,7 +1083,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明有權代理與無權代理的區別，以及各自的法律效果。",
     essayHint: "可從民法第103條（有權代理）、第170條（無權代理）出發，討論代理行為對本人的效力差異。",
     tags: ["代理", "有權代理", "法律行為"],
-    imageUrl: "/manus-storage/scenario-general-08.jpg",
+    imageUrl: "/manus-storage/scenario-general-08_51d4d838.jpg",
   },
   {
     id: "general-009",
@@ -1108,7 +1108,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明消滅時效的意義、一般時效期間，以及時效完成後的法律效果。",
     essayHint: "可從民法第125條（15年一般時效）、第144條（時效完成後的抗辯權）出發，討論時效制度的立法目的。",
     tags: ["消滅時效", "請求權", "時效抗辯"],
-    imageUrl: "/manus-storage/scenario-general-09.jpg",
+    imageUrl: "/manus-storage/scenario-general-09_2933db2f.jpg",
   },
   {
     id: "general-010",
@@ -1133,7 +1133,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明法人的獨立人格原則，以及「揭開公司面紗」理論的適用條件。",
     essayHint: "可從民法第26條（法人能力）出發，討論法人人格獨立的意義，以及在何種情況下可以否認法人人格。",
     tags: ["法人", "法人能力", "有限責任"],
-    imageUrl: "/manus-storage/scenario-general-10.jpg",
+    imageUrl: "/manus-storage/scenario-general-10_415b8914.jpg",
   },
   {
     id: "general-011",
@@ -1158,7 +1158,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明通謀虛偽意思表示的構成要件及法律效果，並說明善意第三人保護的意義。",
     essayHint: "可從民法第87條出發，討論通謀虛偽的主觀要件（雙方合意）、客觀要件（外觀上的意思表示），以及善意第三人保護的立法目的。",
     tags: ["意思表示", "通謀虛偽", "無效", "善意第三人"],
-    imageUrl: "/manus-storage/scenario-general-11.jpg",
+    imageUrl: "/manus-storage/scenario-general-11_a26b46ef.jpg",
   },
   {
     id: "general-012",
@@ -1183,7 +1183,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明錯誤意思表示的撤銷要件，以及撤銷後的法律效果。",
     essayHint: "可從民法第88條（錯誤之意思表示）、第91條（撤銷後的損害賠償）出發，討論意思表示錯誤的類型及撤銷的限制。",
     tags: ["意思表示", "錯誤", "撤銷"],
-    imageUrl: "/manus-storage/scenario-general-12.jpg",
+    imageUrl: "/manus-storage/scenario-general-12_0a56670c.jpg",
   },
   {
     id: "general-013",
@@ -1208,7 +1208,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明被詐欺意思表示的撤銷要件，以及與被脅迫意思表示的異同。",
     essayHint: "可從民法第92條出發，比較詐欺（須相對人或可得而知）與脅迫（無善意第三人保護限制）的差異，以及撤銷期限的規定。",
     tags: ["意思表示", "詐欺", "撤銷", "善意第三人"],
-    imageUrl: "/manus-storage/scenario-general-13.jpg",
+    imageUrl: "/manus-storage/scenario-general-13_a914eadd.jpg",
   },
   {
     id: "general-014",
@@ -1233,7 +1233,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明法律行為違反強制規定或公序良俗的效力，以及不法原因給付的法律效果。",
     essayHint: "可從民法第71條（違反強制規定）、第72條（違反公序良俗）出發，討論無效法律行為的後果，以及民法第180條不法原因給付的規定。",
     tags: ["法律行為", "無效", "公序良俗", "不當得利"],
-    imageUrl: "/manus-storage/scenario-general-14.jpg",
+    imageUrl: "/manus-storage/scenario-general-14_8f86cac9.jpg",
   },
 
   // ========== 債編村 新增題目 8-14 ==========
@@ -1260,7 +1260,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明不當得利的構成要件，以及善意受領人與惡意受領人在返還義務上的差異。",
     essayHint: "可從民法第179條（不當得利定義）、第182條（善意與惡意受領人的返還義務）出發，討論「現存利益」的認定方式。",
     tags: ["不當得利", "善意受領", "現存利益"],
-    imageUrl: "/manus-storage/scenario-debt-08.jpg",
+    imageUrl: "/manus-storage/scenario-debt-08_f9bed5e7.jpg",
   },
   {
     id: "obligation-009",
@@ -1285,7 +1285,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明無因管理的構成要件，以及管理人可以向本人請求的費用範圍。",
     essayHint: "可從民法第172條（無因管理定義）、第176條（費用償還請求權）出發，討論無因管理的立法目的及管理人的義務。",
     tags: ["無因管理", "費用償還", "管理人"],
-    imageUrl: "/manus-storage/scenario-debt-09.jpg",
+    imageUrl: "/manus-storage/scenario-debt-09_1a63465d.jpg",
   },
   {
     id: "obligation-010",
@@ -1310,7 +1310,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明租賃契約中出租人的修繕義務，以及房客在出租人不履行修繕義務時的救濟方式。",
     essayHint: "可從民法第429條（修繕義務）、第430條（出租人不修繕時房客的權利）出發，討論租賃關係中雙方的權利義務。",
     tags: ["租賃", "修繕義務", "出租人"],
-    imageUrl: "/manus-storage/scenario-debt-10.jpg",
+    imageUrl: "/manus-storage/scenario-debt-10_0eb843cd.jpg",
   },
   {
     id: "obligation-011",
@@ -1335,7 +1335,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明民法對借貸利率的限制規定，以及超過法定利率的法律效果。",
     essayHint: "可從民法第205條（最高利率限制）出發，討論利率限制的立法目的，以及超額利息的返還請求權。",
     tags: ["借貸", "利率限制", "強制規定"],
-    imageUrl: "/manus-storage/scenario-debt-11.jpg",
+    imageUrl: "/manus-storage/scenario-debt-11_4f0bcc9c.jpg",
   },
   {
     id: "obligation-012",
@@ -1360,7 +1360,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明民法侵權行為的損害賠償範圍，包括財產損害和非財產損害（精神慰撫金）的請求條件。",
     essayHint: "可從民法第184條（侵權行為一般規定）、第193條（身體健康侵害的財產損害）、第195條（非財產損害賠償）出發，討論損害賠償的範圍與計算方式。",
     tags: ["侵權行為", "損害賠償", "精神慰撫金"],
-    imageUrl: "/manus-storage/scenario-debt-12.jpg",
+    imageUrl: "/manus-storage/scenario-debt-12_47e7b70f.jpg",
   },
   {
     id: "obligation-013",
@@ -1385,7 +1385,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明買賣契約中出賣人的物之瑕疵擔保責任，以及買受人的救濟途徑。",
     essayHint: "可從民法第354條（物之瑕疵擔保）、第359條（解除契約或減少價金）、第360條（損害賠償）出發，討論瑕疵擔保責任的要件及效果。",
     tags: ["買賣", "物之瑕疵", "瑕疵擔保"],
-    imageUrl: "/manus-storage/scenario-debt-13.jpg",
+    imageUrl: "/manus-storage/scenario-debt-13_92d43797.jpg",
   },
   {
     id: "obligation-014",
@@ -1410,7 +1410,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明承攬契約中定作人的瑕疵修補請求權，以及與報酬給付義務的關係。",
     essayHint: "可從民法第490條（承攬報酬）、第493條（瑕疵修補）、第494條（解除契約或減少報酬）出發，討論承攬人與定作人的權利義務關係。",
     tags: ["承攬", "報酬", "瑕疵修補"],
-    imageUrl: "/manus-storage/scenario-debt-14.jpg",
+    imageUrl: "/manus-storage/scenario-debt-14_19318d02.jpg",
   },
 
   // ========== 物權村 新增題目 8-14 ==========
@@ -1437,7 +1437,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明地上權的性質及其對抗第三人的效力，以及土地所有權移轉時地上權的命運。",
     essayHint: "可從民法第832條（地上權定義）出發，討論物權的絕對性、對世性，以及不動產登記的公示效力。",
     tags: ["地上權", "物權", "對抗第三人"],
-    imageUrl: "/manus-storage/scenario-property-08.jpg",
+    imageUrl: "/manus-storage/scenario-property-08_ecb02a3b.jpg",
   },
   {
     id: "property-009",
@@ -1462,7 +1462,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明抵押權的性質及其優先受償效力，以及多個抵押權並存時的順位問題。",
     essayHint: "可從民法第860條（抵押權定義）出發，討論擔保物權的優先受償性，以及民法第865條關於多個抵押權順位的規定。",
     tags: ["抵押權", "優先受償", "擔保物權"],
-    imageUrl: "/manus-storage/scenario-property-09.jpg",
+    imageUrl: "/manus-storage/scenario-property-09_9ed40f57.jpg",
   },
   {
     id: "property-010",
@@ -1487,7 +1487,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明動產善意取得制度的要件及效果，以及原所有人的救濟途徑。",
     essayHint: "可從民法第801條（善意取得）出發，討論善意取得的構成要件（善意、有償、占有），以及原所有人只能向無權讓與人請求賠償的法律效果。",
     tags: ["動產所有權", "善意取得", "物權保護"],
-    imageUrl: "/manus-storage/scenario-property-10.jpg",
+    imageUrl: "/manus-storage/scenario-property-10_698749bc.jpg",
   },
   {
     id: "property-011",
@@ -1512,7 +1512,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明共有物分割的方式，以及法院裁判分割時的考量因素。",
     essayHint: "可從民法第823條（分割請求權）、第824條（分割方式）出發，討論實物分割、變賣分配、補償分割等方式的適用情形。",
     tags: ["共有", "分割", "所有權"],
-    imageUrl: "/manus-storage/scenario-property-11.jpg",
+    imageUrl: "/manus-storage/scenario-property-11_360618d8.jpg",
   },
   {
     id: "property-012",
@@ -1537,7 +1537,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明動產質權的設定要件及質權人的權利，以及流質契約無效的規定。",
     essayHint: "可從民法第884條（質權定義）、第893條（流質契約禁止）出發，討論質權的擔保功能及質權人的實現方式。",
     tags: ["質權", "擔保物權", "動產"],
-    imageUrl: "/manus-storage/scenario-property-12.jpg",
+    imageUrl: "/manus-storage/scenario-property-12_457f4832.jpg",
   },
   {
     id: "property-013",
@@ -1562,7 +1562,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明占有保護請求權的種類及其行使要件，以及占有保護與所有權保護的關係。",
     essayHint: "可從民法第962條（占有物返還請求權）出發，討論占有保護的意義，以及占有保護請求權與所有物返還請求權（民法第767條）的異同。",
     tags: ["占有", "占有保護", "物權請求權"],
-    imageUrl: "/manus-storage/scenario-property-13.jpg",
+    imageUrl: "/manus-storage/scenario-property-13_3d9c577d.jpg",
   },
   {
     id: "property-014",
@@ -1587,7 +1587,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明不動產物權登記的效力，以及一物二賣情形下各當事人的法律地位。",
     essayHint: "可從民法第758條（不動產物權登記生效主義）出發，討論登記的公示效力，以及未登記買受人的救濟途徑（向出賣人請求損害賠償）。",
     tags: ["不動產", "登記", "物權變動"],
-    imageUrl: "/manus-storage/scenario-property-14.jpg",
+    imageUrl: "/manus-storage/scenario-property-14_3db90483.jpg",
   },
 
   // ========== 親屬村 新增題目 8-14 ==========
@@ -1614,7 +1614,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明法定財產制的內容，以及離婚時剩餘財產分配的計算方式。",
     essayHint: "可從民法第1005條（法定財產制）、第1030條之1（剩餘財產分配）出發，討論婚後財產的認定、債務的扣除，以及特殊情形下法院調整分配比例的可能性。",
     tags: ["夫妻財產制", "法定財產制", "剩餘財產分配"],
-    imageUrl: "/manus-storage/scenario-family-08.jpg",
+    imageUrl: "/manus-storage/scenario-family-08_40d90fe2.jpg",
   },
   {
     id: "family-009",
@@ -1639,7 +1639,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明非婚生子女的認領制度，以及強制認領的要件和效果。",
     essayHint: "可從民法第1065條（認領效力）、第1067條（強制認領）出發，討論認領的方式（任意認領、強制認領），以及認領後的法律效果（視為婚生子女）。",
     tags: ["非婚生子女", "認領", "親子關係"],
-    imageUrl: "/manus-storage/scenario-family-09.jpg",
+    imageUrl: "/manus-storage/scenario-family-09_90e6a60a.jpg",
   },
   {
     id: "family-010",
@@ -1664,7 +1664,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明未成年人監護的開始原因，以及監護人的選定方式和職責。",
     essayHint: "可從民法第1091條（監護開始）、第1094條（監護人的選定順序）出發，討論監護制度的目的，以及法院在選定監護人時應考量的因素。",
     tags: ["監護", "未成年人", "親權"],
-    imageUrl: "/manus-storage/scenario-family-10.jpg",
+    imageUrl: "/manus-storage/scenario-family-10_ae6b5cc6.jpg",
   },
   {
     id: "family-011",
@@ -1689,7 +1689,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明扶養義務的主體範圍，以及多人同負扶養義務時的分擔方式。",
     essayHint: "可從民法第1114條（扶養義務人範圍）、第1115條（扶養義務的順序）、第1118條（扶養費用的分擔）出發，討論扶養制度的立法目的及實務運作。",
     tags: ["扶養", "親屬", "扶養義務"],
-    imageUrl: "/manus-storage/scenario-family-11.jpg",
+    imageUrl: "/manus-storage/scenario-family-11_a1260c00.jpg",
   },
   {
     id: "family-012",
@@ -1714,7 +1714,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明兩願離婚與裁判離婚的程序差異，以及離婚的法律效果。",
     essayHint: "可從民法第1049條（兩願離婚）、第1050條（兩願離婚的方式）、第1052條（裁判離婚的事由）出發，討論兩種離婚方式的適用情形及效果。",
     tags: ["離婚", "兩願離婚", "婚姻"],
-    imageUrl: "/manus-storage/scenario-family-12.jpg",
+    imageUrl: "/manus-storage/scenario-family-12_81a6faa8.jpg",
   },
   {
     id: "family-013",
@@ -1739,7 +1739,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明父母離婚後子女監護權的決定方式，以及法院在裁判監護時應考量的因素。",
     essayHint: "可從民法第1055條（監護權的行使）、第1055條之1（子女最佳利益原則）出發，討論監護權裁判的標準，以及子女意願在裁判中的地位。",
     tags: ["監護權", "子女最佳利益", "離婚"],
-    imageUrl: "/manus-storage/scenario-family-13.jpg",
+    imageUrl: "/manus-storage/scenario-family-13_3d0b4d1d.jpg",
   },
   {
     id: "family-014",
@@ -1764,7 +1764,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明收養的成立要件，以及法院在審查收養聲請時的考量標準。",
     essayHint: "可從民法第1072條（收養定義）、第1073條（年齡要件）、第1079條（法院認可）出發，討論收養制度的立法目的及保護被收養人的機制。",
     tags: ["收養", "親子關係", "法院認可"],
-    imageUrl: "/manus-storage/scenario-family-14.jpg",
+    imageUrl: "/manus-storage/scenario-family-14_b2432f3d.jpg",
   },
 
   // ========== 繼承村 新增題目 8-14 ==========
@@ -1791,7 +1791,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明民法規定的各種遺囑方式，以及各自的要件和適用情形。",
     essayHint: "可從民法第1189條（遺囑方式的種類）出發，分別介紹自書遺囑（第1190條）、公證遺囑（第1191條）、密封遺囑（第1192條）、代筆遺囑（第1194條）、口授遺囑（第1195條）的要件。",
     tags: ["遺囑", "遺囑方式", "公證遺囑"],
-    imageUrl: "/manus-storage/scenario-inherit-08.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-08_f1e1a460.jpg",
   },
   {
     id: "inheritance-009",
@@ -1816,7 +1816,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明台灣民法繼承制度中有限繼承原則的內容，以及2009年修法的重要意義。",
     essayHint: "可從民法第1148條（繼承人的責任範圍）出發，討論2009年修法前後的差異，以及有限繼承原則對繼承人的保護意義。",
     tags: ["繼承", "有限繼承", "遺產債務"],
-    imageUrl: "/manus-storage/scenario-inherit-09.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-09_10b9b26d.jpg",
   },
   {
     id: "inheritance-010",
@@ -1841,7 +1841,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明遺贈的性質及效力，以及遺贈與特留分制度的關係。",
     essayHint: "可從民法第1200條（遺贈的對象）、第1187條（遺囑自由）、第1225條（特留分的扣減）出發，討論遺贈自由與特留分保護之間的平衡。",
     tags: ["遺贈", "遺囑", "特留分"],
-    imageUrl: "/manus-storage/scenario-inherit-10.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-10_4e5ed00e.jpg",
   },
   {
     id: "inheritance-011",
@@ -1866,7 +1866,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明拋棄繼承的要件、程序及效果，以及拋棄繼承後對其他繼承人的影響。",
     essayHint: "可從民法第1174條（拋棄繼承）出發，討論拋棄繼承的期限計算、書面向法院聲明的程序，以及拋棄繼承後繼承份額的歸屬。",
     tags: ["拋棄繼承", "繼承", "期限"],
-    imageUrl: "/manus-storage/scenario-inherit-11.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-11_391e6fb1.jpg",
   },
   {
     id: "inheritance-012",
@@ -1891,7 +1891,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明遺產分割的方式，以及協議分割與裁判分割的差異。",
     essayHint: "可從民法第1164條（分割請求權）出發，討論協議分割（繼承人自行協議）與裁判分割（向法院請求）的程序差異，以及分割的效力。",
     tags: ["遺產分割", "協議分割", "繼承"],
-    imageUrl: "/manus-storage/scenario-inherit-12.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-12_3a31256f.jpg",
   },
   {
     id: "inheritance-013",
@@ -1916,7 +1916,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明代位繼承的要件及效果，以及代位繼承與再轉繼承的區別。",
     essayHint: "可從民法第1140條（代位繼承）出發，討論代位繼承的要件（繼承人先於被繼承人死亡）、效果（代位繼承人取得被代位人的應繼分），以及與再轉繼承（繼承人在繼承開始後死亡）的區別。",
     tags: ["代位繼承", "繼承順序", "應繼分"],
-    imageUrl: "/manus-storage/scenario-inherit-13.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-13_9be4900b.jpg",
   },
   {
     id: "inheritance-014",
@@ -1941,7 +1941,7 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明遺囑撤回的方式及效力，以及前後遺囑抵觸時的處理原則。",
     essayHint: "可從民法第1219條（遺囑撤回的方式）、第1220條（前後遺囑抵觸）出發，討論遺囑自由原則的體現，以及遺囑撤回的各種方式（明示撤回、默示撤回、行為撤回）。",
     tags: ["遺囑", "遺囑撤回", "遺囑自由"],
-    imageUrl: "/manus-storage/scenario-inherit-14.jpg",
+    imageUrl: "/manus-storage/scenario-inherit-14_d97a7e26.jpg",
   },
 
 ];
