@@ -116,7 +116,6 @@ export default function Home() {
       <main className="container max-w-6xl mx-auto px-4 py-8">
         {/* 英雄區塊 */}
         <section className="text-center mb-12 pt-4">
-          <div className="text-6xl mb-4">🏘️</div>
           <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-3 tracking-wide">
             民法鎮大冒險
           </h1>
@@ -238,7 +237,6 @@ export default function Home() {
                   )}
                   <div className="p-5">
                   <div className="flex items-start justify-between mb-3">
-                    <div className="text-3xl">{colors.icon}</div>
                     <div className="flex items-center gap-1">
                       {isCompleted && (
                         <Badge variant="secondary" className="text-xs bg-emerald-100 text-emerald-700 border-emerald-200">
