@@ -2,6 +2,7 @@ import { useGame } from "@/contexts/GameContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import SiteFooter from "@/components/SiteFooter";
 import { useLocation } from "wouter";
 import { useState } from "react";
 import {
@@ -356,6 +357,7 @@ export default function SettingsPage() {
             data-full-width-responsive="true"></ins>
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }

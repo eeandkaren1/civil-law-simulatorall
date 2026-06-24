@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { GameProvider } from "./contexts/GameContext";
@@ -11,7 +11,24 @@ import ScenarioPage from "./pages/ScenarioPage";
 import KnowledgePage from "./pages/KnowledgePage";
 import ProgressPage from "./pages/ProgressPage";
 import SettingsPage from "./pages/SettingsPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 import LineFloatButton from "./components/LineFloatButton";
+import { useEffect } from "react";
+
+// SPA 路由切換時觸發 Google Analytics pageview
+function AnalyticsTracker() {
+  const [location] = useLocation();
+  useEffect(() => {
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("config", "G-MFXSFT8HY7", {
+        page_path: location,
+      });
+    }
+  }, [location]);
+  return null;
+}
 
 function Router() {
   return (
@@ -22,6 +39,9 @@ function Router() {
       <Route path="/knowledge" component={KnowledgePage} />
       <Route path="/progress" component={ProgressPage} />
       <Route path="/settings" component={SettingsPage} />
+      <Route path="/privacy" component={PrivacyPage} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/contact" component={ContactPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
@@ -35,6 +55,7 @@ function App() {
         <TooltipProvider>
           <GameProvider>
             <Toaster richColors position="top-center" />
+            <AnalyticsTracker />
             <Router />
             <LineFloatButton />
           </GameProvider>

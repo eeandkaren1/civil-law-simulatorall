@@ -1,3 +1,4 @@
+import SiteFooter from "@/components/SiteFooter";
 import { useGame } from "@/contexts/GameContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -612,6 +613,7 @@ ${essayText}
             data-full-width-responsive="true"></ins>
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }

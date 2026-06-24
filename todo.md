@@ -71,3 +71,15 @@
 - [x] 修正 VillagePage 重複 key 錯誤（改用 Set 去除重複 chapter）
 - [x] 將 70 張插圖壓縮（463MB -> 14MB，1280x720）並上傳至 Imgur/catbox.moe
 - [x] 更新 gameData.ts 所有 70 個 imageUrl 為外部 HTTPS 網址（70 個全部成功）
+
+## 第五輪：AdSense 合規 + 插圖 + 每月更新提示
+- [x] 新增隱私權政策頁面（/privacy）
+- [x] 新增關於我們頁面（/about）
+- [x] 新增聯絡我們頁面（/contact），信笱導向 guaned0402@gmail.com
+- [x] Footer 加入著作權文字「© 宸鑫頤意企業社所有」
+- [x] 所有圖片均為 AI 生成（自有版權），所有文字為原創，無第三方版權疑慮
+- [x] 修正 SPA Analytics 追蹤（App.tsx 加入 AnalyticsTracker，路由切換時自動觸發 gtag pageview）
+- [x] 生成首頁主視覺插圖（台灣傳統小鎮俦瞰圖）
+- [x] 生成五個村落各自的台灣插畫風格圖片（法院/市場/住宅/家庭/遺產）
+- [x] 圖片整合到首頁英雄區塊與村落卡片（每張卡片頂部 h-36 圖片區）
+- [x] 加入每月更新題目的低調提示（footer 上方脈動小圓點 + 文字提示）

@@ -6,7 +6,16 @@ import { VILLAGES, SCENARIOS, getScenariosByVillage } from "../../../shared/game
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { BookOpen, Trophy, Map, User, Sparkles, ChevronRight, Key } from "lucide-react";
+import SiteFooter from "@/components/SiteFooter";
 import { toast } from "sonner";
+
+const VILLAGE_IMAGES: Record<string, string> = {
+  general: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/village-general-k8mHp59iuCSXh2GTeQWJ6x.webp",
+  obligation: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/village-obligation-QzWhE98bjjj3xH8YG3ak59.webp",
+  property: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/village-property-Yvb4o3wDNXkUs7jvQrhPyT.webp",
+  family: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/village-family-42D7YydSbezum4FajLtwyM.webp",
+  inheritance: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/village-inheritance-nqb5xYEGQwsivqLwBi9qeQ.webp",
+};
 
 const VILLAGE_COLORS: Record<string, { bg: string; border: string; text: string; icon: string }> = {
   general: { bg: "bg-violet-50", border: "border-violet-200", text: "text-violet-700", icon: "⚖️" },
@@ -114,9 +123,18 @@ export default function Home() {
           <p className="text-muted-foreground text-lg mb-2">
             用故事讀懂民法，守護自己的權益
           </p>
-          <p className="text-sm text-muted-foreground/70">
+          <p className="text-sm text-muted-foreground/70 mb-6">
             涵蓋台灣民法五大編 · 選擇題 + 申論題 · AI 智慧批改
           </p>
+          {/* 主視覺插圖 */}
+          <div className="max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-lg border border-border">
+            <img
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/hero-main-azJZUycm2iZFjGSM4y5G4Q.webp"
+              alt="民法鎮大冒險 - 台灣傳統小鎮插圖"
+              className="w-full h-auto object-cover"
+              loading="eager"
+            />
+          </div>
         </section>
 
         {/* 角色命名區塊 */}
@@ -199,12 +217,26 @@ export default function Home() {
               const colors = VILLAGE_COLORS[village.id] ?? VILLAGE_COLORS.general;
               const isCompleted = completedCount === totalCount && totalCount > 0;
 
+              const villageImg = VILLAGE_IMAGES[village.id];
+
               return (
                 <button
                   key={village.id}
                   onClick={() => handleVillageClick(village.id)}
-                  className={`village-card text-left rounded-2xl border p-5 shadow-sm cursor-pointer ${colors.bg} ${colors.border} hover:shadow-md transition-all`}
+                  className={`village-card text-left rounded-2xl border overflow-hidden shadow-sm cursor-pointer ${colors.bg} ${colors.border} hover:shadow-md transition-all`}
                 >
+                  {/* 村落圖片 */}
+                  {villageImg && (
+                    <div className="w-full h-36 overflow-hidden">
+                      <img
+                        src={villageImg}
+                        alt={village.name}
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+                  <div className="p-5">
                   <div className="flex items-start justify-between mb-3">
                     <div className="text-3xl">{colors.icon}</div>
                     <div className="flex items-center gap-1">
@@ -249,6 +281,7 @@ export default function Home() {
                       {completedCount === 0 ? "開始挑戰" : completedCount === totalCount ? "重新挑戰" : "繼續挑戰"} →
                     </span>
                   </div>
+                  </div>{/* end p-5 */}
                 </button>
               );
             })}
@@ -295,10 +328,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="border-t border-border bg-card/50 py-6 text-center text-sm text-muted-foreground">
-        <p>民法鎮大冒險 · 台灣民法互動學習平台</p>
-        <p className="text-xs mt-1 opacity-60">本平台題目僅供學習參考，不構成法律建議</p>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

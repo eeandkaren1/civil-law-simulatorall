@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { ACHIEVEMENTS, VILLAGES, SCENARIOS, getScenariosByVillage } from "../../../shared/gameData";
+import SiteFooter from "@/components/SiteFooter";
 import { useLocation } from "wouter";
 import { ArrowLeft, Trophy, Target, Flame, BookOpen, Star, CheckCircle2 } from "lucide-react";
 
@@ -231,6 +232,7 @@ export default function ProgressPage() {
             data-full-width-responsive="true"></ins>
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }
