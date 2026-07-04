@@ -5,7 +5,8 @@ import { useGame } from "@/contexts/GameContext";
 import { VILLAGES, SCENARIOS, getScenariosByVillage } from "../../../shared/gameData";
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { BookOpen, Trophy, Map, User, Sparkles, ChevronRight, Key } from "lucide-react";
+import { BookOpen, Trophy, Sparkles, ChevronRight, Key, Newspaper, Clock, Map as MapIcon, User } from "lucide-react";
+import { ARTICLES } from "../../../shared/articles";
 import SiteFooter from "@/components/SiteFooter";
 import { toast } from "sonner";
 
@@ -93,6 +94,15 @@ export default function Home() {
             <Button
               variant="ghost"
               size="sm"
+              onClick={() => navigate("/articles")}
+              className="text-muted-foreground hover:text-foreground gap-1.5"
+            >
+              <Newspaper className="w-4 h-4" />
+              <span className="hidden sm:inline">法律文章</span>
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => navigate("/settings")}
               className="text-muted-foreground hover:text-foreground gap-1.5"
             >
@@ -103,15 +113,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* 頂部橫幅廣告區（728x90 Leaderboard，僅桌機顯示） */}
-      <div className="hidden md:flex justify-center items-center py-3 bg-card/50 border-b border-border min-h-[100px]">
-        <ins className="adsbygoogle"
-          style={{ display: "block", width: "728px", height: "90px" }}
-          data-ad-client="ca-pub-9753491901026477"
-          data-ad-slot="auto"
-          data-ad-format="horizontal"
-          data-full-width-responsive="false"></ins>
-      </div>
+
 
       <main className="container max-w-6xl mx-auto px-4 py-8">
         {/* 英雄區塊 */}
@@ -203,7 +205,7 @@ export default function Home() {
         {/* 村落地圖 */}
         <section className="max-w-5xl mx-auto">
           <div className="flex items-center gap-2 mb-6">
-            <Map className="w-5 h-5 text-primary" />
+            <MapIcon className="w-5 h-5 text-primary" />
             <h2 className="font-display font-semibold text-xl text-foreground">選擇你的村落</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -315,15 +317,43 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 底部廣告區（響應式） */}
-        <div className="flex justify-center items-center py-6 mt-4">
-          <ins className="adsbygoogle"
-            style={{ display: "block", width: "100%", maxWidth: "728px", height: "90px" }}
-            data-ad-client="ca-pub-9753491901026477"
-            data-ad-slot="auto"
-            data-ad-format="horizontal"
-            data-full-width-responsive="true"></ins>
-        </div>
+        {/* 最新法律文章 */}
+        <section className="max-w-5xl mx-auto mt-12 mb-4">
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-2">
+              <Newspaper className="w-5 h-5 text-primary" />
+              <h2 className="text-xl font-display font-bold text-foreground">法律知識文章</h2>
+            </div>
+            <button
+              onClick={() => navigate("/articles")}
+              className="text-sm text-primary hover:underline flex items-center gap-1"
+            >
+              查看全部 <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {ARTICLES.slice(0, 4).map((article) => (
+              <button
+                key={article.id}
+                onClick={() => navigate(`/articles/${article.id}`)}
+                className="group text-left bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-primary/30 transition-all"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                    {article.category}
+                  </span>
+                  <span className="text-xs text-muted-foreground flex items-center gap-1">
+                    <Clock className="w-3 h-3" />{article.readTime} 分鐘
+                  </span>
+                </div>
+                <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-1">
+                  {article.title}
+                </h3>
+                <p className="text-xs text-muted-foreground line-clamp-2">{article.subtitle}</p>
+              </button>
+            ))}
+          </div>
+        </section>
       </main>
 
       <SiteFooter />

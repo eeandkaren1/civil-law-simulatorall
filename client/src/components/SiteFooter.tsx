@@ -24,6 +24,10 @@ export default function SiteFooter() {
             <button onClick={() => navigate("/contact")} className="hover:text-primary transition-colors">聯絡我們</button>
             <span className="opacity-30">|</span>
             <button onClick={() => navigate("/privacy")} className="hover:text-primary transition-colors">隱私權政策</button>
+            <span className="opacity-30">|</span>
+            <button onClick={() => navigate("/terms")} className="hover:text-primary transition-colors">服務條款</button>
+            <span className="opacity-30">|</span>
+            <button onClick={() => navigate("/articles")} className="hover:text-primary transition-colors">法律文章</button>
           </div>
           <p className="text-xs opacity-60">© 宸鑫頤意企業社所有 · 本平台題目僅供學習參考，不構成法律建議</p>
         </div>

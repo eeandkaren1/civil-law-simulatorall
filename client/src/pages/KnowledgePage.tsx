@@ -204,15 +204,6 @@ export default function KnowledgePage() {
           )}
         </div>
 
-        {/* 廣告區 */}
-        <div className="flex justify-center items-center py-6 mt-4">
-          <ins className="adsbygoogle"
-            style={{ display: "block", width: "100%", maxWidth: "728px", height: "90px" }}
-            data-ad-client="ca-pub-9753491901026477"
-            data-ad-slot="auto"
-            data-ad-format="horizontal"
-            data-full-width-responsive="true"></ins>
-        </div>
       </main>
       <SiteFooter />
     </div>

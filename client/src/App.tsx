@@ -14,6 +14,9 @@ import SettingsPage from "./pages/SettingsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import ArticlesPage from "./pages/ArticlesPage";
+import ArticleDetailPage from "./pages/ArticleDetailPage";
+import TermsPage from "./pages/TermsPage";
 import LineFloatButton from "./components/LineFloatButton";
 import { useEffect } from "react";
 
@@ -42,6 +45,9 @@ function Router() {
       <Route path="/privacy" component={PrivacyPage} />
       <Route path="/about" component={AboutPage} />
       <Route path="/contact" component={ContactPage} />
+      <Route path="/terms" component={TermsPage} />
+      <Route path="/articles" component={ArticlesPage} />
+      <Route path="/articles/:id" component={ArticleDetailPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
