@@ -1,9 +1,10 @@
 import { useParams, useLocation } from "wouter";
 import { ARTICLES } from "../../../shared/articles";
 import SiteFooter from "@/components/SiteFooter";
-import { ArrowLeft, Clock, Tag, BookOpen } from "lucide-react";
+import { ArrowLeft, Tag, BookOpen, Share2, Facebook, MessageCircle, Instagram, AtSign } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useEffect, type ReactElement } from "react";
+import { useEffect, useState, type ReactElement } from "react";
+import { toast } from "sonner";
 
 const CATEGORY_COLORS: Record<string, string> = {
   "民法入門": "bg-violet-100 text-violet-700",
@@ -12,6 +13,92 @@ const CATEGORY_COLORS: Record<string, string> = {
   "繼承法": "bg-rose-100 text-rose-700",
   "使用指南": "bg-sky-100 text-sky-700",
 };
+
+// 社群分享按鈕元件
+function ShareButtons({ title, url }: { title: string; url: string }) {
+  const encodedUrl = encodeURIComponent(url);
+  const encodedTitle = encodeURIComponent(title);
+
+  const handleFacebook = () => {
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`, "_blank", "width=600,height=400");
+  };
+
+  const handleLine = () => {
+    window.open(`https://social-plugins.line.me/lineit/share?url=${encodedUrl}`, "_blank", "width=600,height=400");
+  };
+
+  const handleThreads = () => {
+    window.open(`https://www.threads.net/intent/post?text=${encodedTitle}%20${encodedUrl}`, "_blank", "width=600,height=400");
+  };
+
+  const handleInstagram = () => {
+    // Instagram 不支援直接分享連結，改為複製連結並提示
+    navigator.clipboard.writeText(url).then(() => {
+      toast.success("連結已複製！請開啟 Instagram 貼上分享");
+    });
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(url).then(() => {
+      toast.success("文章連結已複製到剪貼簿");
+    });
+  };
+
+  return (
+    <div className="mt-10 p-6 bg-muted/30 rounded-2xl border border-border">
+      <div className="flex items-center gap-2 mb-4">
+        <Share2 className="w-4 h-4 text-muted-foreground" />
+        <span className="text-sm font-semibold text-foreground">分享這篇文章</span>
+      </div>
+      <div className="flex flex-wrap gap-3">
+        {/* Facebook */}
+        <button
+          onClick={handleFacebook}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1877F2] text-white text-sm font-medium hover:bg-[#166FE5] transition-colors active:scale-95"
+        >
+          <Facebook className="w-4 h-4" />
+          Facebook
+        </button>
+
+        {/* LINE */}
+        <button
+          onClick={handleLine}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#06C755] text-white text-sm font-medium hover:bg-[#05B34C] transition-colors active:scale-95"
+        >
+          <MessageCircle className="w-4 h-4" />
+          LINE
+        </button>
+
+        {/* Instagram（複製連結） */}
+        <button
+          onClick={handleInstagram}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCB045] text-white text-sm font-medium hover:opacity-90 transition-opacity active:scale-95"
+        >
+          <Instagram className="w-4 h-4" />
+          Instagram
+        </button>
+
+        {/* Threads */}
+        <button
+          onClick={handleThreads}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-foreground text-background text-sm font-medium hover:opacity-80 transition-opacity active:scale-95"
+        >
+          <AtSign className="w-4 h-4" />
+          Threads
+        </button>
+
+        {/* 複製連結 */}
+        <button
+          onClick={handleCopyLink}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-background text-foreground text-sm font-medium hover:bg-muted transition-colors active:scale-95"
+        >
+          <Share2 className="w-4 h-4" />
+          複製連結
+        </button>
+      </div>
+    </div>
+  );
+}
 
 // 簡易 Markdown 渲染（支援標題、粗體、表格、水平線、段落）
 function renderMarkdown(content: string): ReactElement[] {
@@ -123,10 +210,12 @@ function renderMarkdown(content: string): ReactElement[] {
 export default function ArticleDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [, navigate] = useLocation();
+  const [currentUrl, setCurrentUrl] = useState("");
   const article = ARTICLES.find(a => a.id === id);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setCurrentUrl(window.location.href);
   }, [id]);
 
   if (!article) {
@@ -141,6 +230,12 @@ export default function ArticleDetailPage() {
       </div>
     );
   }
+
+  // 相關文章：同分類優先，其次隨機取其他文章
+  const relatedArticles = [
+    ...ARTICLES.filter(a => a.id !== article.id && a.category === article.category),
+    ...ARTICLES.filter(a => a.id !== article.id && a.category !== article.category),
+  ].slice(0, 3);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -165,10 +260,6 @@ export default function ArticleDetailPage() {
           <div className="flex items-center gap-2 mb-4">
             <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${CATEGORY_COLORS[article.category] ?? "bg-gray-100 text-gray-700"}`}>
               {article.category}
-            </span>
-            <span className="text-xs text-muted-foreground flex items-center gap-1">
-              <Clock className="w-3 h-3" />
-              約 {article.readTime} 分鐘閱讀
             </span>
             <span className="text-xs text-muted-foreground">{article.date}</span>
           </div>
@@ -198,8 +289,11 @@ export default function ArticleDetailPage() {
           {renderMarkdown(article.content)}
         </div>
 
+        {/* 社群分享按鈕 */}
+        <ShareButtons title={article.title} url={currentUrl} />
+
         {/* 文章底部 CTA */}
-        <div className="mt-10 p-6 bg-primary/5 rounded-2xl border border-primary/10">
+        <div className="mt-6 p-6 bg-primary/5 rounded-2xl border border-primary/10">
           <div className="flex items-start gap-3">
             <BookOpen className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
             <div>
@@ -217,24 +311,28 @@ export default function ArticleDetailPage() {
           </div>
         </div>
 
-        {/* 其他文章推薦 */}
+        {/* 相關文章推薦 */}
         <div className="mt-8">
-          <h3 className="text-base font-semibold text-foreground mb-4">其他推薦文章</h3>
+          <h3 className="text-base font-semibold text-foreground mb-4">相關文章推薦</h3>
           <div className="space-y-3">
-            {ARTICLES.filter(a => a.id !== article.id).slice(0, 3).map(a => (
+            {relatedArticles.map(a => (
               <button
                 key={a.id}
                 onClick={() => navigate(`/articles/${a.id}`)}
                 className="w-full text-left p-4 rounded-xl border border-border hover:border-primary/30 hover:bg-muted/30 transition-all group"
               >
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-1.5">
                   <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${CATEGORY_COLORS[a.category] ?? "bg-gray-100 text-gray-700"}`}>
                     {a.category}
                   </span>
+                  {a.category === article.category && (
+                    <span className="text-xs text-primary font-medium">同類別</span>
+                  )}
                 </div>
-                <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
                   {a.title}
                 </p>
+                <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{a.subtitle}</p>
               </button>
             ))}
           </div>
