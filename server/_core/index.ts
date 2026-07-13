@@ -36,6 +36,13 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   registerStorageProxy(app);
   registerOAuthRoutes(app);
+
+  // ===== 新增：Google AdSense 驗證路由 =====
+  app.get('/ads.txt', (req, res) => {
+    res.type('text/plain');
+    res.send('google.com, pub-9753491901026477, DIRECT, f08c47fec0942fa0');
+  });
+
   // tRPC API
   app.use(
     "/api/trpc",
