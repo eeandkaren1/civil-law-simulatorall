@@ -215,8 +215,64 @@ export default function ArticleDetailPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setCurrentUrl(window.location.href);
-  }, [id]);
+    const href = window.location.href;
+    setCurrentUrl(href);
+
+    if (article) {
+      // 更新 document.title
+      document.title = `${article.title} | 民法鎮大冒險`;
+
+      // 更新 meta description
+      let descMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+      if (!descMeta) {
+        descMeta = document.createElement('meta');
+        descMeta.name = 'description';
+        document.head.appendChild(descMeta);
+      }
+      descMeta.content = article.subtitle;
+
+      // 更新 og:title
+      let ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]');
+      if (!ogTitle) {
+        ogTitle = document.createElement('meta');
+        ogTitle.setAttribute('property', 'og:title');
+        document.head.appendChild(ogTitle);
+      }
+      ogTitle.content = article.title;
+
+      // 更新 og:description
+      let ogDesc = document.querySelector<HTMLMetaElement>('meta[property="og:description"]');
+      if (!ogDesc) {
+        ogDesc = document.createElement('meta');
+        ogDesc.setAttribute('property', 'og:description');
+        document.head.appendChild(ogDesc);
+      }
+      ogDesc.content = article.subtitle;
+
+      // 更新 og:url
+      let ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
+      if (!ogUrl) {
+        ogUrl = document.createElement('meta');
+        ogUrl.setAttribute('property', 'og:url');
+        document.head.appendChild(ogUrl);
+      }
+      ogUrl.content = href;
+    }
+
+    // unmount 時恢復預設標項
+    return () => {
+      document.title = '民法鎮大冒險 - 台灣民法教育遊戲';
+      const defaultDesc = '透過五大村落的情境題目，學習台灣民法知識。包含總則、債編、物權、親屬、繼承等五大篇，共 80 道選擇題與申論題。';
+      const descMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+      if (descMeta) descMeta.content = defaultDesc;
+      const ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]');
+      if (ogTitle) ogTitle.content = '民法鎮大冒險';
+      const ogDesc = document.querySelector<HTMLMetaElement>('meta[property="og:description"]');
+      if (ogDesc) ogDesc.content = defaultDesc;
+      const ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
+      if (ogUrl) ogUrl.content = window.location.origin;
+    };
+  }, [id, article]);
 
   if (!article) {
     return (

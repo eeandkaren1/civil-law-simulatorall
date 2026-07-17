@@ -91,3 +91,9 @@
 - [x] 更新導覽列加入「法律文章」入口；SiteFooter 加入服務條款與法律文章連結
 - [x] 首頁加入最新文章列表區塊（4 篇預覽）與功能介紹區塊
 - [x] 移除全部 5 個頁面的空廣告佔位符（VillagePage/ScenarioPage/KnowledgePage/ProgressPage/SettingsPage）
+
+## 第七輪：每村增加 2 題 + Open Graph 動態 meta
+- [x] 每個村落各新增 2 道題目（共 10 題，總計 80 題）
+- [x] 為 10 道新題目生成台灣風格情境插圖
+- [x] 上傳插圖至外部圖床並更新 imageUrl
+- [x] 加入文章 Open Graph 動態 meta 標籤（每篇文章分享時顯示專屬標題與摘要）

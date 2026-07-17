@@ -25,6 +25,8 @@ export interface Scenario {
   story: string[];
   question: string;
   choices: Choice[];
+  explanation?: string;
+  legalBasis?: string;
   relatedArticles: string[];
   essayPrompt: string;
   essayHint: string;
@@ -51,7 +53,7 @@ export const VILLAGES: Village[] = [
     icon: "⚖️",
     color: "#7C6B4E",
     bgGradient: "from-amber-50 to-yellow-100",
-    totalScenarios: 14,
+    totalScenarios: 16,
   },
   {
     id: "obligation",
@@ -60,7 +62,7 @@ export const VILLAGES: Village[] = [
     icon: "🤝",
     color: "#5B7A6B",
     bgGradient: "from-emerald-50 to-teal-100",
-    totalScenarios: 14,
+    totalScenarios: 16,
   },
   {
     id: "property",
@@ -69,7 +71,7 @@ export const VILLAGES: Village[] = [
     icon: "🏠",
     color: "#5B6A8A",
     bgGradient: "from-blue-50 to-indigo-100",
-    totalScenarios: 14,
+    totalScenarios: 16,
   },
   {
     id: "family",
@@ -78,7 +80,7 @@ export const VILLAGES: Village[] = [
     icon: "👨‍👩‍👧",
     color: "#8A5B6A",
     bgGradient: "from-rose-50 to-pink-100",
-    totalScenarios: 14,
+    totalScenarios: 16,
   },
   {
     id: "inheritance",
@@ -87,7 +89,7 @@ export const VILLAGES: Village[] = [
     icon: "📜",
     color: "#6A5B8A",
     bgGradient: "from-purple-50 to-violet-100",
-    totalScenarios: 14,
+    totalScenarios: 16,
   },
 ];
 
@@ -1941,11 +1943,300 @@ export const SCENARIOS: Scenario[] = [
     essayPrompt: "請說明遺囑撤回的方式及效力，以及前後遺囑抵觸時的處理原則。",
     essayHint: "可從民法第1219條（遺囑撤回的方式）、第1220條（前後遺囑抵觸）出發，討論遺囑自由原則的體現，以及遺囑撤回的各種方式（明示撤回、默示撤回、行為撤回）。",
     tags: ["遺囑", "遺囑撤回", "遺囑自由"],
-    imageUrl: "https://i.imgur.com/yEj6m9n.jpeg",
+        imageUrl: "https://i.imgur.com/yEj6m9n.jpeg",
   },
 
-];
+  // ===== 第二批新增：每村 +2 題 =====
 
+  // general-015
+  {
+    id: "general-015",
+    villageId: "general",
+    title: "消滅時效的陷阱",
+    chapter: "第一章 總則",
+    difficulty: "medium" as const,
+    story: [
+      "阿明在五年前向朋友老王借了 10 萬元，當時沒有簽借據。",
+      "老王一直沒有追討，直到最近才想起這件事，決定向阿明要錢。",
+      "阿明卻說：『你的請求權已經消滅了，我不用還！』",
+      "老王非常困惑，難道借的錢真的可以不用還嗎？",
+    ],
+    question: "根據民法規定，一般債權的消滅時效期間為幾年？",
+    choices: [
+      { id: 1, text: "5 年", isCorrect: false, explanation: "5 年是部分特定請求權的時效，如旅館、飲食費等。" },
+      { id: 2, text: "10 年", isCorrect: false, explanation: "10 年不是民法的一般消滅時效。" },
+      { id: 3, text: "15 年", isCorrect: true, explanation: "根據民法第125條，請求權因15年間不行使而消滅。一般債權的消滅時效為15年。" },
+      { id: 4, text: "20 年", isCorrect: false, explanation: "20 年是物上請求權（如所有物返還請求權）的時效期間。" },
+    ],
+    explanation: "民法第125條規定，請求權因15年間不行使而消滅。但要注意，時效消滅後，債務人可以拒絕給付（抗辯權），但債務本身並未消滅，債務人若自願清償，不得請求返還。",
+    legalBasis: "民法第125條（一般消滅時效）",
+    relatedArticles: ["art125"],
+    essayPrompt: "請說明消滅時效的意義、效力，以及時效中斷與不完成的差異。",
+    essayHint: "可從民法第125條（一般時效）、第129條（時效中斷事由）、第139條（時效不完成）出發，討論時效制度的立法目的（維護法律秩序安定）與時效完成後的法律效果（抗辯權，非債務消滅）。",
+    tags: ["消滅時效", "債權", "時效抗辯"],
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/general-015-A7F4HKZTwHjsmpiu86gxsG.webp",
+  },
+
+  // general-016
+  {
+    id: "general-016",
+    villageId: "general",
+    title: "代理權的界限",
+    chapter: "第一章 總則",
+    difficulty: "hard" as const,
+    story: [
+      "小美授權她的朋友阿強，幫她出售一輛二手車，並說明售價不得低於 30 萬元。",
+      "阿強找到買家後，因為急著成交，以 25 萬元的價格簽了買賣契約。",
+      "並告訴買家這是小美授權的。",
+      "小美知道後非常生氣，拒絕承認這筆交易。",
+      "買家認為阿強有代理權，契約應該有效。",
+    ],
+    question: "阿強超越授權範圍簽訂的契約，在民法上屬於何種情形？",
+    choices: [
+      { id: 1, text: "有效契約，小美必須履行", isCorrect: false, explanation: "阿強超越授權範圍，屬於無權代理，契約效力未定，非當然有效。" },
+      { id: 2, text: "無效契約，買家無法主張任何權利", isCorrect: false, explanation: "超越授權的無權代理並非當然無效，而是效力未定，本人可以承認。" },
+      { id: 3, text: "效力未定，須經小美承認始生效力", isCorrect: true, explanation: "根據民法第170條，無權代理人所為的法律行為，須經本人承認始對本人發生效力。小美可以選擇承認或拒絕。" },
+      { id: 4, text: "可撤銷契約，買家可主張撤銷", isCorrect: false, explanation: "可撤銷是另一種法律行為效力瑕疵，與無權代理的效力未定不同。" },
+    ],
+    explanation: "民法第170條規定，無權代理人以代理人名義所為的法律行為，須經本人承認始對本人發生效力。本人可以選擇承認使其有效，也可以拒絕。如果本人拒絕承認，無權代理人須對善意相對人負損害賠償責任。",
+    legalBasis: "民法第170條（無權代理）",
+    relatedArticles: ["art103"],
+    essayPrompt: "請比較有權代理、無權代理與表見代理的要件與法律效果。",
+    essayHint: "可從民法第103條（有權代理效力）、第170條（無權代理效力未定）、第169條（表見代理）出發，討論三者的差異，特別是表見代理的立法目的（保護善意第三人）與要件（本人有可歸責事由）。",
+    tags: ["代理", "無權代理", "效力未定"],
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/general-016-TWt7sfi6GXNrKiwvy3W8g9.webp",
+  },
+
+  // obligation-015
+  {
+    id: "obligation-015",
+    villageId: "obligation",
+    title: "租約到期後的法律關係",
+    chapter: "第二章 債編",
+    difficulty: "medium" as const,
+    story: [
+      "阿華租了一間套房，租約為期一年，到期後房東沒有通知阿華搬出。",
+      "阿華也繼續住著並按月繳租，雙方都沒有提出異議。",
+      "三個月後，房東突然要求阿華立刻搬出，並說租約已經到期，阿華沒有繼續住的權利。",
+      "阿華認為雙方已經默示續約，不能說搬就搬。",
+    ],
+    question: "租約到期後，雙方繼續履行租約的行為，在民法上稱為何種情形？",
+    choices: [
+      { id: 1, text: "租約自動延長，期間與原租約相同", isCorrect: false, explanation: "租約到期後繼續履行並非自動延長為相同期間，而是視為不定期租賃。" },
+      { id: 2, text: "視為以不定期限繼續契約", isCorrect: true, explanation: "根據民法第451條，租賃期限屆滿後，承租人仍為租賃物之使用收益，而出租人不即表示反對意思者，視為以不定期限繼續契約。" },
+      { id: 3, text: "租約無效，阿華須立即搬出", isCorrect: false, explanation: "租約到期後繼續履行並非無效，而是形成不定期租賃關係。" },
+      { id: 4, text: "需要重新簽訂書面契約才能繼續", isCorrect: false, explanation: "不定期租賃的成立不需要書面，雙方的行為即可形成默示合意。" },
+    ],
+    explanation: "民法第451條規定，租賃期限屆滿後，承租人仍為租賃物之使用收益，而出租人不即表示反對意思者，視為以不定期限繼續契約。不定期租賃的終止，需要依照民法第450條的規定，提前一定期間通知對方。",
+    legalBasis: "民法第451條（租賃默示更新）",
+    relatedArticles: ["art421"],
+    essayPrompt: "請說明不定期租賃的成立要件，以及出租人如何合法終止不定期租賃。",
+    essayHint: "可從民法第451條（默示更新）、第450條（不定期租賃終止）出發，討論不定期租賃的特性，以及終止通知的期間（房屋租賃需提前一個月通知）。",
+    tags: ["租賃", "不定期租賃", "默示更新"],
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-015-MuhCveFQumRsndSiStJTTR.webp",
+  },
+
+  // obligation-016
+  {
+    id: "obligation-016",
+    villageId: "obligation",
+    title: "網購退貨的權利",
+    chapter: "第二章 債編",
+    difficulty: "easy" as const,
+    story: [
+      "小玲在網路上購買了一件洋裝，收到後發現顏色與照片差異很大，想要退貨。",
+      "賣家卻說：『商品已出售，不接受退換貨。』",
+      "小玲很困惑，她明明記得網購有七天猶豫期，難道賣家可以這樣規定嗎？",
+    ],
+    question: "根據消費者保護法，消費者在網路購物後，享有幾天的猶豫期（無條件退貨權）？",
+    choices: [
+      { id: 1, text: "3 天", isCorrect: false, explanation: "3 天的猶豫期不符合消費者保護法的規定。" },
+      { id: 2, text: "7 天", isCorrect: true, explanation: "根據消費者保護法第19條，通訊交易（含網購）消費者享有7天猶豫期，可以無條件退貨，業者不得以任何理由拒絕。" },
+      { id: 3, text: "14 天", isCorrect: false, explanation: "14 天是歐盟的規定，台灣消費者保護法規定為7天。" },
+      { id: 4, text: "30 天", isCorrect: false, explanation: "30 天不是消費者保護法規定的猶豫期。" },
+    ],
+    explanation: "消費者保護法第19條規定，通訊交易（如網購、電視購物）消費者享有7天猶豫期，可以無條件退貨，業者不得以任何理由拒絕。但部分商品依法不適用猶豫期，如易腐壞商品、已拆封的個人衛生用品等。",
+    legalBasis: "消費者保護法第19條（通訊交易猶豫期）",
+    relatedArticles: ["art345"],
+    essayPrompt: "請說明消費者保護法中猶豫期制度的立法目的，以及哪些商品不適用猶豫期。",
+    essayHint: "可從消費者保護法第19條出發，討論猶豫期的立法目的（保護消費者在無法實際接觸商品時的購買決定）、行使方式（書面通知即可，費用由業者負擔），以及例外不適用的情形（依消費者保護法施行細則第17條）。",
+    tags: ["網購", "猶豫期", "消費者保護"],
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp",
+  },
+
+  // property-015
+  {
+    id: "property-015",
+    villageId: "property",
+    title: "地上權的秘密",
+    chapter: "第三章 物權",
+    difficulty: "hard" as const,
+    story: [
+      "阿德的祖父在 50 年前，以地上權的方式在別人的土地上蓋了一棟房子。",
+      "祖父過世後，阿德繼承了這棟房子，但土地仍屬於地主所有。",
+      "最近地主想要收回土地，要求阿德拆屋還地。",
+      "阿德查了一下，發現地上權登記的期限是 99 年，還沒到期。",
+      "地主可以強制收回嗎？",
+    ],
+    question: "地上權是一種物權，在地上權期限未屆滿前，地主可以單方面終止地上權嗎？",
+    choices: [
+      { id: 1, text: "可以，地主對自己的土地有完全的處分權", isCorrect: false, explanation: "地上權是物權，具有對抗第三人的效力，地主不能單方面終止未到期的地上權。" },
+      { id: 2, text: "不可以，地上權期限未屆滿，地主不得強制收回", isCorrect: true, explanation: "地上權是物權，具有排他性與對抗性。在地上權期限未屆滿前，地主不得強制收回土地，地上權人有權繼續使用土地。" },
+      { id: 3, text: "可以，只要支付賠償金即可", isCorrect: false, explanation: "地上權是物權，不能以金錢賠償方式單方面終止未到期的地上權，需要地上權人同意。" },
+      { id: 4, text: "視地上權的登記內容而定", isCorrect: false, explanation: "地上權的基本性質是物權，具有對抗性，這不因登記內容不同而改變。" },
+    ],
+    explanation: "地上權（民法第832條）是以在他人土地之上下有建築物或其他工作物為目的而使用其土地的物權。物權具有排他性與對抗性，在地上權期限未屆滿前，地主不得強制收回土地。地上權可以繼承、轉讓，是一種相當穩固的土地使用權利。",
+    legalBasis: "民法第832條（地上權定義）",
+    relatedArticles: ["art832"],
+    essayPrompt: "請比較地上權與租賃權在法律性質上的差異，以及各自的優缺點。",
+    essayHint: "可從民法第832條（地上權）與第421條（租賃）出發，討論物權（地上權）與債權（租賃）的本質差異：物權具有絕對性、排他性、對抗第三人效力；債權僅有相對性。實務上地上權更難被侵害，但設定程序較複雜。",
+    tags: ["地上權", "物權", "土地使用"],
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/property-015-iqdDu2tEyHDZfJyxJ2etJF.webp",
+  },
+
+  // property-016
+  {
+    id: "property-016",
+    villageId: "property",
+    title: "共有物的分割",
+    chapter: "第三章 物權",
+    difficulty: "medium" as const,
+    story: [
+      "阿仁和他的兩個兄弟共同繼承了父親留下的一塊土地，三人各持有三分之一的所有權。",
+      "阿仁想要分割這塊土地，各自取得獨立的部分，",
+      "但其中一個兄弟說：『我不同意分割，共有就共有，不能分。』",
+      "阿仁不知道是否需要所有共有人同意才能分割。",
+    ],
+    question: "根據民法規定，共有人請求分割共有物，需要全體共有人同意嗎？",
+    choices: [
+      { id: 1, text: "需要全體共有人同意，否則不能分割", isCorrect: false, explanation: "民法允許共有人單方面請求分割，不需要全體同意。" },
+      { id: 2, text: "不需要，任何共有人均可請求分割共有物", isCorrect: true, explanation: "根據民法第823條，各共有人得隨時請求分割共有物，不需要其他共有人同意。若無法協議，可訴請法院裁判分割。" },
+      { id: 3, text: "需要過半數共有人同意", isCorrect: false, explanation: "這是管理共有物的規定，不是分割的規定。分割任何一位共有人都可以請求。" },
+      { id: 4, text: "需要持有超過二分之一應有部分的共有人同意", isCorrect: false, explanation: "這是管理共有物的規定，不是分割的規定。分割任何一位共有人都可以請求。" },
+    ],
+    explanation: "民法第823條規定，各共有人得隨時請求分割共有物，但因物之使用目的不能分割或契約訂有不分割之期限者，不在此限。不分割契約最長不得超過5年。若共有人間無法協議分割方式，任何一位共有人都可以訴請法院裁判分割。",
+    legalBasis: "民法第823條（共有物分割請求）",
+    relatedArticles: ["art765"],
+    essayPrompt: "請說明共有物分割的方式，以及法院裁判分割時會考量哪些因素。",
+    essayHint: "可從民法第824條（分割方式）出發，討論三種分割方式：原物分割（實物分配）、變賣分割（拍賣後分配價金）、原物分割與金錢補償並用。法院裁判分割時會考量土地使用效益、各共有人的利益、是否造成畸零地等因素。",
+    tags: ["共有", "分割", "物權"],
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/property-016-HXaHvLfMKzysswJ3sWtWMS.webp",
+  },
+
+  // family-015
+  {
+    id: "family-015",
+    villageId: "family",
+    title: "家庭暴力的法律保護",
+    chapter: "第四章 親屬",
+    difficulty: "medium" as const,
+    story: [
+      "小芬長期遭受丈夫的言語暴力和肢體傷害，她很害怕，但又不知道該怎麼辦。",
+      "朋友告訴她可以申請保護令，但她擔心申請後丈夫會更加憤怒，",
+      "也不確定保護令能不能真的保護她。",
+      "她想了解保護令的種類和效力。",
+    ],
+    question: "根據家庭暴力防治法，法院核發的保護令中，可以命令相對人（施暴者）遷出住所的是哪一種保護令？",
+    choices: [
+      { id: 1, text: "緊急保護令", isCorrect: false, explanation: "緊急保護令是在緊急情況下由警察聲請，效力較有限，主要是立即隔離。" },
+      { id: 2, text: "暫時保護令", isCorrect: false, explanation: "暫時保護令是在通常保護令審理前的臨時措施，效力較短暫。" },
+      { id: 3, text: "通常保護令", isCorrect: true, explanation: "根據家庭暴力防治法第14條，通常保護令可以命令相對人遷出住所、禁止接觸、強制參加輔導等，效力最完整，有效期間最長可達2年。" },
+      { id: 4, text: "民事保護令", isCorrect: false, explanation: "家庭暴力防治法中沒有「民事保護令」這個名稱，保護令分為緊急、暫時、通常三種。" },
+    ],
+    explanation: "家庭暴力防治法第14條規定，通常保護令可以包含：禁止施暴、禁止騷擾、命令遷出住所、禁止接觸、強制參加輔導等多種內容，有效期間最長2年，可以聲請延長。遭受家庭暴力者可以向法院聲請，或請警察協助聲請緊急保護令。",
+    legalBasis: "家庭暴力防治法第14條（通常保護令內容）",
+    relatedArticles: ["art1052"],
+    essayPrompt: "請說明家庭暴力防治法三種保護令的差異，以及受害者如何取得法律保護。",
+    essayHint: "可從家庭暴力防治法第10條（聲請保護令）、第14條（通常保護令）、第16條（緊急保護令）出發，討論三種保護令的聲請主體、核發條件、效力內容與期間的差異，以及違反保護令的刑事責任。",
+    tags: ["家庭暴力", "保護令", "親屬法"],
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/family-015-P2UTLhULU6bSRc6pBJbArU.webp",
+  },
+
+  // family-016
+  {
+    id: "family-016",
+    villageId: "family",
+    title: "夫妻財產制的選擇",
+    chapter: "第四章 親屬",
+    difficulty: "hard" as const,
+    story: [
+      "阿明和小花即將結婚，阿明的父母提醒他們要注意夫妻財產制的問題。",
+      "阿明聽說台灣有「法定財產制」，但不太了解這是什麼意思。",
+      "他們想知道，如果不特別約定，婚後各自的財產和債務是如何歸屬的。",
+    ],
+    question: "台灣民法的法定夫妻財產制（聯合財產制廢除後的現行制度）是哪一種？",
+    choices: [
+      { id: 1, text: "共同財產制：婚後財產全部共有", isCorrect: false, explanation: "共同財產制是約定財產制的一種，需要夫妻特別約定，並非法定財產制。" },
+      { id: 2, text: "分別財產制：婚前婚後財產各自獨立", isCorrect: false, explanation: "分別財產制也是約定財產制的一種，或在特定情況下由法院宣告，並非法定財產制。" },
+      { id: 3, text: "剩餘財產分配請求權制：婚後財產各自管理，離婚時分配剩餘財產差額", isCorrect: true, explanation: "台灣現行法定財產制（民法第1005條），婚後各自管理、使用、收益及處分自己的財產，但離婚或一方死亡時，雙方各自的「婚後財產」進行比較，財產較少的一方可以請求差額的二分之一。" },
+      { id: 4, text: "聯合財產制：丈夫管理妻子的財產", isCorrect: false, explanation: "聯合財產制已於2002年廢除，現行法定財產制改為平等的剩餘財產分配制度。" },
+    ],
+    explanation: "台灣現行法定財產制（民法第1005條）的核心是：婚後各自管理、使用、收益及處分自己的財產，但離婚時或一方死亡時，雙方各自的「婚後財產」（扣除債務後）進行比較，財產較少的一方可以請求差額的二分之一。這個制度保障了婚姻中經濟弱勢（通常是全職照顧家庭）的一方。",
+    legalBasis: "民法第1005條（法定財產制）",
+    relatedArticles: ["art980"],
+    essayPrompt: "請說明現行法定財產制中，剩餘財產分配請求權的計算方式與例外情形。",
+    essayHint: "可從民法第1030條之1（剩餘財產分配）出發，討論計算方式（各自婚後財產扣除債務，比較差額，少的一方請求二分之一）、不列入計算的財產（繼承、贈與所得）、以及法院可以調整分配比例的情形（如一方對婚姻無貢獻）。",
+    tags: ["夫妻財產制", "剩餘財產分配", "親屬法"],
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/family-016-BmdBweqDy9d6gXBFxNKMum.webp",
+  },
+
+  // inheritance-015
+  {
+    id: "inheritance-015",
+    villageId: "inheritance",
+    title: "特留分的保障",
+    chapter: "第五章 繼承",
+    difficulty: "hard" as const,
+    story: [
+      "老陳生前立了一份遺囑，將所有財產都留給他最疼愛的小兒子，完全沒有提到其他三個子女。",
+      "老陳過世後，其他三個子女非常不滿，認為這樣不公平。",
+      "他們聽說法律有「特留分」的保障，想了解自己是否有權利主張。",
+    ],
+    question: "根據民法規定，直系血親卑親屬（如子女）的特留分，是其應繼分的幾分之幾？",
+    choices: [
+      { id: 1, text: "三分之一", isCorrect: false, explanation: "三分之一不是直系血親卑親屬的特留分比例。" },
+      { id: 2, text: "二分之一", isCorrect: true, explanation: "根據民法第1223條，直系血親卑親屬（子女）的特留分為其應繼分的二分之一。例如有4個子女，每人應繼分為四分之一，特留分為八分之一。" },
+      { id: 3, text: "三分之二", isCorrect: false, explanation: "三分之二不是直系血親卑親屬的特留分比例。" },
+      { id: 4, text: "四分之一", isCorrect: false, explanation: "四分之一不是直系血親卑親屬的特留分比例。" },
+    ],
+    explanation: "民法第1223條規定各繼承人的特留分：直系血親卑親屬（子女）為應繼分的二分之一；父母為應繼分的二分之一；配偶為應繼分的二分之一；兄弟姊妹為應繼分的三分之一；祖父母為應繼分的三分之一。遺囑若侵害特留分，繼承人可以行使「扣減權」，請求扣減超過特留分的部分。",
+    legalBasis: "民法第1223條（特留分比例）",
+    relatedArticles: ["art1138"],
+    essayPrompt: "請說明特留分制度的立法目的，以及繼承人如何行使扣減權保障自己的特留分。",
+    essayHint: "可從民法第1223條（特留分比例）、第1225條（扣減權）出發，討論特留分的立法目的（保障繼承人最低繼承利益、維護家庭倫理）、扣減權的性質（形成權，以意思表示為之）、扣減的順序（遺贈先扣，不足再扣生前贈與）。",
+    tags: ["特留分", "遺囑", "繼承"],
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/inheritance-015-azt3cJauDbdaLLPJRhSB6B.webp",
+  },
+
+  // inheritance-016
+  {
+    id: "inheritance-016",
+    villageId: "inheritance",
+    title: "代位繼承的啟動",
+    chapter: "第五章 繼承",
+    difficulty: "medium" as const,
+    story: [
+      "老李有兩個兒子：大兒子阿明和小兒子阿強。",
+      "阿明在老李過世前就已經先走了，但阿明留下了兩個孩子（老李的孫子女）。",
+      "老李沒有立遺囑。",
+      "老李的遺產應該如何分配？阿明的孩子是否有繼承的權利？",
+    ],
+    question: "阿明在老李之前死亡，阿明的子女可以代替阿明繼承老李的遺產，這在民法上稱為什麼？",
+    choices: [
+      { id: 1, text: "轉繼承", isCorrect: false, explanation: "轉繼承是指繼承人在繼承開始後、遺產分割前死亡，其繼承權轉給其繼承人。與本題情況不同。" },
+      { id: 2, text: "代位繼承", isCorrect: true, explanation: "根據民法第1140條，第一順序繼承人中，有於繼承開始前死亡者，由其直系血親卑親屬代位繼承其應繼分。阿明的子女可以代位繼承阿明原本應得的二分之一。" },
+      { id: 3, text: "指定繼承", isCorrect: false, explanation: "指定繼承是遺囑人在遺囑中指定繼承人，與本題情況不同。" },
+      { id: 4, text: "遺贈", isCorrect: false, explanation: "遺贈是遺囑人以遺囑將財產給予特定人，與繼承制度不同。" },
+    ],
+    explanation: "民法第1140條規定，第一順序繼承人（直系血親卑親屬）中，有於繼承開始前死亡或喪失繼承權者，由其直系血親卑親屬代位繼承其應繼分。在本題中，阿明的兩個孩子共同代位繼承阿明原本應得的二分之一，每人各得四分之一；阿強則繼承另外二分之一。",
+    legalBasis: "民法第1140條（代位繼承）",
+    relatedArticles: ["art1138"],
+    essayPrompt: "請說明代位繼承與轉繼承的差異，以及代位繼承人的應繼分如何計算。",
+    essayHint: "可從民法第1140條（代位繼承）出發，討論代位繼承的要件（被代位人須在繼承開始前死亡或喪失繼承權）、代位繼承人的應繼分（代位繼承被代位人的應繼分，多人代位時平均分配）、與轉繼承（繼承開始後繼承人死亡）的差異。",
+    tags: ["代位繼承", "繼承順序", "應繼分"],
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/inheritance-016-YuXWFBbeqN5gR7y7VFsk5z.webp",
+  },
+];
 // ===== 成就系統 =====
 export interface Achievement {
   id: string;
