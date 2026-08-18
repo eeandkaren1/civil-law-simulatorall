@@ -53,7 +53,7 @@ export const VILLAGES: Village[] = [
     icon: "⚖️",
     color: "#7C6B4E",
     bgGradient: "from-amber-50 to-yellow-100",
-    totalScenarios: 16,
+    totalScenarios: 20,
   },
   {
     id: "obligation",
@@ -62,7 +62,7 @@ export const VILLAGES: Village[] = [
     icon: "🤝",
     color: "#5B7A6B",
     bgGradient: "from-emerald-50 to-teal-100",
-    totalScenarios: 16,
+    totalScenarios: 20,
   },
   {
     id: "property",
@@ -71,7 +71,7 @@ export const VILLAGES: Village[] = [
     icon: "🏠",
     color: "#5B6A8A",
     bgGradient: "from-blue-50 to-indigo-100",
-    totalScenarios: 16,
+    totalScenarios: 20,
   },
   {
     id: "family",
@@ -80,7 +80,7 @@ export const VILLAGES: Village[] = [
     icon: "👨‍👩‍👧",
     color: "#8A5B6A",
     bgGradient: "from-rose-50 to-pink-100",
-    totalScenarios: 16,
+    totalScenarios: 20,
   },
   {
     id: "inheritance",
@@ -89,7 +89,7 @@ export const VILLAGES: Village[] = [
     icon: "📜",
     color: "#6A5B8A",
     bgGradient: "from-purple-50 to-violet-100",
-    totalScenarios: 16,
+    totalScenarios: 20,
   },
 ];
 
@@ -173,7 +173,34 @@ export const LAW_ARTICLES: LawArticle[] = [
   { id: "art1210", number: "第1210條", title: "自書遺囑", content: "自書遺囑者，應自書遺囑全文，記明年、月、日，並親自簽名；如有增減、塗改，應註明增減、塗改之處所及字數，另行簽名。", chapter: "遺囑", villageId: "inheritance" },
   { id: "art1163", number: "第1163條", title: "喪失限定繼承利益", content: "繼承人中有下列各款情事之一者，不得主張第一千一百四十八條第二項所定之利益：一、隱匿遺產情節重大。二、在遺產清冊為虛偽之記載情節重大。三、意圖詐害被繼承人之債權人之權利而為遺產之處分。", chapter: "限定繼承", villageId: "inheritance" },
   { id: "art1225", number: "第1225條", title: "遺贈之扣減", content: "應得特留分之人，如因被繼承人所為之遺贈，致其應得之數不足者，得按其不足之數由遺贈財產扣減之。受遺贈人有數人時，應按其所得遺贈價額比例扣減。", chapter: "特留分", villageId: "inheritance" },
+  // 第九輪新增法條
+  { id: "art10", number: "第10條", title: "失蹤人之財產管理", content: "失蹤人失蹤後，未受死亡宣告前，其財產之管理，除其他法律另有規定者外，依家事事件法之規定。", chapter: "自然人", villageId: "general" },
+  { id: "art15-2", number: "第15-2條", title: "受輔助宣告人之行為能力限制", content: "受輔助宣告之人為下列行為時，應經輔助人同意。但純獲法律上利益，或依其年齡及身分、日常生活所必需者，不在此限：...重要財產之處分、設定負擔、買賣、租賃或借貸。", chapter: "行為能力", villageId: "general" },
+  { id: "art18", number: "第18條", title: "人格權之保護", content: "人格權受侵害時，得請求法院除去其侵害；有受侵害之虞時，得請求防止之。前項情形，以法律有特別規定者為限，得請求損害賠償或慰撫金。", chapter: "自然人", villageId: "general" },
+  { id: "art99", number: "第99條", title: "條件之效力", content: "附停止條件之法律行為，於條件成就時，發生效力。附解除條件之法律行為，於條件成就時，失其效力。", chapter: "意思表示", villageId: "general" },
+  { id: "art249", number: "第249條", title: "定金之效力", content: "定金，除當事人另有訂定外，適用左列之規定：一、契約履行時，定金應返還或作為給付之一部。二、契約因可歸責於付定金當事人之事由，致不能履行時，定金不得請求返還。三、契約因可歸責於受定金當事人之事由，致不能履行時，該當事人應加倍返還其所受之定金。四、契約因不可歸責於雙方當事人之事由，致不能履行時，定金應返還之。", chapter: "契約", villageId: "obligation" },
+  { id: "art252", number: "第252條", title: "違約金過高之酌減", content: "約定之違約金額過高者，法院得減至相當之數額。", chapter: "契約", villageId: "obligation" },
+  { id: "art507", number: "第507條", title: "定作人協力義務", content: "工作需定作人之行為始能完成者，而定作人不為其行為時，承攬人得定相當期限，催告定作人為之。定作人不於前項期限內為其行為者，承攬人得解除契約，並得請求賠償因契約解除而生之損害。", chapter: "承攬", villageId: "obligation" },
+  { id: "art739", number: "第739條", title: "保證之定義", content: "稱保證者，謂當事人約定，一方於他方之債務人不履行債務時，由其代負履行責任之契約。", chapter: "保證", villageId: "obligation" },
+  { id: "art787", number: "第787條", title: "袋地通行權", content: "土地因與公路無適宜之聯絡，致不能為通常使用時，除因土地所有人之任意行為所生者外，土地所有人得通行周圍地以至公路。前項情形，有通行權人應於通行必要之範圍內，擇其周圍地損害最少之處所及方法為之；對於通行地因此所受之損害，並應支付償金。", chapter: "相鄰關係", villageId: "property" },
+  { id: "art799", number: "第799條", title: "區分所有建築物", content: "稱區分所有建築物者，謂數人區分一建築物而各專有其一部，就專有部分有單獨所有權，並就該建築物及其附屬物之共同部分共有之建築物。專有部分與其所屬之共有部分及其基地之權利，不得分離而為移轉或設定負擔。", chapter: "不動產物權", villageId: "property" },
+  { id: "art820", number: "第820條", title: "共有物之管理", content: "共有物之管理，除契約另有約定外，應以共有人過半數及其應有部分合計過半數之同意行之。但其應有部分合計逾三分之二者，其人數不予計算。", chapter: "所有權", villageId: "property" },
+  { id: "art942", number: "第942條", title: "占有輔助人", content: "受僱人、學徒、家屬或基於其他類似之關係，受他人之指示，而對於物有管領之力者，僅該他人為占有人。", chapter: "占有", villageId: "property" },
+  { id: "art1002", number: "第1002條", title: "夫妻住所之決定", content: "夫妻之住所，由雙方共同協議之；未為協議或協議不成時，得聲請法院定之。法院為前項裁定前，以夫妻共同戶籍地推定為其住所。", chapter: "婚姻", villageId: "family" },
+  { id: "art1003", number: "第1003條", title: "日常家務代理權", content: "夫妻於日常家務，互為代理人。夫妻之一方濫用前項代理權時，他方得限制之。但不得對抗善意第三人。", chapter: "婚姻效力", villageId: "family" },
+  { id: "art1063", number: "第1063條", title: "婚生推定與否認之訴", content: "妻之受胎，係在婚姻關係存續中者，推定其所生子女為婚生子女。前項推定，夫妻之一方或子女能證明子女非為婚生子女者，得提起否認之訴。", chapter: "父母子女", villageId: "family" },
+  { id: "art1080", number: "第1080條", title: "終止收養", content: "養父母與養子女之關係，得由雙方合意終止之。前項終止，應以書面為之。養子女為未成年人者，並應向法院聲請認可。", chapter: "收養", villageId: "family" },
+  { id: "art1146", number: "第1146條", title: "繼承回復請求權", content: "繼承權被侵害者，被害人或其法定代理人得請求回復之。前項回復請求權，自知悉被侵害之時起，二年間不行使而消滅；自繼承開始時起逾十年者亦同。", chapter: "繼承", villageId: "inheritance" },
+  { id: "art1173", number: "第1173條", title: "特種贈與之歸扣", content: "繼承人中有在繼承開始前因結婚、分居或營業，已從被繼承人受有財產之贈與者，應將該贈與價額加入繼承開始時被繼承人所有之財產中，為應繼遺產。但被繼承人於贈與時有反對之意思表示者，不在此限。", chapter: "遺產分割", villageId: "inheritance" },
+  { id: "art1211", number: "第1211條", title: "選定遺囑執行人", content: "遺囑未指定遺囑執行人，並未委託他人指定者，得由親屬會議選定之；不能由親屬會議選定時，得由利害關係人聲請法院指定之。", chapter: "遺囑", villageId: "inheritance" },
+  { id: "art1215", number: "第1215條", title: "遺囑執行人之職務", content: "遺囑執行人有管理遺產，並為執行上必要行為之職務。遺囑執行人因前項職務所為之行為，視為繼承人之代理。", chapter: "遺囑", villageId: "inheritance" },
 ];
+
+import { NEW_GENERAL_SCENARIOS } from "./newGeneralScenarios";
+import { NEW_OBLIGATION_SCENARIOS } from "./newObligationScenarios";
+import { NEW_PROPERTY_SCENARIOS } from "./newPropertyScenarios";
+import { NEW_FAMILY_SCENARIOS } from "./newFamilyScenarios";
+import { NEW_INHERITANCE_SCENARIOS } from "./newInheritanceScenarios";
 
 // ===== 題目資料庫 =====
 export const SCENARIOS: Scenario[] = [
@@ -2236,6 +2263,11 @@ export const SCENARIOS: Scenario[] = [
     tags: ["代位繼承", "繼承順序", "應繼分"],
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/inheritance-016-YuXWFBbeqN5gR7y7VFsk5z.webp",
   },
+  ...NEW_GENERAL_SCENARIOS,
+  ...NEW_OBLIGATION_SCENARIOS,
+  ...NEW_PROPERTY_SCENARIOS,
+  ...NEW_FAMILY_SCENARIOS,
+  ...NEW_INHERITANCE_SCENARIOS,
 ];
 // ===== 成就系統 =====
 export interface Achievement {
