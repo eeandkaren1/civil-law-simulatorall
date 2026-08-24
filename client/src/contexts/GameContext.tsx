@@ -1,7 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { ACHIEVEMENTS, AchievementStats, SCENARIOS, VILLAGES } from "../../../shared/gameData";
-import { trpc } from "../lib/trpc";
-import { useAuth } from "../_core/hooks/useAuth";
 
 // ===== 型別定義 =====
 interface VillageProgress {
@@ -85,122 +83,9 @@ const GameContext = createContext<GameContextType | null>(null);
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [gameState, setGameState] = useState<GameState>(loadFromStorage);
-  const [isSyncing, setIsSyncing] = useState(false);
-  const { user, isAuthenticated } = useAuth();
-
-  const syncFromLocal = trpc.progress.syncFromLocal.useMutation();
-  const updatePlayerNameMutation = trpc.player.updateName.useMutation();
-  const unlockArticlesMutation = trpc.articles.unlock.useMutation();
-  const unlockAchievementMutation = trpc.achievements.unlock.useMutation();
-  const saveVillageProgressMutation = trpc.progress.saveVillageProgress.useMutation();
-
-  // 雲端資料查詢（登入後才啟用）
-  const cloudProgressQuery = trpc.progress.getAll.useQuery(undefined, {
-    enabled: isAuthenticated,
-    staleTime: 60_000,
-  });
-  const cloudArticlesQuery = trpc.articles.getUnlocked.useQuery(undefined, {
-    enabled: isAuthenticated,
-    staleTime: 60_000,
-  });
-  const cloudAchievementsQuery = trpc.achievements.getAll.useQuery(undefined, {
-    enabled: isAuthenticated,
-    staleTime: 60_000,
-  });
-
-  // 登入後：先把本地進度上傳，再把雲端資料載回合併
-  useEffect(() => {
-    if (!isAuthenticated || !user) return;
-    const state = loadFromStorage();
-
-    // 上傳本地進度到雲端
-    const hasLocalData =
-      Object.keys(state.villageProgress).length > 0 ||
-      state.unlockedArticles.length > 0;
-    if (hasLocalData) {
-      setIsSyncing(true);
-      syncFromLocal
-        .mutateAsync({
-          villageProgress: Object.values(state.villageProgress),
-          unlockedArticleIds: state.unlockedArticles,
-          achievementIds: state.unlockedAchievements,
-        })
-        .finally(() => setIsSyncing(false));
-    }
-
-    // 同步玩家名稱
-    if (state.playerName) {
-      updatePlayerNameMutation.mutate({ playerName: state.playerName });
-    }
-  }, [isAuthenticated, user?.id]);
-
-  // 雲端資料載回後，與本地進度合併
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    const cloudProgress = cloudProgressQuery.data;
-    const cloudArticles = cloudArticlesQuery.data;
-    const cloudAchievements = cloudAchievementsQuery.data;
-    if (!cloudProgress && !cloudArticles && !cloudAchievements) return;
-
-    setGameState((prev) => {
-      let merged = { ...prev };
-
-      // 合併村落進度（取本地與雲端的較大值）
-      if (cloudProgress && cloudProgress.length > 0) {
-        const mergedVillageProgress = { ...prev.villageProgress };
-        for (const cp of cloudProgress) {
-          const local = prev.villageProgress[cp.villageId];
-          const cloudScenarios: string[] = cp.completedScenarios ?? [];
-          if (!local) {
-            mergedVillageProgress[cp.villageId] = {
-              villageId: cp.villageId,
-              completedScenarios: cloudScenarios,
-              totalCorrect: cp.totalCorrect,
-              totalAttempts: cp.totalAttempts,
-              currentStreak: cp.currentStreak,
-              maxStreak: cp.maxStreak,
-            };
-          } else {
-            const mergedScenarios = Array.from(
-              new Set([...local.completedScenarios, ...cloudScenarios])
-            );
-            mergedVillageProgress[cp.villageId] = {
-              villageId: cp.villageId,
-              completedScenarios: mergedScenarios,
-              totalCorrect: Math.max(local.totalCorrect, cp.totalCorrect),
-              totalAttempts: Math.max(local.totalAttempts, cp.totalAttempts),
-              currentStreak: Math.max(local.currentStreak, cp.currentStreak),
-              maxStreak: Math.max(local.maxStreak, cp.maxStreak),
-            };
-          }
-        }
-        merged = { ...merged, villageProgress: mergedVillageProgress };
-      }
-
-      // 合併解鎖法條
-      if (cloudArticles && cloudArticles.length > 0) {
-        const mergedArticles = Array.from(
-          new Set([...prev.unlockedArticles, ...cloudArticles])
-        );
-        merged = { ...merged, unlockedArticles: mergedArticles };
-      }
-
-      // 合併成就
-      if (cloudAchievements && cloudAchievements.length > 0) {
-        const mergedAchievements = Array.from(
-          new Set([...prev.unlockedAchievements, ...cloudAchievements])
-        );
-        merged = { ...merged, unlockedAchievements: mergedAchievements };
-      }
-
-      return merged;
-    });
-  }, [
-    isAuthenticated,
-    cloudProgressQuery.data,
-    cloudArticlesQuery.data,
-    cloudAchievementsQuery.data,
-  ]);
+  // Static Site 模式：遊戲進度只保存在玩家自己的裝置，不依賴後端、登入或資料庫。
+  const isAuthenticated = false;
+  const isSyncing = false;
 
   // 持久化到 localStorage
   useEffect(() => {
@@ -210,11 +95,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const setPlayerName = useCallback(
     (name: string) => {
       setGameState((prev) => ({ ...prev, playerName: name }));
-      if (isAuthenticated) {
-        updatePlayerNameMutation.mutate({ playerName: name });
-      }
     },
-    [isAuthenticated]
+    []
   );
 
   const setGeminiApiKey = useCallback((key: string) => {
@@ -325,32 +207,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
             ...prev.unlockedAchievements,
             ...newlyUnlockedAchievements,
           ];
-          if (isAuthenticated) {
-            for (const achId of newlyUnlockedAchievements) {
-              unlockAchievementMutation.mutate({ achievementId: achId });
-            }
-          }
-        }
-
-        // 雲端同步
-        if (isAuthenticated) {
-          saveVillageProgressMutation.mutate({
-            villageId,
-            completedScenarios: updatedVp.completedScenarios,
-            totalCorrect: updatedVp.totalCorrect,
-            totalAttempts: updatedVp.totalAttempts,
-            currentStreak: updatedVp.currentStreak,
-            maxStreak: updatedVp.maxStreak,
-          });
-          if (articleIds.length > 0) {
-            unlockArticlesMutation.mutate({ articleIds });
-          }
         }
 
         return newState;
       });
     },
-    [isAuthenticated]
+    [checkAndUnlockAchievements]
   );
 
   return (
