@@ -1,4 +1,6 @@
 // 民法鎮大冒險 - 完整題目資料庫
+import { GENERAL_BATCH_1_ARTICLES, GENERAL_BATCH_1_SCENARIOS } from "./generalBatch1";
+import { GENERAL_BATCH_2_ARTICLES, GENERAL_BATCH_2_SCENARIOS } from "./generalBatch2";
 
 export interface LawArticle {
   id: string;
@@ -53,7 +55,7 @@ export const VILLAGES: Village[] = [
     icon: "⚖️",
     color: "#7C6B4E",
     bgGradient: "from-amber-50 to-yellow-100",
-    totalScenarios: 20,
+    totalScenarios: 30,
   },
   {
     id: "obligation",
@@ -193,6 +195,8 @@ export const LAW_ARTICLES: LawArticle[] = [
   { id: "art1173", number: "第1173條", title: "特種贈與之歸扣", content: "繼承人中有在繼承開始前因結婚、分居或營業，已從被繼承人受有財產之贈與者，應將該贈與價額加入繼承開始時被繼承人所有之財產中，為應繼遺產。但被繼承人於贈與時有反對之意思表示者，不在此限。", chapter: "遺產分割", villageId: "inheritance" },
   { id: "art1211", number: "第1211條", title: "選定遺囑執行人", content: "遺囑未指定遺囑執行人，並未委託他人指定者，得由親屬會議選定之；不能由親屬會議選定時，得由利害關係人聲請法院指定之。", chapter: "遺囑", villageId: "inheritance" },
   { id: "art1215", number: "第1215條", title: "遺囑執行人之職務", content: "遺囑執行人有管理遺產，並為執行上必要行為之職務。遺囑執行人因前項職務所為之行為，視為繼承人之代理。", chapter: "遺囑", villageId: "inheritance" },
+  ...(GENERAL_BATCH_1_ARTICLES as unknown as LawArticle[]),
+  ...(GENERAL_BATCH_2_ARTICLES as unknown as LawArticle[]),
 ];
 
 import { NEW_GENERAL_SCENARIOS } from "./newGeneralScenarios";
@@ -2267,6 +2271,8 @@ export const SCENARIOS: Scenario[] = [
   ...NEW_PROPERTY_SCENARIOS,
   ...NEW_FAMILY_SCENARIOS,
   ...NEW_INHERITANCE_SCENARIOS,
+  ...(GENERAL_BATCH_1_SCENARIOS as unknown as Scenario[]),
+  ...(GENERAL_BATCH_2_SCENARIOS as unknown as Scenario[]),
 ];
 // ===== 成就系統 =====
 export interface Achievement {
