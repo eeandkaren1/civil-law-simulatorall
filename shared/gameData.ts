@@ -2,6 +2,7 @@
 import { GENERAL_BATCH_1_ARTICLES, GENERAL_BATCH_1_SCENARIOS } from "./generalBatch1";
 import { GENERAL_BATCH_2_ARTICLES, GENERAL_BATCH_2_SCENARIOS } from "./generalBatch2";
 import { GENERAL_BATCH_3_ARTICLES, GENERAL_BATCH_3_SCENARIOS } from "./generalBatch3";
+import { GENERAL_BATCH_4_ARTICLES, GENERAL_BATCH_4_SCENARIOS } from "./generalBatch4";
 
 export interface LawArticle {
   id: string;
@@ -56,7 +57,7 @@ export const VILLAGES: Village[] = [
     icon: "⚖️",
     color: "#7C6B4E",
     bgGradient: "from-amber-50 to-yellow-100",
-    totalScenarios: 35,
+    totalScenarios: 40,
   },
   {
     id: "obligation",
@@ -212,6 +213,7 @@ export const LAW_ARTICLES: LawArticle[] = [
   ...(GENERAL_BATCH_1_ARTICLES as unknown as LawArticle[]),
   ...(GENERAL_BATCH_2_ARTICLES as unknown as LawArticle[]),
   ...(GENERAL_BATCH_3_ARTICLES as unknown as LawArticle[]),
+  ...(GENERAL_BATCH_4_ARTICLES as unknown as LawArticle[]),
 ];
 
 import { NEW_GENERAL_SCENARIOS } from "./newGeneralScenarios";
@@ -2289,6 +2291,7 @@ export const SCENARIOS: Scenario[] = [
   ...(GENERAL_BATCH_1_SCENARIOS as unknown as Scenario[]),
   ...(GENERAL_BATCH_2_SCENARIOS as unknown as Scenario[]),
   ...(GENERAL_BATCH_3_SCENARIOS as unknown as Scenario[]),
+  ...(GENERAL_BATCH_4_SCENARIOS as unknown as Scenario[]),
 ];
 // ===== 成就系統 =====
 export interface Achievement {

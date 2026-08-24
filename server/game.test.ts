@@ -67,6 +67,25 @@ describe("gameData - Scenarios", () => {
     }
   });
 
+  it("should expose forty general village cards and resolve every general batch 4 route parameter", () => {
+    const generalScenarios = getScenariosByVillage("general");
+    expect(generalScenarios).toHaveLength(40);
+    expect(generalScenarios.map((scenario) => scenario.id)).toEqual(expect.arrayContaining([
+      "general-036",
+      "general-037",
+      "general-038",
+      "general-039",
+      "general-040",
+    ]));
+    for (const scenarioId of ["general-036", "general-037", "general-038", "general-039", "general-040"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(scenario?.id).toBe(scenarioId);
+      expect(scenario?.title).toBeTruthy();
+      expect(scenario?.question).toBeTruthy();
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
   it("should keep scenario IDs and titles unique", () => {
     expect(new Set(SCENARIOS.map((scenario) => scenario.id)).size).toBe(SCENARIOS.length);
     expect(new Set(SCENARIOS.map((scenario) => scenario.title)).size).toBe(SCENARIOS.length);
