@@ -46,6 +46,14 @@ describe("gameData - Scenarios", () => {
     }
   });
 
+  it("should meet the final 200-scenario distribution across five 40-scenario villages", () => {
+    expect(SCENARIOS).toHaveLength(200);
+    for (const village of VILLAGES) {
+      expect(village.totalScenarios).toBe(40);
+      expect(getScenariosByVillage(village.id)).toHaveLength(40);
+    }
+  });
+
   it("should expose every general batch 3 scenario through the general village data path", () => {
     const generalScenarioIds = getScenariosByVillage("general").map((scenario) => scenario.id);
     expect(generalScenarioIds).toEqual(expect.arrayContaining([
@@ -308,6 +316,24 @@ describe("gameData - Scenarios", () => {
       expect(scenario?.title).toBeTruthy();
       expect(scenario?.question).toBeTruthy();
       expect(scenario?.choices).toHaveLength(4);
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("should expose inheritance batch 4 cards and resolve their scenario routes", () => {
+    const inheritanceScenarioIds = getScenariosByVillage("inheritance").map((scenario) => scenario.id);
+    expect(inheritanceScenarioIds).toHaveLength(40);
+    expect(inheritanceScenarioIds).toEqual(expect.arrayContaining([
+      "inheritance-036", "inheritance-037", "inheritance-038", "inheritance-039", "inheritance-040",
+    ]));
+    for (const scenarioId of ["inheritance-036", "inheritance-037", "inheritance-038", "inheritance-039", "inheritance-040"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
+      expect(scenario?.villageId).toBe("inheritance");
+      expect(scenario?.title).toBeTruthy();
+      expect(scenario?.question).toBeTruthy();
+      expect(scenario?.choices).toHaveLength(4);
+      expect(scenario?.choices.filter((choice) => choice.isCorrect)).toHaveLength(1);
       expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
     }
   });
