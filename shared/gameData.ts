@@ -17,6 +17,7 @@ import { FAMILY_BATCH_3_ARTICLES, FAMILY_BATCH_3_SCENARIOS } from "./familyBatch
 import { FAMILY_BATCH_4_ARTICLES, FAMILY_BATCH_4_SCENARIOS } from "./familyBatch4";
 import { INHERITANCE_BATCH_1_ARTICLES, INHERITANCE_BATCH_1_SCENARIOS } from "./inheritanceBatch1";
 import { INHERITANCE_BATCH_2_ARTICLES, INHERITANCE_BATCH_2_SCENARIOS } from "./inheritanceBatch2";
+import { INHERITANCE_BATCH_3_ARTICLES, INHERITANCE_BATCH_3_SCENARIOS } from "./inheritanceBatch3";
 
 export interface LawArticle {
   id: string;
@@ -107,7 +108,7 @@ export const VILLAGES: Village[] = [
     icon: "📜",
     color: "#8A7A5B",
     bgGradient: "from-amber-50 to-yellow-100",
-    totalScenarios: 30,
+    totalScenarios: 35,
   },
 ];
 
@@ -242,6 +243,7 @@ export const LAW_ARTICLES: LawArticle[] = [
   ...(FAMILY_BATCH_4_ARTICLES as unknown as LawArticle[]),
   ...(INHERITANCE_BATCH_1_ARTICLES as unknown as LawArticle[]),
   ...(INHERITANCE_BATCH_2_ARTICLES as unknown as LawArticle[]),
+  ...(INHERITANCE_BATCH_3_ARTICLES as unknown as LawArticle[]),
 ];
 
 import { NEW_GENERAL_SCENARIOS } from "./newGeneralScenarios";
@@ -2334,6 +2336,7 @@ export const SCENARIOS: Scenario[] = [
   ...(FAMILY_BATCH_4_SCENARIOS as unknown as Scenario[]),
   ...(INHERITANCE_BATCH_1_SCENARIOS as unknown as Scenario[]),
   ...(INHERITANCE_BATCH_2_SCENARIOS as unknown as Scenario[]),
+  ...(INHERITANCE_BATCH_3_SCENARIOS as unknown as Scenario[]),
 ];
 // ===== 成就系統 =====
 export interface Achievement {
