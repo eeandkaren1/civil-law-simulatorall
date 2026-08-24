@@ -17,6 +17,9 @@ import ContactPage from "./pages/ContactPage";
 import ArticlesPage from "./pages/ArticlesPage";
 import ArticleDetailPage from "./pages/ArticleDetailPage";
 import TermsPage from "./pages/TermsPage";
+import DailyChallengePage from "./pages/DailyChallengePage";
+import WrongNotebookPage from "./pages/WrongNotebookPage";
+import QuestionExplorerPage from "./pages/QuestionExplorerPage";
 import LineFloatButton from "./components/LineFloatButton";
 import { useEffect } from "react";
 
@@ -48,6 +51,9 @@ function Router() {
       <Route path="/terms" component={TermsPage} />
       <Route path="/articles" component={ArticlesPage} />
       <Route path="/articles/:id" component={ArticleDetailPage} />
+      <Route path="/daily-challenge" component={DailyChallengePage} />
+      <Route path="/wrong-notebook" component={WrongNotebookPage} />
+      <Route path="/question-explorer" component={QuestionExplorerPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

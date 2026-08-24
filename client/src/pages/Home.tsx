@@ -5,7 +5,7 @@ import { useGame } from "@/contexts/GameContext";
 import { VILLAGES, SCENARIOS, getScenariosByVillage } from "../../../shared/gameData";
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { BookOpen, Trophy, Sparkles, ChevronRight, Key, Newspaper, Clock, Map as MapIcon, User } from "lucide-react";
+import { BookOpen, Trophy, Sparkles, ChevronRight, Key, Newspaper, Clock, Map as MapIcon, User, CalendarDays, BookMarked, Search } from "lucide-react";
 import { ARTICLES } from "../../../shared/articles";
 import SiteFooter from "@/components/SiteFooter";
 import { toast } from "sonner";
@@ -67,6 +67,33 @@ export default function Home() {
             </span>
           </div>
           <nav className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/daily-challenge")}
+              className="text-muted-foreground hover:text-foreground gap-1.5"
+            >
+              <CalendarDays className="w-4 h-4" />
+              <span className="hidden lg:inline">每日挑戰</span>
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/wrong-notebook")}
+              className="text-muted-foreground hover:text-foreground gap-1.5"
+            >
+              <BookMarked className="w-4 h-4" />
+              <span className="hidden lg:inline">錯題本</span>
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/question-explorer")}
+              className="text-muted-foreground hover:text-foreground gap-1.5"
+            >
+              <Search className="w-4 h-4" />
+              <span className="hidden lg:inline">找題目</span>
+            </Button>
             <Button
               variant="ghost"
               size="sm"

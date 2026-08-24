@@ -1,5 +1,10 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { ACHIEVEMENTS, AchievementStats, SCENARIOS, VILLAGES } from "../../../shared/gameData";
+import {
+  addUniqueWrongScenarioId,
+  createDailyChallengeScenarioIds,
+  getLocalDateKey,
+} from "../../../shared/learningTools";
 import { trpc } from "../lib/trpc";
 import { useAuth } from "../_core/hooks/useAuth";
 
@@ -13,12 +18,20 @@ interface VillageProgress {
   maxStreak: number;
 }
 
+export interface DailyChallengeState {
+  dateKey: string;
+  scenarioIds: string[];
+  answers: Record<string, boolean>;
+}
+
 interface GameState {
   playerName: string;
   villageProgress: Record<string, VillageProgress>;
   unlockedArticles: string[];
   unlockedAchievements: string[];
   geminiApiKey: string;
+  wrongScenarioIds: string[];
+  dailyChallenge: DailyChallengeState;
 }
 
 interface GameContextType {
@@ -40,6 +53,10 @@ interface GameContextType {
   };
   isScenarioCompleted: (scenarioId: string) => boolean;
   setGeminiApiKey: (key: string) => void;
+  getDailyChallenge: () => DailyChallengeState;
+  ensureDailyChallenge: () => void;
+  recordDailyChallengeAnswer: (scenarioId: string, isCorrect: boolean) => void;
+  removeWrongScenario: (scenarioId: string) => void;
   isSyncing: boolean;
 }
 
@@ -59,6 +76,8 @@ const defaultGameState: GameState = {
   unlockedArticles: [],
   unlockedAchievements: [],
   geminiApiKey: "",
+  wrongScenarioIds: [],
+  dailyChallenge: { dateKey: "", scenarioIds: [], answers: {} },
 };
 
 const STORAGE_KEY = "civil_law_game_state";
@@ -78,6 +97,14 @@ function saveToStorage(state: GameState) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch {}
+}
+
+function buildDailyChallenge(dateKey = getLocalDateKey()): DailyChallengeState {
+  return {
+    dateKey,
+    scenarioIds: createDailyChallengeScenarioIds(SCENARIOS, dateKey),
+    answers: {},
+  };
 }
 
 // ===== Context =====
@@ -221,6 +248,49 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     setGameState((prev) => ({ ...prev, geminiApiKey: key }));
   }, []);
 
+  const getDailyChallenge = useCallback((): DailyChallengeState => {
+    const today = getLocalDateKey();
+    return gameState.dailyChallenge.dateKey === today
+      ? gameState.dailyChallenge
+      : buildDailyChallenge(today);
+  }, [gameState.dailyChallenge]);
+
+  const ensureDailyChallenge = useCallback(() => {
+    const today = getLocalDateKey();
+    setGameState((prev) => {
+      if (prev.dailyChallenge.dateKey === today && prev.dailyChallenge.scenarioIds.length > 0) {
+        return prev;
+      }
+      return { ...prev, dailyChallenge: buildDailyChallenge(today) };
+    });
+  }, []);
+
+  const recordDailyChallengeAnswer = useCallback((scenarioId: string, isCorrect: boolean) => {
+    const today = getLocalDateKey();
+    setGameState((prev) => {
+      const dailyChallenge = prev.dailyChallenge.dateKey === today
+        ? prev.dailyChallenge
+        : buildDailyChallenge(today);
+      if (!dailyChallenge.scenarioIds.includes(scenarioId) || scenarioId in dailyChallenge.answers) {
+        return prev;
+      }
+      return {
+        ...prev,
+        dailyChallenge: {
+          ...dailyChallenge,
+          answers: { ...dailyChallenge.answers, [scenarioId]: isCorrect },
+        },
+      };
+    });
+  }, []);
+
+  const removeWrongScenario = useCallback((scenarioId: string) => {
+    setGameState((prev) => ({
+      ...prev,
+      wrongScenarioIds: prev.wrongScenarioIds.filter((id) => id !== scenarioId),
+    }));
+  }, []);
+
   const getVillageProgress = useCallback(
     (villageId: string): VillageProgress => {
       return gameState.villageProgress[villageId] ?? defaultVillageProgress(villageId);
@@ -316,6 +386,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
           ...prev,
           villageProgress: { ...prev.villageProgress, [villageId]: updatedVp },
           unlockedArticles: newUnlocked,
+          wrongScenarioIds: isCorrect
+            ? prev.wrongScenarioIds
+            : addUniqueWrongScenarioId(prev.wrongScenarioIds, scenarioId),
         };
 
         // 檢查成就
@@ -363,6 +436,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         getOverallStats,
         isScenarioCompleted,
         setGeminiApiKey,
+        getDailyChallenge,
+        ensureDailyChallenge,
+        recordDailyChallengeAnswer,
+        removeWrongScenario,
         isSyncing,
       }}
     >
