@@ -1,6 +1,7 @@
 // 民法鎮大冒險 - 完整題目資料庫
 import { GENERAL_BATCH_1_ARTICLES, GENERAL_BATCH_1_SCENARIOS } from "./generalBatch1";
 import { GENERAL_BATCH_2_ARTICLES, GENERAL_BATCH_2_SCENARIOS } from "./generalBatch2";
+import { GENERAL_BATCH_3_ARTICLES, GENERAL_BATCH_3_SCENARIOS } from "./generalBatch3";
 
 export interface LawArticle {
   id: string;
@@ -55,7 +56,7 @@ export const VILLAGES: Village[] = [
     icon: "⚖️",
     color: "#7C6B4E",
     bgGradient: "from-amber-50 to-yellow-100",
-    totalScenarios: 30,
+    totalScenarios: 35,
   },
   {
     id: "obligation",
@@ -195,8 +196,22 @@ export const LAW_ARTICLES: LawArticle[] = [
   { id: "art1173", number: "第1173條", title: "特種贈與之歸扣", content: "繼承人中有在繼承開始前因結婚、分居或營業，已從被繼承人受有財產之贈與者，應將該贈與價額加入繼承開始時被繼承人所有之財產中，為應繼遺產。但被繼承人於贈與時有反對之意思表示者，不在此限。", chapter: "遺產分割", villageId: "inheritance" },
   { id: "art1211", number: "第1211條", title: "選定遺囑執行人", content: "遺囑未指定遺囑執行人，並未委託他人指定者，得由親屬會議選定之；不能由親屬會議選定時，得由利害關係人聲請法院指定之。", chapter: "遺囑", villageId: "inheritance" },
   { id: "art1215", number: "第1215條", title: "遺囑執行人之職務", content: "遺囑執行人有管理遺產，並為執行上必要行為之職務。遺囑執行人因前項職務所為之行為，視為繼承人之代理。", chapter: "遺囑", villageId: "inheritance" },
+  // 題庫關聯完整性補正（均依全國法規資料庫現行條文核對）
+  { id: "art26", number: "第26條", title: "法人之權利能力", content: "法人於法令限制內，有享受權利負擔義務之能力。但專屬於自然人之權利義務，不在此限。", chapter: "法人", villageId: "general" },
+  { id: "art490", number: "第490條", title: "承攬之定義", content: "稱承攬者，謂當事人約定，一方為他方完成一定之工作，他方俟工作完成，給付報酬之契約。約定由承攬人供給材料者，其材料之價額，推定為報酬之一部。", chapter: "承攬", villageId: "obligation" },
+  { id: "art759", number: "第759條", title: "非因法律行為取得不動產物權", content: "因繼承、強制執行、徵收、法院之判決或其他非因法律行為，於登記前已取得不動產物權者，應經登記，始得處分其物權。", chapter: "不動產物權", villageId: "property" },
+  { id: "art1005", number: "第1005條", title: "法定財產制", content: "夫妻未以契約訂立夫妻財產制者，除本法另有規定外，以法定財產制，為其夫妻財產制。", chapter: "夫妻財產制", villageId: "family" },
+  { id: "art1049", number: "第1049條", title: "兩願離婚", content: "夫妻兩願離婚者，得自行離婚。", chapter: "離婚", villageId: "family" },
+  { id: "art1055", number: "第1055條", title: "離婚後未成年子女權利義務之行使與負擔", content: "夫妻離婚者，對於未成年子女權利義務之行使或負擔，依協議由一方或雙方共同任之。未為協議或協議不成者，法院得依夫妻之一方、主管機關、社會福利機構或其他利害關係人之請求或依職權酌定之。前項協議不利於子女者，法院得依主管機關、社會福利機構或其他利害關係人之請求或依職權為子女之利益改定之。", chapter: "離婚", villageId: "family" },
+  { id: "art1065", number: "第1065條", title: "非婚生子女之認領", content: "非婚生子女經生父認領者，視為婚生子女。其經生父撫育者，視為認領。非婚生子女與其生母之關係，視為婚生子女，無須認領。", chapter: "父母子女", villageId: "family" },
+  { id: "art1072", number: "第1072條", title: "收養關係", content: "收養他人之子女為子女時，其收養者為養父或養母，被收養者為養子或養女。", chapter: "收養", villageId: "family" },
+  { id: "art1075", number: "第1075條", title: "一人不得同時為二人養子女", content: "除夫妻共同收養外，一人不得同時為二人之養子女。", chapter: "收養", villageId: "family" },
+  { id: "art1086", number: "第1086條", title: "父母為未成年子女法定代理人", content: "父母為其未成年子女之法定代理人。父母之行為與未成年子女之利益相反，依法不得代理時，法院得依父母、未成年子女、主管機關、社會福利機構或其他利害關係人之聲請或依職權，為子女選任特別代理人。", chapter: "父母子女", villageId: "family" },
+  { id: "art1164", number: "第1164條", title: "遺產分割請求權", content: "繼承人得隨時請求分割遺產。但法律另有規定或契約另有訂定者，不在此限。", chapter: "遺產分割", villageId: "inheritance" },
+  { id: "art1189", number: "第1189條", title: "遺囑方式", content: "遺囑應依左列方式之一為之：一、自書遺囑。二、公證遺囑。三、密封遺囑。四、代筆遺囑。五、口授遺囑。", chapter: "遺囑", villageId: "inheritance" },
   ...(GENERAL_BATCH_1_ARTICLES as unknown as LawArticle[]),
   ...(GENERAL_BATCH_2_ARTICLES as unknown as LawArticle[]),
+  ...(GENERAL_BATCH_3_ARTICLES as unknown as LawArticle[]),
 ];
 
 import { NEW_GENERAL_SCENARIOS } from "./newGeneralScenarios";
@@ -1449,7 +1464,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "property-008",
     villageId: "property",
-    title: "地上權的設定",
+    title: "已登記地上權的追及效力",
     chapter: "地上權",
     difficulty: "medium",
     story: [
@@ -1499,11 +1514,11 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "property-010",
     villageId: "property",
-    title: "善意取得的保護",
+    title: "自願交付動產的善意取得",
     chapter: "動產所有權",
     difficulty: "hard",
     story: [
-      "阿仁的腳踏車被小偷阿賊偷走，阿賊將腳踏車以市價賣給了不知情的阿明。",
+      "阿仁把腳踏車借給朋友阿賊一週，阿賊卻冒充所有人，將腳踏車以市價賣給了不知情的阿明。",
       "阿仁發現後，要求阿明返還腳踏車。",
       "阿明主張自己是善意購買，應受法律保護，不需要返還。",
       "阿仁認為腳踏車是自己的財產，無論如何都應該返還。",
@@ -1512,7 +1527,7 @@ export const SCENARIOS: Scenario[] = [
     choices: [
       { id: 0, text: "需要返還，因為所有權人的物權請求權不因善意取得而消滅", isCorrect: false, explanation: "錯誤。動產善意取得制度（民法第801條）正是為了保護善意受讓人，使其取得所有權，從而切斷原所有人的物權請求權。" },
       { id: 1, text: "不需要返還，阿明善意受讓腳踏車，已取得所有權", isCorrect: true, explanation: "正確！依民法第801條，動產之受讓人占有動產，而受讓之際善意信賴讓與人有讓與之權利者，即使讓與人無讓與之權利，受讓人仍取得其所有權。阿明善意購買，取得腳踏車所有權，不需返還。" },
-      { id: 2, text: "需要返還，因為腳踏車是被盜物品，不適用善意取得", isCorrect: false, explanation: "錯誤。台灣民法對動產善意取得並未排除被盜物品（不同於某些國家的法律）。只要受讓人善意且以合理對價取得，即可適用善意取得。" },
+      { id: 2, text: "需要返還，因為阿賊只是借用人，絕無可能發生善意取得", isCorrect: false, explanation: "錯誤。讓與人無處分權並不當然排除善意取得；本題阿仁是自願將腳踏車交給阿賊，阿明若符合第801條要件，仍可能取得所有權。" },
       { id: 3, text: "不需要返還，但阿仁可以向阿賊請求損害賠償", isCorrect: false, explanation: "此選項後半部分正確（阿仁可向阿賊請求賠償），但前半部分的理由不完整。阿明不需返還的原因是善意取得制度，而非僅因阿仁有其他救濟途徑。" },
     ],
     relatedArticles: ["art801"],
@@ -1524,7 +1539,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "property-011",
     villageId: "property",
-    title: "共有物的分割",
+    title: "共有人單獨請求分割",
     chapter: "所有權",
     difficulty: "medium",
     story: [
@@ -1574,7 +1589,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "property-013",
     villageId: "property",
-    title: "占有的保護",
+    title: "背包遭取走的占有返還",
     chapter: "占有",
     difficulty: "easy",
     story: [
@@ -1626,7 +1641,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "family-008",
     villageId: "family",
-    title: "夫妻財產制的選擇",
+    title: "未約定時的法定財產制",
     chapter: "夫妻財產制",
     difficulty: "medium",
     story: [
@@ -1701,7 +1716,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "family-011",
     villageId: "family",
-    title: "扶養義務的範圍",
+    title: "多名扶養義務人的分擔",
     chapter: "扶養",
     difficulty: "medium",
     story: [
@@ -1878,7 +1893,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "inheritance-011",
     villageId: "inheritance",
-    title: "繼承的拋棄",
+    title: "拋棄繼承的期限與方式",
     chapter: "繼承",
     difficulty: "medium",
     story: [
@@ -1928,7 +1943,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "inheritance-013",
     villageId: "inheritance",
-    title: "代位繼承",
+    title: "孫子女的代位繼承",
     chapter: "繼承順序",
     difficulty: "hard",
     story: [
@@ -2128,7 +2143,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "property-016",
     villageId: "property",
-    title: "共有物的分割",
+    title: "遺產房屋的共有分割",
     chapter: "第三章 物權",
     difficulty: "medium" as const,
     story: [
@@ -2186,7 +2201,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "family-016",
     villageId: "family",
-    title: "夫妻財產制的選擇",
+    title: "約定財產制與法定制的選擇",
     chapter: "第四章 親屬",
     difficulty: "hard" as const,
     story: [
@@ -2214,7 +2229,7 @@ export const SCENARIOS: Scenario[] = [
   {
     id: "inheritance-015",
     villageId: "inheritance",
-    title: "特留分的保障",
+    title: "特留分比例的計算",
     chapter: "第五章 繼承",
     difficulty: "hard" as const,
     story: [
@@ -2273,6 +2288,7 @@ export const SCENARIOS: Scenario[] = [
   ...NEW_INHERITANCE_SCENARIOS,
   ...(GENERAL_BATCH_1_SCENARIOS as unknown as Scenario[]),
   ...(GENERAL_BATCH_2_SCENARIOS as unknown as Scenario[]),
+  ...(GENERAL_BATCH_3_SCENARIOS as unknown as Scenario[]),
 ];
 // ===== 成就系統 =====
 export interface Achievement {
@@ -2375,6 +2391,11 @@ export const ACHIEVEMENTS: Achievement[] = [
 // 輔助函式：取得村落的所有題目
 export function getScenariosByVillage(villageId: string): Scenario[] {
   return SCENARIOS.filter((s) => s.villageId === villageId);
+}
+
+// 輔助函式：依路由參數取得單一關卡
+export function getScenarioById(scenarioId: string): Scenario | undefined {
+  return SCENARIOS.find((scenario) => scenario.id === scenarioId);
 }
 
 // 輔助函式：取得法條

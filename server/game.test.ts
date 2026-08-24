@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { SCENARIOS, VILLAGES, LAW_ARTICLES, ACHIEVEMENTS, getScenariosByVillage, getVillageById, getArticleById } from "../shared/gameData";
+import { SCENARIOS, VILLAGES, LAW_ARTICLES, ACHIEVEMENTS, getScenariosByVillage, getScenarioById, getVillageById, getArticleById } from "../shared/gameData";
 
 describe("gameData - Villages", () => {
   it("should have exactly 5 villages", () => {
@@ -39,6 +39,39 @@ describe("gameData - Scenarios", () => {
     }
   });
 
+  it("should match each village's configured scenario count", () => {
+    for (const village of VILLAGES) {
+      expect(getScenariosByVillage(village.id)).toHaveLength(village.totalScenarios);
+    }
+  });
+
+  it("should expose every general batch 3 scenario through the general village data path", () => {
+    const generalScenarioIds = getScenariosByVillage("general").map((scenario) => scenario.id);
+    expect(generalScenarioIds).toEqual(expect.arrayContaining([
+      "general-031",
+      "general-032",
+      "general-033",
+      "general-034",
+      "general-035",
+    ]));
+    for (const scenarioId of generalScenarioIds.filter((id) => id.startsWith("general-03"))) {
+      expect(SCENARIOS.find((scenario) => scenario.id === scenarioId)).toBeDefined();
+    }
+  });
+
+  it("should resolve every general batch 3 route parameter to its scenario data", () => {
+    for (const scenarioId of ["general-031", "general-032", "general-033", "general-034", "general-035"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(scenario?.id).toBe(scenarioId);
+      expect(scenario?.villageId).toBe("general");
+    }
+  });
+
+  it("should keep scenario IDs and titles unique", () => {
+    expect(new Set(SCENARIOS.map((scenario) => scenario.id)).size).toBe(SCENARIOS.length);
+    expect(new Set(SCENARIOS.map((scenario) => scenario.title)).size).toBe(SCENARIOS.length);
+  });
+
   it("each scenario should have exactly 4 choices", () => {
     for (const scenario of SCENARIOS) {
       expect(scenario.choices).toHaveLength(4);
@@ -55,6 +88,15 @@ describe("gameData - Scenarios", () => {
   it("each scenario should have relatedArticles", () => {
     for (const scenario of SCENARIOS) {
       expect(scenario.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("each related article should exist in the law article library", () => {
+    const articleIds = new Set(LAW_ARTICLES.map((article) => article.id));
+    for (const scenario of SCENARIOS) {
+      for (const articleId of scenario.relatedArticles) {
+        expect(articleIds.has(articleId)).toBe(true);
+      }
     }
   });
 

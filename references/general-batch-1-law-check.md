@@ -26,3 +26,7 @@
 | 法人登記 | 民法第 30 條：法人非經向主管機關登記不得成立。<https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=30> |
 | 法人財產不足 | 民法第 35 條：法人財產不能清償債務時，董事應即向法院聲請破產；有過失未聲請致債權人受損，應負賠償責任。<https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=35> |
 | 法人解散 | 民法第 36 條：法人目的或行為違反法律、公共秩序或善良風俗時，法院得依請求宣告解散。<https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=36> |
+| 法人清算 | 民法第 37 條：法人解散後，原則上由董事清算；章程或總會另有規定者從其規定。<https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=37> |
+| 法院選任清算人 | 民法第 38 條：無法依第 37 條定清算人時，法院得依聲請或職權選任。<https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=38> |
+| 一般請求權時效 | 民法第 125 條：請求權原則上因十五年不行使而消滅，法律另有較短期間者從其規定。<https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=125> |
+| 定期給付時效 | 民法第 126 條：利息、紅利、租金、贍養費、退職金及其他一年或不及一年定期給付，其各期請求權五年不行使而消滅。<https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=B0000001&flno=126> |

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { getArticleById, SCENARIOS } from "../../../shared/gameData";
+import { getArticleById, getScenarioById, SCENARIOS } from "../../../shared/gameData";
 import { useLocation, useParams } from "wouter";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, XCircle, Lightbulb, Sparkles, SkipForward, Key, ExternalLink } from "lucide-react";
@@ -42,7 +42,7 @@ export default function ScenarioPage() {
     getDailyChallenge,
     recordDailyChallengeAnswer,
   } = useGame();
-  const scenario = SCENARIOS.find((s) => s.id === scenarioId);
+  const scenario = getScenarioById(scenarioId ?? "");
   const isDailyChallenge = typeof window !== "undefined" &&
     new URLSearchParams(window.location.search).get("mode") === "daily";
   const [phase, setPhase] = useState<GamePhase>("story");
