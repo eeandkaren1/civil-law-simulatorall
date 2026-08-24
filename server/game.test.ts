@@ -264,6 +264,23 @@ describe("gameData - Scenarios", () => {
     }
   });
 
+  it("should expose inheritance batch 1 cards and resolve their scenario routes", () => {
+    const inheritanceScenarioIds = getScenariosByVillage("inheritance").map((scenario) => scenario.id);
+    expect(getVillageById("inheritance")?.totalScenarios).toBe(25);
+    expect(inheritanceScenarioIds).toHaveLength(25);
+    expect(inheritanceScenarioIds).toEqual(expect.arrayContaining([
+      "inheritance-021", "inheritance-022", "inheritance-023", "inheritance-024", "inheritance-025",
+    ]));
+    for (const scenarioId of ["inheritance-021", "inheritance-022", "inheritance-023", "inheritance-024", "inheritance-025"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
+      expect(scenario?.villageId).toBe("inheritance");
+      expect(scenario?.title).toBeTruthy();
+      expect(scenario?.question).toBeTruthy();
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
   it("should build the same village and scenario routes used by the game router", () => {
     expect(GAME_ROUTES.village).toBe("/village/:villageId");
     expect(GAME_ROUTES.scenario).toBe("/scenario/:scenarioId");
