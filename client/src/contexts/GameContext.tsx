@@ -1,5 +1,12 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { ACHIEVEMENTS, AchievementStats, SCENARIOS, VILLAGES } from "../../../shared/gameData";
+import {
+  addUniqueWrongScenarioId,
+  createDailyChallengeScenarioIds,
+  getLocalDateKey,
+} from "../../../shared/learningTools";
+import { trpc } from "../lib/trpc";
+import { useAuth } from "../_core/hooks/useAuth";
 
 // ===== 型別定義 =====
 interface VillageProgress {
@@ -11,12 +18,20 @@ interface VillageProgress {
   maxStreak: number;
 }
 
+export interface DailyChallengeState {
+  dateKey: string;
+  scenarioIds: string[];
+  answers: Record<string, boolean>;
+}
+
 interface GameState {
   playerName: string;
   villageProgress: Record<string, VillageProgress>;
   unlockedArticles: string[];
   unlockedAchievements: string[];
   geminiApiKey: string;
+  wrongScenarioIds: string[];
+  dailyChallenge: DailyChallengeState;
 }
 
 interface GameContextType {
@@ -38,6 +53,10 @@ interface GameContextType {
   };
   isScenarioCompleted: (scenarioId: string) => boolean;
   setGeminiApiKey: (key: string) => void;
+  getDailyChallenge: () => DailyChallengeState;
+  ensureDailyChallenge: () => void;
+  recordDailyChallengeAnswer: (scenarioId: string, isCorrect: boolean) => void;
+  removeWrongScenario: (scenarioId: string) => void;
   isSyncing: boolean;
 }
 
@@ -57,6 +76,8 @@ const defaultGameState: GameState = {
   unlockedArticles: [],
   unlockedAchievements: [],
   geminiApiKey: "",
+  wrongScenarioIds: [],
+  dailyChallenge: { dateKey: "", scenarioIds: [], answers: {} },
 };
 
 const STORAGE_KEY = "civil_law_game_state";
@@ -78,14 +99,138 @@ function saveToStorage(state: GameState) {
   } catch {}
 }
 
+function buildDailyChallenge(dateKey = getLocalDateKey()): DailyChallengeState {
+  return {
+    dateKey,
+    scenarioIds: createDailyChallengeScenarioIds(SCENARIOS, dateKey),
+    answers: {},
+  };
+}
+
 // ===== Context =====
 const GameContext = createContext<GameContextType | null>(null);
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [gameState, setGameState] = useState<GameState>(loadFromStorage);
-  // Static Site 模式：遊戲進度只保存在玩家自己的裝置，不依賴後端、登入或資料庫。
+  const [isSyncing, setIsSyncing] = useState(false);
+  // Static Site 模式：玩家進度只保存於自己的裝置，不使用登入與雲端同步。
+  const { user: _user, isAuthenticated: _isAuthenticated } = useAuth();
+  const user: { id?: number } | null = null;
   const isAuthenticated = false;
-  const isSyncing = false;
+
+  const syncFromLocal = trpc.progress.syncFromLocal.useMutation();
+  const updatePlayerNameMutation = trpc.player.updateName.useMutation();
+  const unlockArticlesMutation = trpc.articles.unlock.useMutation();
+  const unlockAchievementMutation = trpc.achievements.unlock.useMutation();
+  const saveVillageProgressMutation = trpc.progress.saveVillageProgress.useMutation();
+
+  // 雲端資料查詢（登入後才啟用）
+  const cloudProgressQuery = trpc.progress.getAll.useQuery(undefined, {
+    enabled: isAuthenticated,
+    staleTime: 60_000,
+  });
+  const cloudArticlesQuery = trpc.articles.getUnlocked.useQuery(undefined, {
+    enabled: isAuthenticated,
+    staleTime: 60_000,
+  });
+  const cloudAchievementsQuery = trpc.achievements.getAll.useQuery(undefined, {
+    enabled: isAuthenticated,
+    staleTime: 60_000,
+  });
+
+  // 登入後：先把本地進度上傳，再把雲端資料載回合併
+  useEffect(() => {
+    if (!isAuthenticated || !user) return;
+    const state = loadFromStorage();
+
+    // 上傳本地進度到雲端
+    const hasLocalData =
+      Object.keys(state.villageProgress).length > 0 ||
+      state.unlockedArticles.length > 0;
+    if (hasLocalData) {
+      setIsSyncing(true);
+      syncFromLocal
+        .mutateAsync({
+          villageProgress: Object.values(state.villageProgress),
+          unlockedArticleIds: state.unlockedArticles,
+          achievementIds: state.unlockedAchievements,
+        })
+        .finally(() => setIsSyncing(false));
+    }
+
+    // 同步玩家名稱
+    if (state.playerName) {
+      updatePlayerNameMutation.mutate({ playerName: state.playerName });
+    }
+  }, []);
+
+  // 雲端資料載回後，與本地進度合併
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const cloudProgress = cloudProgressQuery.data;
+    const cloudArticles = cloudArticlesQuery.data;
+    const cloudAchievements = cloudAchievementsQuery.data;
+    if (!cloudProgress && !cloudArticles && !cloudAchievements) return;
+
+    setGameState((prev) => {
+      let merged = { ...prev };
+
+      // 合併村落進度（取本地與雲端的較大值）
+      if (cloudProgress && cloudProgress.length > 0) {
+        const mergedVillageProgress = { ...prev.villageProgress };
+        for (const cp of cloudProgress) {
+          const local = prev.villageProgress[cp.villageId];
+          const cloudScenarios: string[] = cp.completedScenarios ?? [];
+          if (!local) {
+            mergedVillageProgress[cp.villageId] = {
+              villageId: cp.villageId,
+              completedScenarios: cloudScenarios,
+              totalCorrect: cp.totalCorrect,
+              totalAttempts: cp.totalAttempts,
+              currentStreak: cp.currentStreak,
+              maxStreak: cp.maxStreak,
+            };
+          } else {
+            const mergedScenarios = Array.from(
+              new Set([...local.completedScenarios, ...cloudScenarios])
+            );
+            mergedVillageProgress[cp.villageId] = {
+              villageId: cp.villageId,
+              completedScenarios: mergedScenarios,
+              totalCorrect: Math.max(local.totalCorrect, cp.totalCorrect),
+              totalAttempts: Math.max(local.totalAttempts, cp.totalAttempts),
+              currentStreak: Math.max(local.currentStreak, cp.currentStreak),
+              maxStreak: Math.max(local.maxStreak, cp.maxStreak),
+            };
+          }
+        }
+        merged = { ...merged, villageProgress: mergedVillageProgress };
+      }
+
+      // 合併解鎖法條
+      if (cloudArticles && cloudArticles.length > 0) {
+        const mergedArticles = Array.from(
+          new Set([...prev.unlockedArticles, ...cloudArticles])
+        );
+        merged = { ...merged, unlockedArticles: mergedArticles };
+      }
+
+      // 合併成就
+      if (cloudAchievements && cloudAchievements.length > 0) {
+        const mergedAchievements = Array.from(
+          new Set([...prev.unlockedAchievements, ...cloudAchievements])
+        );
+        merged = { ...merged, unlockedAchievements: mergedAchievements };
+      }
+
+      return merged;
+    });
+  }, [
+    isAuthenticated,
+    cloudProgressQuery.data,
+    cloudArticlesQuery.data,
+    cloudAchievementsQuery.data,
+  ]);
 
   // 持久化到 localStorage
   useEffect(() => {
@@ -95,12 +240,58 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const setPlayerName = useCallback(
     (name: string) => {
       setGameState((prev) => ({ ...prev, playerName: name }));
+      if (isAuthenticated) {
+        updatePlayerNameMutation.mutate({ playerName: name });
+      }
     },
-    []
+    [isAuthenticated]
   );
 
   const setGeminiApiKey = useCallback((key: string) => {
     setGameState((prev) => ({ ...prev, geminiApiKey: key }));
+  }, []);
+
+  const getDailyChallenge = useCallback((): DailyChallengeState => {
+    const today = getLocalDateKey();
+    return gameState.dailyChallenge.dateKey === today
+      ? gameState.dailyChallenge
+      : buildDailyChallenge(today);
+  }, [gameState.dailyChallenge]);
+
+  const ensureDailyChallenge = useCallback(() => {
+    const today = getLocalDateKey();
+    setGameState((prev) => {
+      if (prev.dailyChallenge.dateKey === today && prev.dailyChallenge.scenarioIds.length > 0) {
+        return prev;
+      }
+      return { ...prev, dailyChallenge: buildDailyChallenge(today) };
+    });
+  }, []);
+
+  const recordDailyChallengeAnswer = useCallback((scenarioId: string, isCorrect: boolean) => {
+    const today = getLocalDateKey();
+    setGameState((prev) => {
+      const dailyChallenge = prev.dailyChallenge.dateKey === today
+        ? prev.dailyChallenge
+        : buildDailyChallenge(today);
+      if (!dailyChallenge.scenarioIds.includes(scenarioId) || scenarioId in dailyChallenge.answers) {
+        return prev;
+      }
+      return {
+        ...prev,
+        dailyChallenge: {
+          ...dailyChallenge,
+          answers: { ...dailyChallenge.answers, [scenarioId]: isCorrect },
+        },
+      };
+    });
+  }, []);
+
+  const removeWrongScenario = useCallback((scenarioId: string) => {
+    setGameState((prev) => ({
+      ...prev,
+      wrongScenarioIds: prev.wrongScenarioIds.filter((id) => id !== scenarioId),
+    }));
   }, []);
 
   const getVillageProgress = useCallback(
@@ -198,6 +389,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
           ...prev,
           villageProgress: { ...prev.villageProgress, [villageId]: updatedVp },
           unlockedArticles: newUnlocked,
+          wrongScenarioIds: isCorrect
+            ? prev.wrongScenarioIds
+            : addUniqueWrongScenarioId(prev.wrongScenarioIds, scenarioId),
         };
 
         // 檢查成就
@@ -207,12 +401,32 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
             ...prev.unlockedAchievements,
             ...newlyUnlockedAchievements,
           ];
+          if (isAuthenticated) {
+            for (const achId of newlyUnlockedAchievements) {
+              unlockAchievementMutation.mutate({ achievementId: achId });
+            }
+          }
+        }
+
+        // 雲端同步
+        if (isAuthenticated) {
+          saveVillageProgressMutation.mutate({
+            villageId,
+            completedScenarios: updatedVp.completedScenarios,
+            totalCorrect: updatedVp.totalCorrect,
+            totalAttempts: updatedVp.totalAttempts,
+            currentStreak: updatedVp.currentStreak,
+            maxStreak: updatedVp.maxStreak,
+          });
+          if (articleIds.length > 0) {
+            unlockArticlesMutation.mutate({ articleIds });
+          }
         }
 
         return newState;
       });
     },
-    [checkAndUnlockAchievements]
+    [isAuthenticated]
   );
 
   return (
@@ -225,6 +439,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         getOverallStats,
         isScenarioCompleted,
         setGeminiApiKey,
+        getDailyChallenge,
+        ensureDailyChallenge,
+        recordDailyChallengeAnswer,
+        removeWrongScenario,
         isSyncing,
       }}
     >

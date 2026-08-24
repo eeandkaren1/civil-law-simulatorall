@@ -139,7 +139,7 @@ export const LAW_ARTICLES: LawArticle[] = [
   { id: "art851", number: "第851條", title: "地役權之定義", content: "稱地役權者，謂以他人土地供自己土地通行、汲水、採光、眺望、電信或其他以特定便宜之用為目的之權。", chapter: "地役權", villageId: "property" },
   { id: "art774", number: "第774條", title: "相鄰關係", content: "土地所有人經營工業及行使其他之權利，應注意防免鄰地之損害。", chapter: "相鄰關係", villageId: "property" },
   { id: "art816", number: "第816條", title: "添附之補償", content: "因前五條之規定，喪失權利而受損害者，得依關於不當得利之規定，請求償金。", chapter: "添附", villageId: "property" },
-  { id: "art942", number: "第942條", title: "留置權之定義", content: "稱留置權者，謂債權人占有他人之動產，而其債權之發生與該動產有牽連關係，於債權已屆清償期未受清償時，得留置該動產之權。", chapter: "留置權", villageId: "property" },
+  { id: "art928", number: "第928條", title: "留置權之定義", content: "稱留置權者，謂債權人占有他人之動產，而其債權之發生與該動產有牽連關係，於債權已屆清償期未受清償時，得留置該動產之權。", chapter: "留置權", villageId: "property" },
   { id: "art966", number: "第966條", title: "占有之保護", content: "占有人，其占有被侵奪者，得請求返還其占有物；占有被妨害者，得請求除去其妨害；有被妨害之虞者，得請求防止其妨害。前項請求權，於侵奪或妨害發生後，一年內不行使而消滅。", chapter: "占有", villageId: "property" },
   { id: "art910", number: "第910條", title: "最高限額抵押", content: "稱最高限額抵押權者，謂債務人或第三人提供其不動產為擔保，就債權人對債務人一定範圍內之不特定債權，在最高限額內設定之抵押權。", chapter: "抵押權", villageId: "property" },
 
@@ -186,7 +186,6 @@ export const LAW_ARTICLES: LawArticle[] = [
   { id: "art799", number: "第799條", title: "區分所有建築物", content: "稱區分所有建築物者，謂數人區分一建築物而各專有其一部，就專有部分有單獨所有權，並就該建築物及其附屬物之共同部分共有之建築物。專有部分與其所屬之共有部分及其基地之權利，不得分離而為移轉或設定負擔。", chapter: "不動產物權", villageId: "property" },
   { id: "art820", number: "第820條", title: "共有物之管理", content: "共有物之管理，除契約另有約定外，應以共有人過半數及其應有部分合計過半數之同意行之。但其應有部分合計逾三分之二者，其人數不予計算。", chapter: "所有權", villageId: "property" },
   { id: "art942", number: "第942條", title: "占有輔助人", content: "受僱人、學徒、家屬或基於其他類似之關係，受他人之指示，而對於物有管領之力者，僅該他人為占有人。", chapter: "占有", villageId: "property" },
-  { id: "art1002", number: "第1002條", title: "夫妻住所之決定", content: "夫妻之住所，由雙方共同協議之；未為協議或協議不成時，得聲請法院定之。法院為前項裁定前，以夫妻共同戶籍地推定為其住所。", chapter: "婚姻", villageId: "family" },
   { id: "art1003", number: "第1003條", title: "日常家務代理權", content: "夫妻於日常家務，互為代理人。夫妻之一方濫用前項代理權時，他方得限制之。但不得對抗善意第三人。", chapter: "婚姻效力", villageId: "family" },
   { id: "art1063", number: "第1063條", title: "婚生推定與否認之訴", content: "妻之受胎，係在婚姻關係存續中者，推定其所生子女為婚生子女。前項推定，夫妻之一方或子女能證明子女非為婚生子女者，得提起否認之訴。", chapter: "父母子女", villageId: "family" },
   { id: "art1080", number: "第1080條", title: "終止收養", content: "養父母與養子女之關係，得由雙方合意終止之。前項終止，應以書面為之。養子女為未成年人者，並應向法院聲請認可。", chapter: "收養", villageId: "family" },

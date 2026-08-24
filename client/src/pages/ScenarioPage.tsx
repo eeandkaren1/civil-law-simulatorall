@@ -35,8 +35,16 @@ const DIFFICULTY_COLOR: Record<string, string> = {
 export default function ScenarioPage() {
   const { scenarioId } = useParams<{ scenarioId: string }>();
   const [, navigate] = useLocation();
-  const { gameState, recordAnswer, isScenarioCompleted } = useGame();
+  const {
+    gameState,
+    recordAnswer,
+    isScenarioCompleted,
+    getDailyChallenge,
+    recordDailyChallengeAnswer,
+  } = useGame();
   const scenario = SCENARIOS.find((s) => s.id === scenarioId);
+  const isDailyChallenge = typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("mode") === "daily";
   const [phase, setPhase] = useState<GamePhase>("story");
   const [visibleLines, setVisibleLines] = useState(0);
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
@@ -107,6 +115,9 @@ export default function ScenarioPage() {
       choice.isCorrect,
       scenario.relatedArticles
     );
+    if (isDailyChallenge) {
+      recordDailyChallengeAnswer(scenario.id, choice.isCorrect);
+    }
 
     if (choice.isCorrect) {
       toast.success("答對了！🎉", { duration: 2000 });
@@ -193,6 +204,15 @@ ${essayText}
   };
 
   const handleSkipToNext = () => {
+    if (isDailyChallenge) {
+      const dailyChallenge = getDailyChallenge();
+      const currentIndex = dailyChallenge.scenarioIds.indexOf(scenario.id);
+      const nextScenarioId = dailyChallenge.scenarioIds
+        .slice(currentIndex + 1)
+        .find((id) => !(id in dailyChallenge.answers));
+      navigate(nextScenarioId ? `/scenario/${nextScenarioId}?mode=daily` : "/daily-challenge");
+      return;
+    }
     const currentIndex = SCENARIOS.findIndex((s) => s.id === scenario.id);
     const nextInVillage = SCENARIOS.slice(currentIndex + 1).find(
       (s) => s.villageId === scenario.villageId
