@@ -129,6 +129,21 @@ describe("gameData - Scenarios", () => {
     }
   });
 
+  it("should expose obligation batch 4 cards and resolve their scenario routes", () => {
+    const obligationScenarioIds = getScenariosByVillage("obligation").map((scenario) => scenario.id);
+    expect(getVillageById("obligation")?.totalScenarios).toBe(40);
+    expect(obligationScenarioIds).toEqual(expect.arrayContaining([
+      "obligation-036", "obligation-037", "obligation-038", "obligation-039", "obligation-040",
+    ]));
+    for (const scenarioId of ["obligation-036", "obligation-037", "obligation-038", "obligation-039", "obligation-040"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
+      expect(scenario?.villageId).toBe("obligation");
+      expect(scenario?.choices).toHaveLength(4);
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
   it("should build the same village and scenario routes used by the game router", () => {
     expect(GAME_ROUTES.village).toBe("/village/:villageId");
     expect(GAME_ROUTES.scenario).toBe("/scenario/:scenarioId");
