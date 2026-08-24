@@ -266,8 +266,7 @@ describe("gameData - Scenarios", () => {
 
   it("should expose inheritance batch 1 cards and resolve their scenario routes", () => {
     const inheritanceScenarioIds = getScenariosByVillage("inheritance").map((scenario) => scenario.id);
-    expect(getVillageById("inheritance")?.totalScenarios).toBe(25);
-    expect(inheritanceScenarioIds).toHaveLength(25);
+    expect(inheritanceScenarioIds).toHaveLength(getVillageById("inheritance")!.totalScenarios);
     expect(inheritanceScenarioIds).toEqual(expect.arrayContaining([
       "inheritance-021", "inheritance-022", "inheritance-023", "inheritance-024", "inheritance-025",
     ]));
@@ -276,6 +275,21 @@ describe("gameData - Scenarios", () => {
       expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
       expect(scenario?.villageId).toBe("inheritance");
       expect(scenario?.title).toBeTruthy();
+      expect(scenario?.question).toBeTruthy();
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("should expose inheritance batch 2 cards and resolve their scenario routes", () => {
+    const inheritanceScenarioIds = getScenariosByVillage("inheritance").map((scenario) => scenario.id);
+    expect(getVillageById("inheritance")?.totalScenarios).toBe(30);
+    expect(inheritanceScenarioIds).toEqual(expect.arrayContaining([
+      "inheritance-026", "inheritance-027", "inheritance-028", "inheritance-029", "inheritance-030",
+    ]));
+    for (const scenarioId of ["inheritance-026", "inheritance-027", "inheritance-028", "inheritance-029", "inheritance-030"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
+      expect(scenario?.villageId).toBe("inheritance");
       expect(scenario?.question).toBeTruthy();
       expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
     }
