@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { getVillageById, getScenariosByVillage } from "../../../shared/gameData";
+import { getScenarioPath } from "../../../shared/gameRoutes";
 import { useLocation, useParams } from "wouter";
 import { ArrowLeft, CheckCircle2, Circle, Lock, Star } from "lucide-react";
 
@@ -116,7 +117,7 @@ export default function VillagePage() {
             return (
               <button
                 key={scenario.id}
-                onClick={() => navigate(`/scenario/${scenario.id}`)}
+                onClick={() => navigate(getScenarioPath(scenario.id))}
                 className={`w-full text-left rounded-xl border p-4 shadow-sm transition-all village-card
                   ${completed
                     ? "bg-emerald-50 border-emerald-200 hover:bg-emerald-100"

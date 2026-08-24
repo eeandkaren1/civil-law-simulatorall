@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { SCENARIOS, VILLAGES, LAW_ARTICLES, ACHIEVEMENTS, getScenariosByVillage, getScenarioById, getVillageById, getArticleById } from "../shared/gameData";
+import { GAME_ROUTES, getScenarioPath, getVillagePath } from "../shared/gameRoutes";
 
 describe("gameData - Villages", () => {
   it("should have exactly 5 villages", () => {
@@ -83,6 +84,33 @@ describe("gameData - Scenarios", () => {
       expect(scenario?.title).toBeTruthy();
       expect(scenario?.question).toBeTruthy();
       expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("should expose twenty-five obligation village cards and resolve every obligation batch 1 route parameter", () => {
+    const obligationScenarios = getScenariosByVillage("obligation");
+    expect(obligationScenarios).toHaveLength(25);
+    expect(obligationScenarios.map((scenario) => scenario.id)).toEqual(expect.arrayContaining([
+      "obligation-021",
+      "obligation-022",
+      "obligation-023",
+      "obligation-024",
+      "obligation-025",
+    ]));
+    for (const scenarioId of ["obligation-021", "obligation-022", "obligation-023", "obligation-024", "obligation-025"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(scenario?.villageId).toBe("obligation");
+      expect(scenario?.choices).toHaveLength(4);
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("should build the same village and scenario routes used by the game router", () => {
+    expect(GAME_ROUTES.village).toBe("/village/:villageId");
+    expect(GAME_ROUTES.scenario).toBe("/scenario/:scenarioId");
+    expect(getVillagePath("obligation")).toBe("/village/obligation");
+    for (const scenarioId of ["obligation-021", "obligation-022", "obligation-023", "obligation-024", "obligation-025"]) {
+      expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
     }
   });
 

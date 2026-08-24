@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { getArticleById, getScenarioById, SCENARIOS } from "../../../shared/gameData";
+import { getScenarioPath, getVillagePath } from "../../../shared/gameRoutes";
 import { useLocation, useParams } from "wouter";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, XCircle, Lightbulb, Sparkles, SkipForward, Key, ExternalLink } from "lucide-react";
@@ -210,7 +211,7 @@ ${essayText}
       const nextScenarioId = dailyChallenge.scenarioIds
         .slice(currentIndex + 1)
         .find((id) => !(id in dailyChallenge.answers));
-      navigate(nextScenarioId ? `/scenario/${nextScenarioId}?mode=daily` : "/daily-challenge");
+      navigate(nextScenarioId ? `${getScenarioPath(nextScenarioId)}?mode=daily` : "/daily-challenge");
       return;
     }
     const currentIndex = SCENARIOS.findIndex((s) => s.id === scenario.id);
@@ -218,7 +219,7 @@ ${essayText}
       (s) => s.villageId === scenario.villageId
     );
     if (nextInVillage) {
-      navigate(`/scenario/${nextInVillage.id}`);
+      navigate(getScenarioPath(nextInVillage.id));
     } else {
       navigate(`/village/${scenario.villageId}`);
     }
@@ -232,7 +233,7 @@ ${essayText}
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate(`/village/${scenario.villageId}`)}
+            onClick={() => navigate(getVillagePath(scenario.villageId))}
             className="gap-1.5 text-muted-foreground hover:text-foreground"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -591,7 +592,7 @@ ${essayText}
             <div className="flex gap-3">
               <Button
                 variant="outline"
-                onClick={() => navigate(`/village/${scenario.villageId}`)}
+                onClick={() => navigate(getVillagePath(scenario.villageId))}
                 className="flex-1 gap-2"
               >
                 <ArrowLeft className="w-4 h-4" />

@@ -21,6 +21,7 @@ import DailyChallengePage from "./pages/DailyChallengePage";
 import WrongNotebookPage from "./pages/WrongNotebookPage";
 import QuestionExplorerPage from "./pages/QuestionExplorerPage";
 import LineFloatButton from "./components/LineFloatButton";
+import { GAME_ROUTES } from "../../shared/gameRoutes";
 import { useEffect } from "react";
 
 // SPA 路由切換時觸發 Google Analytics pageview
@@ -40,8 +41,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/village/:villageId" component={VillagePage} />
-      <Route path="/scenario/:scenarioId" component={ScenarioPage} />
+      <Route path={GAME_ROUTES.village} component={VillagePage} />
+      <Route path={GAME_ROUTES.scenario} component={ScenarioPage} />
       <Route path="/knowledge" component={KnowledgePage} />
       <Route path="/progress" component={ProgressPage} />
       <Route path="/settings" component={SettingsPage} />
