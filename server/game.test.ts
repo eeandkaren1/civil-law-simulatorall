@@ -146,11 +146,25 @@ describe("gameData - Scenarios", () => {
 
   it("should expose property batch 1 cards and resolve their scenario routes", () => {
     const propertyScenarioIds = getScenariosByVillage("property").map((scenario) => scenario.id);
-    expect(getVillageById("property")?.totalScenarios).toBe(25);
+    expect(propertyScenarioIds).toHaveLength(getVillageById("property")!.totalScenarios);
     expect(propertyScenarioIds).toEqual(expect.arrayContaining([
       "property-021", "property-022", "property-023", "property-024", "property-025",
     ]));
     for (const scenarioId of ["property-021", "property-022", "property-023", "property-024", "property-025"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
+      expect(scenario?.villageId).toBe("property");
+      expect(scenario?.choices.filter((choice) => choice.isCorrect)).toHaveLength(1);
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("should expose property batch 2 cards and resolve their scenario routes", () => {
+    const propertyScenarioIds = getScenariosByVillage("property").map((scenario) => scenario.id);
+    expect(propertyScenarioIds).toEqual(expect.arrayContaining([
+      "property-026", "property-027", "property-028", "property-029", "property-030",
+    ]));
+    for (const scenarioId of ["property-026", "property-027", "property-028", "property-029", "property-030"]) {
       const scenario = getScenarioById(scenarioId);
       expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
       expect(scenario?.villageId).toBe("property");
