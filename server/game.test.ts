@@ -232,6 +232,22 @@ describe("gameData - Scenarios", () => {
     }
   });
 
+  it("should expose family batch 3 cards and resolve their scenario routes", () => {
+    const familyScenarioIds = getScenariosByVillage("family").map((scenario) => scenario.id);
+    expect(getVillageById("family")?.totalScenarios).toBe(35);
+    expect(familyScenarioIds).toEqual(expect.arrayContaining([
+      "family-031", "family-032", "family-033", "family-034", "family-035",
+    ]));
+    for (const scenarioId of ["family-031", "family-032", "family-033", "family-034", "family-035"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
+      expect(scenario?.villageId).toBe("family");
+      expect(scenario?.title).toBeTruthy();
+      expect(scenario?.question).toBeTruthy();
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
   it("should build the same village and scenario routes used by the game router", () => {
     expect(GAME_ROUTES.village).toBe("/village/:villageId");
     expect(GAME_ROUTES.scenario).toBe("/scenario/:scenarioId");
