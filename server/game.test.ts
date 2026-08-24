@@ -204,7 +204,7 @@ describe("gameData - Scenarios", () => {
 
   it("should expose family batch 1 cards and resolve their scenario routes", () => {
     const familyScenarioIds = getScenariosByVillage("family").map((scenario) => scenario.id);
-    expect(getVillageById("family")?.totalScenarios).toBe(25);
+    expect(familyScenarioIds).toHaveLength(getVillageById("family")!.totalScenarios);
     expect(familyScenarioIds).toEqual(expect.arrayContaining([
       "family-021", "family-022", "family-023", "family-024", "family-025",
     ]));
@@ -213,6 +213,21 @@ describe("gameData - Scenarios", () => {
       expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
       expect(scenario?.villageId).toBe("family");
       expect(scenario?.question).toBeTruthy();
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("should expose family batch 2 cards and resolve their scenario routes", () => {
+    const familyScenarioIds = getScenariosByVillage("family").map((scenario) => scenario.id);
+    expect(familyScenarioIds).toHaveLength(getVillageById("family")!.totalScenarios);
+    expect(familyScenarioIds).toEqual(expect.arrayContaining([
+      "family-026", "family-027", "family-028", "family-029", "family-030",
+    ]));
+    for (const scenarioId of ["family-026", "family-027", "family-028", "family-029", "family-030"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
+      expect(scenario?.villageId).toBe("family");
+      expect(scenario?.choices.filter((choice) => choice.isCorrect)).toHaveLength(1);
       expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
     }
   });
