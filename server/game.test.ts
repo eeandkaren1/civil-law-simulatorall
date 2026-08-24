@@ -87,9 +87,9 @@ describe("gameData - Scenarios", () => {
     }
   });
 
-  it("should expose twenty-five obligation village cards and resolve every obligation batch 1 route parameter", () => {
+  it("should keep obligation batch 1 route data available as the village expands", () => {
     const obligationScenarios = getScenariosByVillage("obligation");
-    expect(obligationScenarios).toHaveLength(25);
+    expect(obligationScenarios).toHaveLength(getVillageById("obligation")!.totalScenarios);
     expect(obligationScenarios.map((scenario) => scenario.id)).toEqual(expect.arrayContaining([
       "obligation-021",
       "obligation-022",
@@ -105,11 +105,24 @@ describe("gameData - Scenarios", () => {
     }
   });
 
+  it("should resolve every obligation batch 2 route parameter to complete scenario data", () => {
+    for (const scenarioId of ["obligation-026", "obligation-027", "obligation-028", "obligation-029", "obligation-030"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(scenario?.villageId).toBe("obligation");
+      expect(scenario?.question).toBeTruthy();
+      expect(scenario?.choices.filter((choice) => choice.isCorrect)).toHaveLength(1);
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
   it("should build the same village and scenario routes used by the game router", () => {
     expect(GAME_ROUTES.village).toBe("/village/:villageId");
     expect(GAME_ROUTES.scenario).toBe("/scenario/:scenarioId");
     expect(getVillagePath("obligation")).toBe("/village/obligation");
-    for (const scenarioId of ["obligation-021", "obligation-022", "obligation-023", "obligation-024", "obligation-025"]) {
+    for (const scenarioId of [
+      "obligation-021", "obligation-022", "obligation-023", "obligation-024", "obligation-025",
+      "obligation-026", "obligation-027", "obligation-028", "obligation-029", "obligation-030",
+    ]) {
       expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
     }
   });
