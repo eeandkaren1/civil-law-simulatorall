@@ -118,8 +118,8 @@ export const LAW_ARTICLES: LawArticle[] = [
   // 總則編
   { id: "art6", number: "第6條", title: "自然人之權利能力", content: "人之權利能力，始於出生，終於死亡。", chapter: "自然人", villageId: "general" },
   { id: "art7", number: "第7條", title: "胎兒之權利能力", content: "胎兒以將來非死產者為限，關於其個人利益之保護，視為既已出生。", chapter: "自然人", villageId: "general" },
-  { id: "art12", number: "第12條", title: "完全行為能力", content: "滿二十歲為成年。", chapter: "行為能力", villageId: "general" },
-  { id: "art13", number: "第13條", title: "限制行為能力人", content: "未滿七歲之未成年人，無行為能力。滿七歲以上之未成年人，有限制行為能力。未成年人已結婚者，有行為能力。", chapter: "行為能力", villageId: "general" },
+  { id: "art12", number: "第12條", title: "成年年齡", content: "滿十八歲為成年。", chapter: "行為能力", villageId: "general" },
+  { id: "art13", number: "第13條", title: "未成年人的行為能力", content: "未滿七歲之未成年人，無行為能力。滿七歲以上之未成年人，有限制行為能力。", chapter: "行為能力", villageId: "general" },
   { id: "art14", number: "第14條", title: "監護宣告", content: "對於因精神障礙或其他心智缺陷，致不能為意思表示或受意思表示，或不能辨識其意思表示之效果者，法院得因本人、配偶、四親等內之親屬、最近一年有同居事實之其他親屬、檢察官、主管機關或社會福利機構之聲請，為監護之宣告。", chapter: "行為能力", villageId: "general" },
   { id: "art86", number: "第86條", title: "真意保留", content: "表意人無欲為其意思表示所拘束之意，而為意思表示者，其意思表示，不因此無效。但其情形為相對人所明知者，不在此限。", chapter: "意思表示", villageId: "general" },
   { id: "art87", number: "第87條", title: "虛偽意思表示", content: "表意人與相對人通謀而為虛偽意思表示者，其意思表示無效。但不得以其無效對抗善意第三人。虛偽意思表示，隱藏他項法律行為者，適用關於該項法律行為之規定。", chapter: "意思表示", villageId: "general" },

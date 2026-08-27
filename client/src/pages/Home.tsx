@@ -4,8 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { useGame } from "@/contexts/GameContext";
 import { VILLAGES, SCENARIOS, getScenariosByVillage } from "../../../shared/gameData";
 import { useState } from "react";
-import { useLocation } from "wouter";
-import { BookOpen, Trophy, Sparkles, ChevronRight, Key, Newspaper, Clock, Map as MapIcon, User, CalendarDays, BookMarked, Search } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { BookOpen, Trophy, Sparkles, ChevronRight, Key, Newspaper, Map as MapIcon, User, CalendarDays, BookMarked, Search } from "lucide-react";
 import { ARTICLES } from "../../../shared/articles";
 import SiteFooter from "@/components/SiteFooter";
 import { toast } from "sonner";
@@ -47,25 +47,17 @@ export default function Home() {
     toast.success(`歡迎，${name}！準備好開始冒險了嗎？`);
   };
 
-  const handleVillageClick = (villageId: string) => {
-    if (!gameState.playerName) {
-      toast.error("請先設定冒險者名字！");
-      return;
-    }
-    navigate(`/village/${villageId}`);
-  };
-
   return (
     <div className="min-h-screen game-bg">
       {/* 頂部導航 */}
       <header className="sticky top-0 z-40 bg-card/80 backdrop-blur-sm border-b border-border">
         <div className="container max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2" aria-label="民法鎮大冒險首頁">
             <span className="text-2xl">🏘️</span>
             <span className="font-display font-semibold text-foreground text-lg tracking-wide">
               民法鎮大冒險
             </span>
-          </div>
+          </Link>
           <nav className="flex items-center gap-2">
             <Button
               variant="ghost"
@@ -94,18 +86,10 @@ export default function Home() {
               <Search className="w-4 h-4" />
               <span className="hidden lg:inline">找題目</span>
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                if (!gameState.playerName) { toast.error("請先設定冒險者名字！"); return; }
-                navigate("/knowledge");
-              }}
-              className="text-muted-foreground hover:text-foreground gap-1.5"
-            >
+            <Link href="/knowledge" className="inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-sm text-muted-foreground transition-colors hover:text-foreground">
               <BookOpen className="w-4 h-4" />
               <span className="hidden sm:inline">法條庫</span>
-            </Button>
+            </Link>
             <Button
               variant="ghost"
               size="sm"
@@ -118,15 +102,10 @@ export default function Home() {
               <Trophy className="w-4 h-4" />
               <span className="hidden sm:inline">進度</span>
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate("/articles")}
-              className="text-muted-foreground hover:text-foreground gap-1.5"
-            >
+            <Link href="/articles" className="inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-sm text-muted-foreground transition-colors hover:text-foreground">
               <Newspaper className="w-4 h-4" />
               <span className="hidden sm:inline">法律文章</span>
-            </Button>
+            </Link>
             <Button
               variant="ghost"
               size="sm"
@@ -248,10 +227,10 @@ export default function Home() {
               const villageImg = VILLAGE_IMAGES[village.id];
 
               return (
-                <button
+                <Link
                   key={village.id}
-                  onClick={() => handleVillageClick(village.id)}
-                  className={`village-card text-left rounded-2xl border overflow-hidden shadow-sm cursor-pointer ${colors.bg} ${colors.border} hover:shadow-md transition-all`}
+                  href={`/village/${village.id}`}
+                  className={`village-card block text-left rounded-2xl border overflow-hidden shadow-sm ${colors.bg} ${colors.border} hover:shadow-md transition-all`}
                 >
                   {/* 村落圖片 */}
                   {villageImg && (
@@ -309,7 +288,7 @@ export default function Home() {
                     </span>
                   </div>
                   </div>{/* end p-5 */}
-                </button>
+                </Link>
               );
             })}
           </div>
@@ -351,33 +330,27 @@ export default function Home() {
               <Newspaper className="w-5 h-5 text-primary" />
               <h2 className="text-xl font-display font-bold text-foreground">法律知識文章</h2>
             </div>
-            <button
-              onClick={() => navigate("/articles")}
-              className="text-sm text-primary hover:underline flex items-center gap-1"
-            >
+            <Link href="/articles" className="text-sm text-primary hover:underline flex items-center gap-1">
               查看全部 <ChevronRight className="w-4 h-4" />
-            </button>
+            </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {ARTICLES.slice(0, 4).map((article) => (
-              <button
+              <Link
                 key={article.id}
-                onClick={() => navigate(`/articles/${article.id}`)}
-                className="group text-left bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-primary/30 transition-all"
+                href={`/articles/${article.id}`}
+                className="group block text-left bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-primary/30 transition-all"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">
                     {article.category}
-                  </span>
-                  <span className="text-xs text-muted-foreground flex items-center gap-1">
-                    <Clock className="w-3 h-3" />{article.readTime} 分鐘
                   </span>
                 </div>
                 <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-1">
                   {article.title}
                 </h3>
                 <p className="text-xs text-muted-foreground line-clamp-2">{article.subtitle}</p>
-              </button>
+              </Link>
             ))}
           </div>
         </section>

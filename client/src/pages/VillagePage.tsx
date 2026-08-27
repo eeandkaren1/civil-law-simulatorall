@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { getVillageById, getScenariosByVillage } from "../../../shared/gameData";
 import { getScenarioPath } from "../../../shared/gameRoutes";
-import { useLocation, useParams } from "wouter";
+import { Link, useLocation, useParams } from "wouter";
 import { ArrowLeft, CheckCircle2, Circle, Lock, Star } from "lucide-react";
 
 const VILLAGE_COLORS: Record<string, { bg: string; border: string; text: string; headerBg: string }> = {
@@ -115,10 +115,10 @@ export default function VillagePage() {
             const diff = DIFFICULTY_LABELS[scenario.difficulty] ?? DIFFICULTY_LABELS.easy;
 
             return (
-              <button
+              <Link
                 key={scenario.id}
-                onClick={() => navigate(getScenarioPath(scenario.id))}
-                className={`w-full text-left rounded-xl border p-4 shadow-sm transition-all village-card
+                href={getScenarioPath(scenario.id)}
+                className={`block w-full text-left rounded-xl border p-4 shadow-sm transition-all village-card
                   ${completed
                     ? "bg-emerald-50 border-emerald-200 hover:bg-emerald-100"
                     : "bg-card border-border hover:bg-secondary"
@@ -159,7 +159,7 @@ export default function VillagePage() {
                     </span>
                   </div>
                 </div>
-              </button>
+              </Link>
             );
           })}
         </div>

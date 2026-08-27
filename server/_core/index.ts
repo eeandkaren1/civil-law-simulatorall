@@ -8,6 +8,7 @@ import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import { buildRobots, buildSitemap } from "../seo";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -41,6 +42,19 @@ async function startServer() {
   app.get('/ads.txt', (req, res) => {
     res.type('text/plain');
     res.send('google.com, pub-9753491901026477, DIRECT, f08c47fec0942fa0');
+  });
+
+  app.get('/robots.txt', (_req, res) => {
+    res.type('text/plain').set('Cache-Control', 'public, max-age=3600').send(buildRobots());
+  });
+
+  app.get('/sitemap.xml', (_req, res) => {
+    const sitemap = buildSitemap();
+    if (!sitemap) {
+      res.status(503).type('text/plain').set('Cache-Control', 'no-store').send('Sitemap will be enabled after CANONICAL_ORIGIN is configured.');
+      return;
+    }
+    res.type('application/xml').set('Cache-Control', 'public, max-age=3600').send(sitemap);
   });
 
   // tRPC API

@@ -22,12 +22,46 @@ import WrongNotebookPage from "./pages/WrongNotebookPage";
 import QuestionExplorerPage from "./pages/QuestionExplorerPage";
 import LineFloatButton from "./components/LineFloatButton";
 import { GAME_ROUTES } from "../../shared/gameRoutes";
+import { getSeoForPath } from "../../shared/siteSeo";
 import { useEffect } from "react";
 
 // SPA 路由切換時觸發 Google Analytics pageview
 function AnalyticsTracker() {
   const [location] = useLocation();
   useEffect(() => {
+    const seo = getSeoForPath(location);
+    document.title = seo.title;
+    const setMeta = (selector: string, attribute: "name" | "property", key: string, content: string) => {
+      let element = document.querySelector<HTMLMetaElement>(selector);
+      if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute(attribute, key);
+        document.head.appendChild(element);
+      }
+      element.content = content;
+    };
+    setMeta('meta[name="description"]', "name", "description", seo.description);
+    setMeta('meta[property="og:title"]', "property", "og:title", seo.title);
+    setMeta('meta[property="og:description"]', "property", "og:description", seo.description);
+    setMeta('meta[property="og:type"]', "property", "og:type", seo.ogType ?? "website");
+    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.rel = "canonical";
+      document.head.appendChild(canonical);
+    }
+    canonical.href = `${window.location.origin}${seo.canonicalPath ?? location}`;
+    let robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (seo.noindex || seo.notFound) {
+      if (!robots) {
+        robots = document.createElement("meta");
+        robots.name = "robots";
+        document.head.appendChild(robots);
+      }
+      robots.content = "noindex, follow";
+    } else if (robots) {
+      robots.remove();
+    }
     if (typeof window !== "undefined" && (window as any).gtag) {
       (window as any).gtag("config", "G-MFXSFT8HY7", {
         page_path: location,

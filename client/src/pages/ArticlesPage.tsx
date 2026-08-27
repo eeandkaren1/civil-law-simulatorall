@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 import { ARTICLES } from "../../../shared/articles";
 import SiteFooter from "@/components/SiteFooter";
 import { BookOpen, ChevronRight, ArrowLeft, Search, X } from "lucide-react";
@@ -142,9 +142,9 @@ export default function ArticlesPage() {
             {filteredArticles.map((article) => (
               <article
                 key={article.id}
-                onClick={() => navigate(`/articles/${article.id}`)}
-                className="group bg-card border border-border rounded-2xl p-6 cursor-pointer hover:shadow-md hover:border-primary/30 transition-all"
+                className="group bg-card border border-border rounded-2xl hover:shadow-md hover:border-primary/30 transition-all"
               >
+                <Link href={`/articles/${article.id}`} className="block p-6">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
@@ -166,6 +166,7 @@ export default function ArticlesPage() {
                           variant="secondary"
                           className="text-xs cursor-pointer hover:bg-primary/10 hover:text-primary transition-colors"
                           onClick={e => {
+                            e.preventDefault();
                             e.stopPropagation();
                             setSearchQuery(tag);
                           }}
@@ -177,6 +178,7 @@ export default function ArticlesPage() {
                   </div>
                   <ChevronRight className="w-5 h-5 text-muted-foreground/50 group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
                 </div>
+                </Link>
               </article>
             ))}
           </div>

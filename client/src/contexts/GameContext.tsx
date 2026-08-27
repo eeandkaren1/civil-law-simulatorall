@@ -111,7 +111,8 @@ function buildDailyChallenge(dateKey = getLocalDateKey()): DailyChallengeState {
 const GameContext = createContext<GameContextType | null>(null);
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
-  const [gameState, setGameState] = useState<GameState>(loadFromStorage);
+  const [gameState, setGameState] = useState<GameState>(defaultGameState);
+  const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   // Static Site 模式：玩家進度只保存於自己的裝置，不使用登入與雲端同步。
   const { user: _user, isAuthenticated: _isAuthenticated } = useAuth();
@@ -137,6 +138,13 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     enabled: isAuthenticated,
     staleTime: 60_000,
   });
+
+  // 伺服器與瀏覽器首次輸出同一份預設狀態；掛載後才讀取個人本機進度，
+  // 避免SSR因localStorage不存在而失敗，也避免水合時出現內容不一致。
+  useEffect(() => {
+    setGameState(loadFromStorage());
+    setHasLoadedStorage(true);
+  }, []);
 
   // 登入後：先把本地進度上傳，再把雲端資料載回合併
   useEffect(() => {
@@ -234,8 +242,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   // 持久化到 localStorage
   useEffect(() => {
+    if (!hasLoadedStorage) return;
     saveToStorage(gameState);
-  }, [gameState]);
+  }, [gameState, hasLoadedStorage]);
 
   const setPlayerName = useCallback(
     (name: string) => {

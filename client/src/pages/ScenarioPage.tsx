@@ -46,8 +46,8 @@ export default function ScenarioPage() {
   const scenario = getScenarioById(scenarioId ?? "");
   const isDailyChallenge = typeof window !== "undefined" &&
     new URLSearchParams(window.location.search).get("mode") === "daily";
-  const [phase, setPhase] = useState<GamePhase>("story");
-  const [visibleLines, setVisibleLines] = useState(0);
+  const [phase, setPhase] = useState<GamePhase>("question");
+  const [visibleLines, setVisibleLines] = useState(() => scenario?.story.length ?? 0);
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [essayText, setEssayText] = useState("");
@@ -62,8 +62,8 @@ export default function ScenarioPage() {
 
   useEffect(() => {
     if (!scenario) return;
-    setPhase("story");
-    setVisibleLines(0);
+    setPhase("question");
+    setVisibleLines(scenario.story.length);
     setSelectedChoice(null);
     setIsCorrect(null);
     setEssayText("");
@@ -406,6 +406,26 @@ ${essayText}
                 );
               })}
             </div>
+          </section>
+        )}
+
+        {/* 題目頁的常態導讀：保留闖關結果區，也讓每個獨立網址具備可閱讀的法條與申論學習內容。 */}
+        {phase === "question" && (
+          <section className="bg-card rounded-2xl border border-border p-6 shadow-sm">
+            <details>
+              <summary className="cursor-pointer font-display font-semibold text-foreground">法條與解題導讀</summary>
+              <div className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground">
+                <p><strong className="text-foreground">法條依據：</strong>{scenario.legalBasis ?? "請依題目所列相關法條判斷。"}</p>
+                <div>
+                  <p className="font-medium text-foreground mb-2">選項判斷重點</p>
+                  <ul className="space-y-2 list-disc pl-5">
+                    {scenario.choices.map((choice) => <li key={choice.id}><strong className="text-foreground">{choice.isCorrect ? "正確選項：" : "選項說明："}</strong>{choice.explanation}</li>)}
+                  </ul>
+                </div>
+                {relatedArticles.length > 0 && <div><p className="font-medium text-foreground mb-2">相關法條</p>{relatedArticles.map((article) => article && <p key={article.id}><strong className="text-foreground">{article.number} {article.title}：</strong>{article.content}</p>)}</div>}
+                <div><p className="font-medium text-foreground">申論練習</p><p>{scenario.essayPrompt}</p><p className="mt-1"><strong className="text-foreground">提示：</strong>{scenario.essayHint}</p></div>
+              </div>
+            </details>
           </section>
         )}
 

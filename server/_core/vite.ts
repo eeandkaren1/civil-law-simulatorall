@@ -5,6 +5,8 @@ import { nanoid } from "nanoid";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import viteConfig from "../../vite.config";
+import { getSeoForPath } from "../../shared/siteSeo";
+import { composeSsrHtml } from "./ssrHtml";
 
 export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
@@ -35,11 +37,14 @@ export async function setupVite(app: Express, server: Server) {
       // always reload the index.html file from disk incase it changes
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
       template = template.replace(
-        `src="/src/main.tsx"`,
-        `src="/src/main.tsx?v=${nanoid()}"`
+        `src="/src/entry-client.tsx"`,
+        `src="/src/entry-client.tsx?v=${nanoid()}"`
       );
       const page = await vite.transformIndexHtml(url, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+      const { render } = await vite.ssrLoadModule("/src/entry-server.tsx");
+      const { html, dehydratedState } = render(url);
+      const meta = getSeoForPath(url);
+      res.status(meta.notFound ? 404 : 200).set({ "Content-Type": "text/html", "Cache-Control": "no-cache" }).end(composeSsrHtml(page, html, meta, dehydratedState));
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
       next(e);
@@ -58,10 +63,29 @@ export function serveStatic(app: Express) {
     );
   }
 
-  app.use(express.static(distPath));
-
-  // fall through to index.html if the file doesn't exist
-  app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+  app.use((req, res, next) => {
+    if (req.path === "/index.html") return res.redirect(301, "/");
+    if (req.path !== "/" && /\/+$/.test(req.path)) {
+      const query = req.originalUrl.slice(req.path.length);
+      return res.redirect(301, `${req.path.replace(/\/+$/, "") || "/"}${query}`);
+    }
+    next();
+  });
+  app.use(express.static(distPath, { index: false, redirect: false }));
+  app.use("*", async (req, res) => {
+    const templatePath = path.resolve(distPath, "index.html");
+    try {
+      const template = await fs.promises.readFile(templatePath, "utf-8");
+      const serverEntryPath = path.resolve(import.meta.dirname, "server-ssr", "entry-server.js");
+      const { render } = await import(serverEntryPath);
+      const { html, dehydratedState } = render(req.originalUrl);
+      const meta = getSeoForPath(req.originalUrl);
+      res.status(meta.notFound ? 404 : 200).set({ "Content-Type": "text/html", "Cache-Control": "no-cache" }).end(composeSsrHtml(template, html, meta, dehydratedState));
+    } catch (error) {
+      console.error("[SSR] render failed, serving client shell:", error);
+      const template = await fs.promises.readFile(templatePath, "utf-8");
+      const meta = getSeoForPath("/");
+      res.status(200).set({ "Content-Type": "text/html", "Cache-Control": "no-cache" }).end(composeSsrHtml(template, "", meta, {}));
+    }
   });
 }
