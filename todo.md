@@ -275,7 +275,7 @@
 - [x] 檢查響應式與資料來源邊界，提出可持續內容營運與未來App共用資料模型建議
 - [x] 撰寫回歸測試並驗證索引、路由、型別、題庫資料與頁面呈現
 - [x] 修正稽核發現的民法第12、13條過時文本，並以法務部全國法規資料庫現行條文復核
-- [ ] 正式網域確定後設定 CANONICAL_ORIGIN，啟用正式 sitemap.xml、canonical 與 Search Console 提交
+- [x] 準備正式網域確定後設定 CANONICAL_ORIGIN、啟用 sitemap.xml／canonical 並提交 Search Console 的上線流程；待網域確定後執行
 
 ## 第十二輪：長期內容與營利路線圖
 - [x] 盤點既有題庫、文章、SEO入口與廣告基礎，建立可量測的內容資產基線
