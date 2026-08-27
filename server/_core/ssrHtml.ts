@@ -1,5 +1,6 @@
 import superjson from "superjson";
 import type { SeoMeta } from "../../shared/siteSeo";
+import { getArticleById, getScenarioById, getVillageById, getScenariosByVillage } from "../../shared/gameData";
 
 const escapeHtml = (value: string) => value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const normalizeText = (value: string, maxLength: number) => {
@@ -8,7 +9,103 @@ const normalizeText = (value: string, maxLength: number) => {
 };
 const normalizedOrigin = () => (process.env.CANONICAL_ORIGIN ?? "").trim().replace(/\/+$/, "");
 
+function buildBreadcrumb(items: Array<{ name: string; path?: string }>, origin: string) {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      ...(origin && item.path ? { item: `${origin}${item.path}` } : {}),
+    })),
+  };
+}
+
+function buildScenarioStructuredData(meta: SeoMeta, canonical: string, origin: string) {
+  const scenarioId = meta.canonicalPath?.match(/^\/scenario\/([^/]+)$/)?.[1];
+  const scenario = scenarioId ? getScenarioById(scenarioId) : undefined;
+  if (!scenario) return undefined;
+
+  const village = getVillageById(scenario.villageId);
+  const correctChoice = scenario.choices.find((choice) => choice.isCorrect);
+  const relatedLawArticles = scenario.relatedArticles
+    .map((articleId) => getArticleById(articleId))
+    .filter((article) => Boolean(article));
+
+  const learningResource: Record<string, unknown> = {
+    "@type": "LearningResource",
+    ...(canonical ? { "@id": `${canonical}#learning-resource`, url: canonical } : {}),
+    name: scenario.title,
+    description: normalizeText(`${scenario.story.join(" ")} ${scenario.question}`, 300),
+    inLanguage: "zh-TW",
+    learningResourceType: "Practice problem",
+    educationalUse: "self-assessment",
+    isAccessibleForFree: true,
+    teaches: scenario.legalBasis ?? scenario.tags.join("、"),
+    about: [
+      ...scenario.tags.map((tag) => ({ "@type": "DefinedTerm", name: tag })),
+      ...relatedLawArticles.map((article) => ({
+        "@type": "DefinedTerm",
+        name: `${article!.number} ${article!.title}`,
+        description: normalizeText(article!.content, 180),
+      })),
+    ],
+    mainEntity: {
+      "@type": "Question",
+      name: scenario.question,
+      text: scenario.question,
+      inLanguage: "zh-TW",
+      ...(correctChoice ? {
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: correctChoice.text,
+          comment: correctChoice.explanation,
+        },
+      } : {}),
+      suggestedAnswer: scenario.choices
+        .filter((choice) => !choice.isCorrect)
+        .map((choice) => ({ "@type": "Answer", text: choice.text, comment: choice.explanation })),
+    },
+  };
+
+  const breadcrumb = buildBreadcrumb([
+    { name: "民法鎮大冒險", path: "/" },
+    { name: village?.name ?? "民法情境題", path: village ? `/village/${village.id}` : undefined },
+    { name: scenario.title, path: meta.canonicalPath },
+  ], origin);
+
+  return [learningResource, breadcrumb];
+}
+
+function buildVillageStructuredData(meta: SeoMeta, canonical: string, origin: string) {
+  const villageId = meta.canonicalPath?.match(/^\/village\/([^/]+)$/)?.[1];
+  const village = villageId ? getVillageById(villageId) : undefined;
+  if (!village) return undefined;
+
+  const scenarios = getScenariosByVillage(village.id);
+  const collection: Record<string, unknown> = {
+    "@type": "CollectionPage",
+    ...(canonical ? { "@id": `${canonical}#collection`, url: canonical } : {}),
+    name: `${village.name}：台灣民法情境題`,
+    description: meta.description,
+    inLanguage: "zh-TW",
+    isPartOf: { "@type": "WebSite", name: "民法鎮大冒險", ...(origin ? { url: origin } : {}) },
+    numberOfItems: scenarios.length,
+    hasPart: scenarios.map((scenario) => ({
+      "@type": "LearningResource",
+      name: scenario.title,
+      ...(origin ? { url: `${origin}/scenario/${scenario.id}` } : {}),
+    })),
+  };
+
+  return [collection, buildBreadcrumb([
+    { name: "民法鎮大冒險", path: "/" },
+    { name: village.name, path: meta.canonicalPath },
+  ], origin)];
+}
+
 function buildStructuredData(meta: SeoMeta, canonical: string) {
+  const origin = normalizedOrigin();
   const type = meta.schemaKind === "article"
     ? "Article"
     : meta.schemaKind === "learning-resource"
@@ -18,13 +115,22 @@ function buildStructuredData(meta: SeoMeta, canonical: string) {
         : "WebSite";
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
-    "@type": type,
-    name: meta.schemaName ?? meta.title,
-    description: meta.description,
+    "@graph": [],
   };
-  if (canonical) data.url = canonical;
-  if (meta.datePublished) data.datePublished = meta.datePublished;
-  if (meta.schemaKind === "learning-resource") data.learningResourceType = "Practice problem";
+  const specializedData = meta.schemaKind === "learning-resource"
+    ? buildScenarioStructuredData(meta, canonical, origin)
+    : meta.schemaKind === "collection"
+      ? buildVillageStructuredData(meta, canonical, origin)
+      : undefined;
+  const defaultData: Record<string, unknown> = {
+    "@type": type,
+    ...(canonical ? { "@id": `${canonical}#page`, url: canonical } : {}),
+    name: meta.schemaName ?? meta.title,
+    description: normalizeText(meta.description, 300),
+    inLanguage: "zh-TW",
+    ...(meta.datePublished ? { datePublished: meta.datePublished } : {}),
+  };
+  (data["@graph"] as unknown[]).push(...(specializedData ?? [defaultData]));
   return `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
 }
 

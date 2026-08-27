@@ -1,4 +1,5 @@
 import SiteFooter from "@/components/SiteFooter";
+import ContentShareActions from "@/components/ContentShareActions";
 import { useGame } from "@/contexts/GameContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -42,6 +43,8 @@ export default function ScenarioPage() {
     isScenarioCompleted,
     getDailyChallenge,
     recordDailyChallengeAnswer,
+    isScenarioFavorited,
+    toggleFavoriteScenario,
   } = useGame();
   const scenario = getScenarioById(scenarioId ?? "");
   const isDailyChallenge = typeof window !== "undefined" &&
@@ -303,6 +306,13 @@ ${essayText}
             </div>
           </section>
         )}
+
+        <ContentShareActions
+          title={scenario.title}
+          canonicalPath={getScenarioPath(scenario.id)}
+          isFavorite={isScenarioFavorited(scenario.id)}
+          onToggleFavorite={() => toggleFavoriteScenario(scenario.id)}
+        />
 
         {/* ===== 故事情境 ===== */}
         <section className="bg-card rounded-2xl border border-border p-6 shadow-sm">

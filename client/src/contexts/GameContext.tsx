@@ -4,6 +4,7 @@ import {
   addUniqueWrongScenarioId,
   createDailyChallengeScenarioIds,
   getLocalDateKey,
+  toggleFavoriteScenarioId,
 } from "../../../shared/learningTools";
 import { trpc } from "../lib/trpc";
 import { useAuth } from "../_core/hooks/useAuth";
@@ -31,6 +32,7 @@ interface GameState {
   unlockedAchievements: string[];
   geminiApiKey: string;
   wrongScenarioIds: string[];
+  favoriteScenarioIds: string[];
   dailyChallenge: DailyChallengeState;
 }
 
@@ -57,6 +59,8 @@ interface GameContextType {
   ensureDailyChallenge: () => void;
   recordDailyChallengeAnswer: (scenarioId: string, isCorrect: boolean) => void;
   removeWrongScenario: (scenarioId: string) => void;
+  toggleFavoriteScenario: (scenarioId: string) => void;
+  isScenarioFavorited: (scenarioId: string) => boolean;
   isSyncing: boolean;
 }
 
@@ -77,6 +81,7 @@ const defaultGameState: GameState = {
   unlockedAchievements: [],
   geminiApiKey: "",
   wrongScenarioIds: [],
+  favoriteScenarioIds: [],
   dailyChallenge: { dateKey: "", scenarioIds: [], answers: {} },
 };
 
@@ -303,6 +308,18 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     }));
   }, []);
 
+  const toggleFavoriteScenario = useCallback((scenarioId: string) => {
+    setGameState((prev) => ({
+      ...prev,
+      favoriteScenarioIds: toggleFavoriteScenarioId(prev.favoriteScenarioIds, scenarioId),
+    }));
+  }, []);
+
+  const isScenarioFavorited = useCallback(
+    (scenarioId: string) => gameState.favoriteScenarioIds.includes(scenarioId),
+    [gameState.favoriteScenarioIds]
+  );
+
   const getVillageProgress = useCallback(
     (villageId: string): VillageProgress => {
       return gameState.villageProgress[villageId] ?? defaultVillageProgress(villageId);
@@ -452,6 +469,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         ensureDailyChallenge,
         recordDailyChallengeAnswer,
         removeWrongScenario,
+        toggleFavoriteScenario,
+        isScenarioFavorited,
         isSyncing,
       }}
     >

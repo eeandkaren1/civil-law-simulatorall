@@ -1,12 +1,14 @@
 import SiteFooter from "@/components/SiteFooter";
+import VillageHubGuide from "@/components/VillageHubGuide";
 import { useGame } from "@/contexts/GameContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { getVillageById, getScenariosByVillage } from "../../../shared/gameData";
 import { getScenarioPath } from "../../../shared/gameRoutes";
+import { getVillageGuide } from "../../../shared/villageGuides";
 import { Link, useLocation, useParams } from "wouter";
-import { ArrowLeft, CheckCircle2, Circle, Lock, Star } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Circle, Heart, Lock, Star } from "lucide-react";
 
 const VILLAGE_COLORS: Record<string, { bg: string; border: string; text: string; headerBg: string }> = {
   general: { bg: "bg-violet-50", border: "border-violet-200", text: "text-violet-700", headerBg: "bg-violet-600" },
@@ -25,12 +27,13 @@ const DIFFICULTY_LABELS: Record<string, { label: string; color: string }> = {
 export default function VillagePage() {
   const { villageId } = useParams<{ villageId: string }>();
   const [, navigate] = useLocation();
-  const { getVillageProgress, isScenarioCompleted } = useGame();
+  const { getVillageProgress, isScenarioCompleted, isScenarioFavorited } = useGame();
 
   const village = getVillageById(villageId ?? "");
   const scenarios = getScenariosByVillage(villageId ?? "");
   const vp = getVillageProgress(villageId ?? "");
   const colors = VILLAGE_COLORS[villageId ?? ""] ?? VILLAGE_COLORS.general;
+  const guide = getVillageGuide(villageId ?? "");
 
   if (!village) {
     return (
@@ -105,6 +108,8 @@ export default function VillagePage() {
           </div>
         </div>
 
+        {guide && <VillageHubGuide guide={guide} favoriteScenarios={scenarios.filter((scenario) => isScenarioFavorited(scenario.id))} accentClassName={`${colors.bg} ${colors.text}`} />}
+
         {/* 關卡列表 */}
         <div className="space-y-3">
           <h2 className="font-display font-semibold text-lg text-foreground mb-4">
@@ -153,6 +158,7 @@ export default function VillagePage() {
                     </p>
                   </div>
                   <div className="shrink-0 flex items-center gap-1">
+                    {isScenarioFavorited(scenario.id) && <Heart aria-label="已收藏" className="w-4 h-4 text-rose-500 fill-rose-500" />}
                     {completed && <Star className="w-4 h-4 text-amber-400 fill-amber-400" />}
                     <span className={`text-sm font-medium ${colors.text}`}>
                       {completed ? "再挑戰" : "開始"}

@@ -4,6 +4,7 @@ import {
   addUniqueWrongScenarioId,
   createDailyChallengeScenarioIds,
   filterScenarios,
+  toggleFavoriteScenarioId,
 } from "../shared/learningTools";
 
 describe("learningTools", () => {
@@ -20,6 +21,11 @@ describe("learningTools", () => {
     expect(addUniqueWrongScenarioId(["general-001"], "general-002")).toEqual(["general-001", "general-002"]);
   });
 
+  it("收藏切換會新增或移除指定題目且保留其他收藏", () => {
+    expect(toggleFavoriteScenarioId([], "general-001")).toEqual(["general-001"]);
+    expect(toggleFavoriteScenarioId(["general-001", "family-001"], "general-001")).toEqual(["family-001"]);
+  });
+
   it("可依難易度、村落、法條與關鍵字交叉篩選題目", () => {
     const result = filterScenarios(SCENARIOS, {
       villageId: "general",
@@ -30,4 +36,3 @@ describe("learningTools", () => {
     expect(result.map((scenario) => scenario.id)).toContain("general-018");
   });
 });
-

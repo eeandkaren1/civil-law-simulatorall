@@ -86,3 +86,10 @@ export function filterScenarios(
 export function addUniqueWrongScenarioId(existingIds: string[], scenarioId: string): string[] {
   return existingIds.includes(scenarioId) ? existingIds : [...existingIds, scenarioId];
 }
+
+/** 收藏清單採純ID陣列，讓瀏覽器本機進度與未來同步資料都能共用此切換規則。 */
+export function toggleFavoriteScenarioId(existingIds: string[], scenarioId: string): string[] {
+  return existingIds.includes(scenarioId)
+    ? existingIds.filter((id) => id !== scenarioId)
+    : [...existingIds, scenarioId];
+}
