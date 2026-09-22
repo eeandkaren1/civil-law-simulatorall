@@ -2,6 +2,7 @@ import { AtSign, Copy, Facebook, Heart, Instagram, MessageCircle, Share2 } from 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { APP_BASE_PATH, SITE_CONFIG } from "@shared/siteConfig";
 
 type ContentShareActionsProps = {
   title: string;
@@ -41,11 +42,11 @@ export default function ContentShareActions({
   const [shareUrl, setShareUrl] = useState("");
 
   useEffect(() => {
-    setShareUrl(`${window.location.origin}${canonicalPath}`);
+    setShareUrl(`${window.location.origin}${APP_BASE_PATH}${canonicalPath}`);
   }, [canonicalPath]);
 
   const encodedUrl = encodeURIComponent(shareUrl);
-  const encodedTitle = encodeURIComponent(`${title}｜民法鎮大冒險`);
+  const encodedTitle = encodeURIComponent(`${title}｜${SITE_CONFIG.product}｜${SITE_CONFIG.brand}`);
 
   const handleFavorite = () => {
     onToggleFavorite();

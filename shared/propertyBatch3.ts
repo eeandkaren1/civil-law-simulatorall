@@ -1,4 +1,4 @@
-const imageUrl="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl="images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const PROPERTY_BATCH_3_ARTICLES=[
  {id:"pb3-779",number:"第779條",title:"排水通過鄰地",content:"排泄家用或其他用水得通過鄰地，但須採鄰地損害最少處所方法並支付償金。",chapter:"相鄰關係",villageId:"property"},

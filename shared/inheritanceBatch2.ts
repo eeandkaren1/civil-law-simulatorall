@@ -1,4 +1,4 @@
-const imageUrl="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl="images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const INHERITANCE_BATCH_2_ARTICLES=[
  {id:"ib2-1153",number:"第1153條",title:"繼承人對遺產債務的責任",content:"繼承人對被繼承人債務以所得遺產為限負連帶責任；相互間按應繼分比例負擔。",chapter:"繼承效力",villageId:"inheritance"},

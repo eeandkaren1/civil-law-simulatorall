@@ -1,4 +1,4 @@
-const imageUrl="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl="images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const INHERITANCE_BATCH_1_ARTICLES=[
  {id:"ib1-1138",number:"第1138條",title:"法定繼承人順位",content:"遺產繼承人除配偶外，依序為直系血親卑親屬、父母、兄弟姊妹、祖父母。",chapter:"法定繼承",villageId:"inheritance"},

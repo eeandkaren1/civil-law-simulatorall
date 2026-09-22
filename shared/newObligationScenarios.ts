@@ -24,7 +24,7 @@ export const NEW_OBLIGATION_SCENARIOS = [
     essayPrompt: "請比較定金、違約金與解約金在契約法上的功能與法律效果。",
     essayHint: "可從民法第 249 條（定金）、第 250 條與第 252 條（違約金與酌減）切入，討論其擔保與賠償總額預定之性質。",
     tags: ["定金", "契約履行", "違約"],
-    imageUrl: "https://i.imgur.com/dbPDPdy.jpeg",
+    imageUrl: "images/dbpdpdy-b0c70945a4d1.webp",
   },
   {
     id: "obligation-018",
@@ -50,7 +50,7 @@ export const NEW_OBLIGATION_SCENARIOS = [
     essayPrompt: "請論述懲罰性違約金與賠償額預定性違約金的區別，以及法院酌減違約金的審酌標準。",
     essayHint: "可從民法第 250 條與實務見解切入，討論債務人是否已一部履行、債權人所受損害狀況及社會經濟狀況。",
     tags: ["違約金", "酌減", "契約正義"],
-    imageUrl: "https://i.imgur.com/bZQNfOV.jpeg",
+    imageUrl: "images/bzqnfov-64f54b5b31ba.webp",
   },
   {
     id: "obligation-019",
@@ -76,7 +76,7 @@ export const NEW_OBLIGATION_SCENARIOS = [
     essayPrompt: "請說明承攬契約中「定作人之協力義務」的性質及其違反的法律效果。",
     essayHint: "可從民法第 507 條出發，討論定作人協力義務屬於不真正義務或從給付義務，以及遲延協力對承攬人完工期限與解除權之影響。",
     tags: ["承攬", "協力義務", "解除契約"],
-    imageUrl: "https://i.imgur.com/MZrY3OJ.jpeg",
+    imageUrl: "images/mzry3oj-f2d8bd74ae72.webp",
   },
   {
     id: "obligation-020",
@@ -103,6 +103,6 @@ export const NEW_OBLIGATION_SCENARIOS = [
     essayPrompt: "請比較普通保證人與連帶保證人在責任承擔與先訴抗辯權上的重大差異。",
     essayHint: "可從民法第 739 條、第 745 條及實務運作切入，討論連帶保證人雖無先訴抗辯權但享有主債務人之抗辯權。",
     tags: ["保證人", "先訴抗辯權", "連帶保證"],
-    imageUrl: "https://i.imgur.com/FeJkQvX.jpeg",
+    imageUrl: "images/fejkqvx-78544f62fff4.webp",
   },
 ];

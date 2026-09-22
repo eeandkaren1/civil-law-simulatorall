@@ -1,4 +1,4 @@
-const imageUrl = "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/general-016-TWt7sfi6GXNrKiwvy3W8g9.webp";
+const imageUrl = "images/general-016-twt7sfi6gxnrkiwvy3w8g9-a0717a94a14c.webp";
 const choice = (id: number, text: string, isCorrect: boolean, explanation: string) => ({ id, text, isCorrect, explanation });
 
 export const GENERAL_BATCH_4_ARTICLES = [

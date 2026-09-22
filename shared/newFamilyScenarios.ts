@@ -23,7 +23,7 @@ export const NEW_FAMILY_SCENARIOS = [
     essayPrompt: "請論述我國親屬法中夫妻住所決定權之演變與平權原則之落實。",
     essayHint: "可從民法第 1002 條修正歷程切入，討論從傳統夫權支配轉為夫妻平等協議與法院裁判之法理轉變。",
     tags: ["夫妻住所", "同居義務", "親屬法"],
-    imageUrl: "https://i.imgur.com/h00MGsZ.jpeg",
+    imageUrl: "images/h00mgsz-e33cf4ec4604.webp",
   },
   {
     id: "family-018",
@@ -49,7 +49,7 @@ export const NEW_FAMILY_SCENARIOS = [
     essayPrompt: "請說明日常家務代理權的範圍與善意第三人保護之法理基礎。",
     essayHint: "可從民法第 1003 條出發，討論日常家務之認定標準（家庭經濟狀況、生活水準、地區習俗）與交易安全之維護。",
     tags: ["日常家務", "代理權", "夫妻權利"],
-    imageUrl: "https://i.imgur.com/LFwDLRh.jpeg",
+    imageUrl: "images/lfwdlrh-1609d1d8dca8.webp",
   },
   {
     id: "family-019",
@@ -75,7 +75,7 @@ export const NEW_FAMILY_SCENARIOS = [
     essayPrompt: "請論述婚生推定制度的立法目的與否認子女之訴除斥期間之正當性。",
     essayHint: "可從民法第 1063 條與大法官解釋（如釋字第 587 號等）切入，討論身分安定與真實血統主義之衡平。",
     tags: ["婚生推定", "否認子女", "親屬訴訟"],
-    imageUrl: "https://i.imgur.com/Im3RJfd.jpeg",
+    imageUrl: "images/im3rjfd-6216b2954a2c.webp",
   },
   {
     id: "family-020",
@@ -101,6 +101,6 @@ export const NEW_FAMILY_SCENARIOS = [
     essayPrompt: "請說明收養關係終止的要件，並比較成年人與未成年人終止收養程序之差異。",
     essayHint: "可從民法第 1080 條出發，討論未成年人終止收養須經法院認可及審酌最佳利益原則之要求。",
     tags: ["收養", "終止收養", "法院認可"],
-    imageUrl: "https://i.imgur.com/y3AfpcR.jpeg",
+    imageUrl: "images/y3afpcr-e32ddb130efb.webp",
   },
 ];

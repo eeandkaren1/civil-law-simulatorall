@@ -1,4 +1,4 @@
-const imageUrl="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl="images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const INHERITANCE_BATCH_4_ARTICLES=[
  {id:"ib4-1174",number:"第1174條",title:"拋棄繼承的程序",content:"繼承人得拋棄繼承；知悉得繼承起三個月內，以書面向法院為之，並書面通知因拋棄而應繼承之人。",chapter:"拋棄繼承",villageId:"inheritance"},

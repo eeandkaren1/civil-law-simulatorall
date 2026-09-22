@@ -1,4 +1,4 @@
-const imageUrl="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl="images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const INHERITANCE_BATCH_3_ARTICLES=[
  {id:"ib3-1168",number:"第1168條",title:"分割遺產的擔保責任",content:"遺產分割後，各繼承人按所得部分，就他繼承人因分割取得遺產，負與出賣人同一擔保責任。",chapter:"遺產分割",villageId:"inheritance"},

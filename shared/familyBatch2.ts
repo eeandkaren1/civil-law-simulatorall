@@ -1,4 +1,4 @@
-const imageUrl="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl="images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const FAMILY_BATCH_2_ARTICLES=[
  {id:"fb2-1056",number:"第1056條",title:"判決離婚損害賠償",content:"因判決離婚受損者得向有過失他方請求賠償；無過失受害人得請求非財產損害賠償。",chapter:"離婚",villageId:"family"},

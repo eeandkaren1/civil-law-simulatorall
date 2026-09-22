@@ -1,0 +1,13 @@
+services:
+  - type: web
+    runtime: static
+    name: civil-law-adventure
+    buildCommand: pnpm run build
+    staticPublishPath: dist/public
+    routes:
+      - type: redirect
+        source: /civil
+        destination: /civil/
+      - type: rewrite
+        source: /civil/*
+        destination: /civil/index.html

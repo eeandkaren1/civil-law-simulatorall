@@ -24,7 +24,7 @@ export const NEW_GENERAL_SCENARIOS = [
     essayPrompt: "請說明失蹤宣告與死亡宣告的差別，以及失蹤人財產管理制度的立法目的。",
     essayHint: "可從民法失蹤宣告與家事事件法財產管理程序切入，討論立法上如何平衡失蹤人重返社會的可能與家屬財產保全的需求。",
     tags: ["失蹤", "財產管理", "家事事件法"],
-    imageUrl: "https://i.imgur.com/pB1Okly.jpeg",
+    imageUrl: "images/pb1okly-a09981f7d38a.webp",
   },
   {
     id: "general-018",
@@ -51,7 +51,7 @@ export const NEW_GENERAL_SCENARIOS = [
     essayPrompt: "請比較無行為能力人、限制行為能力人與受輔助宣告人在法律行為效力上的差異。",
     essayHint: "可從民法第 13 條（無行為與限制行為能力）、第 14 條與第 15-2 條（受輔助宣告與應經同意之行為）出發，分析保護程度與交易安全的平衡。",
     tags: ["輔助宣告", "行為能力", "效力未定"],
-    imageUrl: "https://i.imgur.com/LyxWBml.jpeg",
+    imageUrl: "images/lyxwbml-17a78ca04705.webp",
   },
   {
     id: "general-019",
@@ -78,7 +78,7 @@ export const NEW_GENERAL_SCENARIOS = [
     essayPrompt: "請論述人格權保護與言論自由之間的界線，以及民法上的救濟方法。",
     essayHint: "可從民法第 18 條（人格權保護）、第 195 條（非財產上損害賠償）與憲法保障言論自由之衡量標準切入。",
     tags: ["人格權", "除去侵害", "慰撫金"],
-    imageUrl: "https://i.imgur.com/VoeSGxj.jpeg",
+    imageUrl: "images/voesgxj-0ae4d8fbf6b0.webp",
   },
   {
     id: "general-020",
@@ -104,6 +104,6 @@ export const NEW_GENERAL_SCENARIOS = [
     essayPrompt: "請說明附停止條件與附解除條件法律行為的異同與法律效果。",
     essayHint: "可從民法第 99 條出發，比較條件成就前後對法律行為效力之影響（停止條件成就生效；解除條件成就失其效力）。",
     tags: ["條件", "法律行為", "停止條件"],
-    imageUrl: "https://i.imgur.com/zhNiCIE.jpeg",
+    imageUrl: "images/zhnicie-f43bc1a9a9e0.webp",
   },
 ];

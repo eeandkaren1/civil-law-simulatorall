@@ -1,4 +1,4 @@
-const imageUrl="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl="images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const FAMILY_BATCH_1_ARTICLES=[
  {id:"fb1-1001",number:"第1001條",title:"夫妻同居義務",content:"夫妻互負同居之義務；有不能同居之正當理由者，不在此限。",chapter:"婚姻效力",villageId:"family"},

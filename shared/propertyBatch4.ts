@@ -1,4 +1,4 @@
-const imageUrl="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl="images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const PROPERTY_BATCH_4_ARTICLES=[
  {id:"pb4-785",number:"第785條",title:"設堰附著對岸",content:"水流地所有人設堰有必要時得附著對岸，但應就所生損害支付償金。",chapter:"相鄰關係",villageId:"property"},

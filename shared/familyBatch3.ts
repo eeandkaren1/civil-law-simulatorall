@@ -1,4 +1,4 @@
-const imageUrl="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl="images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const FAMILY_BATCH_3_ARTICLES=[
  {id:"fb3-1057",number:"第1057條",title:"判決離婚後的贍養費",content:"無過失配偶因判決離婚陷於生活困難時，他方縱無過失，亦應給與相當贍養費。",chapter:"離婚",villageId:"family"},

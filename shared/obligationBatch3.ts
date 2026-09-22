@@ -1,4 +1,4 @@
-const imageUrl = "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl = "images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const OBLIGATION_BATCH_3_ARTICLES=[
  {id:"ob3-271",number:"第271條",title:"可分債務的平均分擔",content:"數人負同一債務而給付可分者，除法律或契約另定外，應各平均分擔。",chapter:"多數債務人",villageId:"obligation"},

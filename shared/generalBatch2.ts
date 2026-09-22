@@ -1,4 +1,4 @@
-const imageUrl = "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/general-016-TWt7sfi6GXNrKiwvy3W8g9.webp";
+const imageUrl = "images/general-016-twt7sfi6gxnrkiwvy3w8g9-a0717a94a14c.webp";
 const choice = (id: number, text: string, isCorrect: boolean, explanation: string) => ({ id, text, isCorrect, explanation });
 export const GENERAL_BATCH_2_ARTICLES = [
   { id:"gb2-art5",number:"第5條",title:"數次表示數量不一致",content:"關於一定之數量，以文字或號碼為數次之表示者，其表示有不符合時，如法院不能決定何者為當事人之原意，應以最低額為準。",chapter:"法例",villageId:"general" },

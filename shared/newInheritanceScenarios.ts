@@ -24,7 +24,7 @@ export const NEW_INHERITANCE_SCENARIOS = [
     essayPrompt: "請論述繼承回復請求權與個別物上請求權之關係與競合問題。",
     essayHint: "可從民法第 1146 條與釋字第 437 號解釋出發，討論繼承回復請求權之性質及其與第 767 條所有物返還請求權之適用範圍。",
     tags: ["繼承回復", "繼承權侵害", "時效期間"],
-    imageUrl: "https://i.imgur.com/fyUXGft.jpeg",
+    imageUrl: "images/fyuxgft-ceeb2536e1d7.webp",
   },
   {
     id: "inheritance-018",
@@ -50,7 +50,7 @@ export const NEW_INHERITANCE_SCENARIOS = [
     essayPrompt: "請說明遺產繼承中「歸扣」制度的立法目的與計算方法。",
     essayHint: "可從民法第 1173 條出發，討論特種贈與（結婚、分居、營業）之範圍、價值計算時點（贈與時）及與特留分之互動關係。",
     tags: ["歸扣", "特種贈與", "應繼分"],
-    imageUrl: "https://i.imgur.com/imYwGmg.jpeg",
+    imageUrl: "images/imywgmg-719dd61a26d8.webp",
   },
   {
     id: "inheritance-019",
@@ -76,7 +76,7 @@ export const NEW_INHERITANCE_SCENARIOS = [
     essayPrompt: "請論述遺囑執行人的法律地位、職務權限與其對遺產管理之重要性。",
     essayHint: "可從民法第 1215 條（遺囑執行人管理遺產與代理繼承人地位）及第 1211 條切入討論。",
     tags: ["遺囑執行人", "親屬會議", "遺產管理"],
-    imageUrl: "https://i.imgur.com/AlJoZB5.jpeg",
+    imageUrl: "images/aljozb5-1c0d199e577f.webp",
   },
   {
     id: "inheritance-020",
@@ -102,6 +102,6 @@ export const NEW_INHERITANCE_SCENARIOS = [
     essayPrompt: "請說明遺囑執行人的資格限制、職務範圍及其與繼承人間之法律關係。",
     essayHint: "可從民法第 1215 條（代理效果）、第 1198 條（見證人資格限制與執行人關聯）切入分析。",
     tags: ["遺囑執行人", "遺產管理", "代理效力"],
-    imageUrl: "https://i.imgur.com/zpFiX7X.jpeg",
+    imageUrl: "images/zpfix7x-e8f6492b8d80.webp",
   },
 ];

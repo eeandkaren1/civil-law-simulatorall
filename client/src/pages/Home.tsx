@@ -9,13 +9,14 @@ import { BookOpen, Trophy, Sparkles, ChevronRight, Key, Newspaper, Map as MapIco
 import { ARTICLES } from "../../../shared/articles";
 import SiteFooter from "@/components/SiteFooter";
 import { toast } from "sonner";
+import { getPublicAssetPath } from "@shared/siteConfig";
 
 const VILLAGE_IMAGES: Record<string, string> = {
-  general: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/village-general-k8mHp59iuCSXh2GTeQWJ6x.webp",
-  obligation: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/village-obligation-QzWhE98bjjj3xH8YG3ak59.webp",
-  property: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/village-property-Yvb4o3wDNXkUs7jvQrhPyT.webp",
-  family: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/village-family-42D7YydSbezum4FajLtwyM.webp",
-  inheritance: "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/village-inheritance-nqb5xYEGQwsivqLwBi9qeQ.webp",
+  general: "images/village-general-k8mhp59iucsxh2gteqwj6x-f3323b1afcf5.webp",
+  obligation: "images/village-obligation-qzwhe98bjjj3xh8yg3ak59-aa8c03a232ca.webp",
+  property: "images/village-property-yvb4o3wdnxkus7jvqrhpyt-7285f99223d5.webp",
+  family: "images/village-family-42d7yydsbezum4fajltwym-9547f6ac0735.webp",
+  inheritance: "images/village-inheritance-nqb5xyegqwsivqlwbi9qeq-73cf8f105286.webp",
 };
 
 const VILLAGE_COLORS: Record<string, { bg: string; border: string; text: string; icon: string }> = {
@@ -136,7 +137,7 @@ export default function Home() {
           {/* 主視覺插圖 */}
           <div className="max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-lg border border-border">
             <img
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/hero-main-azJZUycm2iZFjGSM4y5G4Q.webp"
+              src={getPublicAssetPath("images/hero-main-azjzuycm2izfjgsm4y5g4q-4a1eb92e42e1.webp")}
               alt="民法鎮大冒險 - 台灣傳統小鎮插圖"
               className="w-full h-auto object-cover"
               loading="eager"
@@ -236,7 +237,7 @@ export default function Home() {
                   {villageImg && (
                     <div className="w-full h-36 overflow-hidden">
                       <img
-                        src={villageImg}
+                        src={getPublicAssetPath(villageImg)}
                         alt={village.name}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                         loading="lazy"

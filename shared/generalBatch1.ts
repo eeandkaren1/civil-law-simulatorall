@@ -1,4 +1,4 @@
-const imageUrl = "https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/general-015-A7F4HKZTwHjsmpiu86gxsG.webp";
+const imageUrl = "images/general-015-a7f4hkztwhjsmpiu86gxsg-d4651e0ae987.webp";
 
 export const GENERAL_BATCH_1_ARTICLES = [
   { id: "gb1-art3", number: "第3條", title: "簽名、印章與指印", content: "依法律之規定，有使用文字之必要者，得不由本人自寫，但必須親自簽名。如有用印章代簽名者，其蓋章與簽名生同等之效力。如以指印、十字或其他符號代簽名者，在文件上，經二人簽名證明，亦與簽名生同等之效力。", chapter: "法例", villageId: "general" },

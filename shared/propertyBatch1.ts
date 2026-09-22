@@ -1,4 +1,4 @@
-const imageUrl="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl="images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const PROPERTY_BATCH_1_ARTICLES=[
  {id:"pb1-765",number:"第765條",title:"所有權權能",content:"所有人於法令限制內，得自由使用、收益、處分所有物，並排除他人干涉。",chapter:"所有權",villageId:"property"},

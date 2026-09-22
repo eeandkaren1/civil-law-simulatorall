@@ -2,36 +2,43 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch, useLocation } from "wouter";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import { GameProvider } from "./contexts/GameContext";
-import Home from "./pages/Home";
-import VillagePage from "./pages/VillagePage";
-import ScenarioPage from "./pages/ScenarioPage";
-import KnowledgePage from "./pages/KnowledgePage";
-import ProgressPage from "./pages/ProgressPage";
-import SettingsPage from "./pages/SettingsPage";
-import PrivacyPage from "./pages/PrivacyPage";
-import AboutPage from "./pages/AboutPage";
-import ContactPage from "./pages/ContactPage";
-import ArticlesPage from "./pages/ArticlesPage";
-import ArticleDetailPage from "./pages/ArticleDetailPage";
-import TermsPage from "./pages/TermsPage";
-import DailyChallengePage from "./pages/DailyChallengePage";
-import WrongNotebookPage from "./pages/WrongNotebookPage";
-import QuestionExplorerPage from "./pages/QuestionExplorerPage";
-import LineFloatButton from "./components/LineFloatButton";
+import { useEffect } from "react";
+import { APP_BASE_PATH } from "@shared/siteConfig";
 import { GAME_ROUTES } from "../../shared/gameRoutes";
 import { getSeoForPath } from "../../shared/siteSeo";
-import { useEffect } from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
+import LineFloatButton from "./components/LineFloatButton";
+import { GameProvider } from "./contexts/GameContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import AboutPage from "./pages/AboutPage";
+import ArticleDetailPage from "./pages/ArticleDetailPage";
+import ArticlesPage from "./pages/ArticlesPage";
+import ContactPage from "./pages/ContactPage";
+import DailyChallengePage from "./pages/DailyChallengePage";
+import Home from "./pages/Home";
+import KnowledgePage from "./pages/KnowledgePage";
+import PrivacyPage from "./pages/PrivacyPage";
+import ProgressPage from "./pages/ProgressPage";
+import QuestionExplorerPage from "./pages/QuestionExplorerPage";
+import ScenarioPage from "./pages/ScenarioPage";
+import SettingsPage from "./pages/SettingsPage";
+import TermsPage from "./pages/TermsPage";
+import VillagePage from "./pages/VillagePage";
+import WrongNotebookPage from "./pages/WrongNotebookPage";
 
-// SPA 路由切換時觸發 Google Analytics pageview
 function AnalyticsTracker() {
   const [location] = useLocation();
+
   useEffect(() => {
     const seo = getSeoForPath(location);
     document.title = seo.title;
-    const setMeta = (selector: string, attribute: "name" | "property", key: string, content: string) => {
+
+    const setMeta = (
+      selector: string,
+      attribute: "name" | "property",
+      key: string,
+      content: string,
+    ) => {
       let element = document.querySelector<HTMLMetaElement>(selector);
       if (!element) {
         element = document.createElement("meta");
@@ -40,17 +47,20 @@ function AnalyticsTracker() {
       }
       element.content = content;
     };
+
     setMeta('meta[name="description"]', "name", "description", seo.description);
     setMeta('meta[property="og:title"]', "property", "og:title", seo.title);
     setMeta('meta[property="og:description"]', "property", "og:description", seo.description);
     setMeta('meta[property="og:type"]', "property", "og:type", seo.ogType ?? "website");
+
     let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (!canonical) {
       canonical = document.createElement("link");
       canonical.rel = "canonical";
       document.head.appendChild(canonical);
     }
-    canonical.href = `${window.location.origin}${seo.canonicalPath ?? location}`;
+    canonical.href = `${window.location.origin}${APP_BASE_PATH}${seo.canonicalPath ?? location}`;
+
     let robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
     if (seo.noindex || seo.notFound) {
       if (!robots) {
@@ -62,16 +72,21 @@ function AnalyticsTracker() {
     } else if (robots) {
       robots.remove();
     }
-    if (typeof window !== "undefined" && (window as any).gtag) {
-      (window as any).gtag("config", "G-MFXSFT8HY7", {
-        page_path: location,
+
+    const analyticsWindow = window as Window & typeof globalThis & {
+      gtag?: (...args: unknown[]) => void;
+    };
+    if (analyticsWindow.gtag) {
+      analyticsWindow.gtag("config", "G-MFXSFT8HY7", {
+        page_path: `${APP_BASE_PATH}${location}`,
       });
     }
   }, [location]);
+
   return null;
 }
 
-function Router() {
+function AppRoutes() {
   return (
     <Switch>
       <Route path="/" component={Home} />
@@ -95,7 +110,7 @@ function Router() {
   );
 }
 
-function App() {
+export default function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
@@ -103,7 +118,7 @@ function App() {
           <GameProvider>
             <Toaster richColors position="top-center" />
             <AnalyticsTracker />
-            <Router />
+            <AppRoutes />
             <LineFloatButton />
           </GameProvider>
         </TooltipProvider>
@@ -111,5 +126,3 @@ function App() {
     </ErrorBoundary>
   );
 }
-
-export default App;

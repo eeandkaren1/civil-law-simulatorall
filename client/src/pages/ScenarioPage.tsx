@@ -11,6 +11,7 @@ import { useLocation, useParams } from "wouter";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, XCircle, Lightbulb, Sparkles, SkipForward, Key, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
+import { getPublicAssetPath } from "@shared/siteConfig";
 
 type GamePhase = "story" | "question" | "result" | "essay";
 
@@ -288,7 +289,7 @@ ${essayText}
               )}
               {!imageError && (
                 <img
-                  src={scenario.imageUrl}
+                  src={getPublicAssetPath(scenario.imageUrl)}
                   alt={`${scenario.title} 情境插圖`}
                   className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
                     imageLoaded ? "opacity-100" : "opacity-0"

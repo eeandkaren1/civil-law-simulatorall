@@ -1,4 +1,4 @@
-const imageUrl="https://d2xsxph8kpxj0f.cloudfront.net/310519663221733224/gM5JgomKHbeiFYv994jtE8/obligation-016-C2jdVdwzMe8GTXf5KRNJqk.webp";
+const imageUrl="images/obligation-016-c2jdvdwzme8gtxf5krnjqk-b5e210281d50.webp";
 const c=(id:number,text:string,isCorrect:boolean,explanation:string)=>({id,text,isCorrect,explanation});
 export const FAMILY_BATCH_4_ARTICLES=[
  {id:"fb4-1060",number:"第1060條",title:"未成年子女住所",content:"未成年之子女，以其父母之住所為住所。",chapter:"父母子女",villageId:"family"},

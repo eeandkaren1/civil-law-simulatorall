@@ -24,7 +24,7 @@ export const NEW_PROPERTY_SCENARIOS = [
     essayPrompt: "請說明袋地通行權的法律性質與相鄰關係限制之立法目的。",
     essayHint: "可從民法第 774 條相鄰關係與第 787 條袋地通行權切入，討論所有權社會化與物權調和鄰地利益之意涵。",
     tags: ["袋地通行權", "相鄰關係", "物權"],
-    imageUrl: "https://i.imgur.com/ly3znp.jpg",
+    imageUrl: "images/ly3znp-117ee2743cc7.webp",
   },
   {
     id: "property-018",
@@ -50,7 +50,7 @@ export const NEW_PROPERTY_SCENARIOS = [
     essayPrompt: "請論述區分所有建物中專有部分、共有部分及基地應有部分不可分離性之法理基礎。",
     essayHint: "可從民法第 799 條與公寓大廈管理條例切入，討論建物與基地一體性及維護居住安全之考量。",
     tags: ["區分所有", "共有部分", "不得分離"],
-    imageUrl: "https://i.imgur.com/e2TisAz.jpeg",
+    imageUrl: "images/e2tisaz-efeb99cff3c7.webp",
   },
   {
     id: "property-019",
@@ -76,7 +76,7 @@ export const NEW_PROPERTY_SCENARIOS = [
     essayPrompt: "請比較共有物的「保存行為」、「管理行為」與「處分變更」在民法上的決議門檻差異。",
     essayHint: "可從民法第 820 條（管理與保存，保存可單獨為之）、第 819 條（處分、變更與設定負擔須全體同意）切入分析。",
     tags: ["共有物管理", "多數決", "分別共有"],
-    imageUrl: "https://i.imgur.com/urnbj5.jpg",
+    imageUrl: "images/urnbj5-51487711d7b1.webp",
   },
   {
     id: "property-020",
@@ -102,6 +102,6 @@ export const NEW_PROPERTY_SCENARIOS = [
     essayPrompt: "請說明直接占有、間接占有與占有輔助人的區別及法律保護範圍。",
     essayHint: "可從民法第 941 條（間接占有）、第 942 條（占有輔助人）與第 943 條（占有之推定）出發，討論物權法上占有保護制度的實益。",
     tags: ["占有輔助人", "受僱人", "占有保護"],
-    imageUrl: "https://i.imgur.com/hzzjoc.jpg",
+    imageUrl: "images/hzzjoc-d43a1ef2c15d.webp",
   },
 ];

@@ -6,10 +6,7 @@ import {
   getLocalDateKey,
   toggleFavoriteScenarioId,
 } from "../../../shared/learningTools";
-import { trpc } from "../lib/trpc";
-import { useAuth } from "../_core/hooks/useAuth";
 
-// ===== 型別定義 =====
 interface VillageProgress {
   villageId: string;
   completedScenarios: string[];
@@ -30,6 +27,7 @@ interface GameState {
   villageProgress: Record<string, VillageProgress>;
   unlockedArticles: string[];
   unlockedAchievements: string[];
+  /** The player's own Gemini key; stored only in this browser's localStorage. */
   geminiApiKey: string;
   wrongScenarioIds: string[];
   favoriteScenarioIds: string[];
@@ -39,12 +37,7 @@ interface GameState {
 interface GameContextType {
   gameState: GameState;
   setPlayerName: (name: string) => void;
-  recordAnswer: (
-    villageId: string,
-    scenarioId: string,
-    isCorrect: boolean,
-    articleIds: string[]
-  ) => void;
+  recordAnswer: (villageId: string, scenarioId: string, isCorrect: boolean, articleIds: string[]) => void;
   getVillageProgress: (villageId: string) => VillageProgress;
   getOverallStats: () => {
     totalCorrect: number;
@@ -61,10 +54,8 @@ interface GameContextType {
   removeWrongScenario: (scenarioId: string) => void;
   toggleFavoriteScenario: (scenarioId: string) => void;
   isScenarioFavorited: (scenarioId: string) => boolean;
-  isSyncing: boolean;
 }
 
-// ===== 預設值 =====
 const defaultVillageProgress = (villageId: string): VillageProgress => ({
   villageId,
   completedScenarios: [],
@@ -90,18 +81,19 @@ const STORAGE_KEY = "civil_law_game_state";
 function loadFromStorage(): GameState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      return { ...defaultGameState, ...parsed };
-    }
-  } catch {}
+    if (raw) return { ...defaultGameState, ...JSON.parse(raw) };
+  } catch {
+    // Corrupted local state should not prevent the game from loading.
+  }
   return defaultGameState;
 }
 
 function saveToStorage(state: GameState) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {}
+  } catch {
+    // Storage can be unavailable in private browsing or when quota is exceeded.
+  }
 }
 
 function buildDailyChallenge(dateKey = getLocalDateKey()): DailyChallengeState {
@@ -112,157 +104,28 @@ function buildDailyChallenge(dateKey = getLocalDateKey()): DailyChallengeState {
   };
 }
 
-// ===== Context =====
 const GameContext = createContext<GameContextType | null>(null);
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [gameState, setGameState] = useState<GameState>(defaultGameState);
   const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
-  const [isSyncing, setIsSyncing] = useState(false);
-  // Static Site 模式：玩家進度只保存於自己的裝置，不使用登入與雲端同步。
-  const { user: _user, isAuthenticated: _isAuthenticated } = useAuth();
-  const user: { id?: number } | null = null;
-  const isAuthenticated = false;
 
-  const syncFromLocal = trpc.progress.syncFromLocal.useMutation();
-  const updatePlayerNameMutation = trpc.player.updateName.useMutation();
-  const unlockArticlesMutation = trpc.articles.unlock.useMutation();
-  const unlockAchievementMutation = trpc.achievements.unlock.useMutation();
-  const saveVillageProgressMutation = trpc.progress.saveVillageProgress.useMutation();
-
-  // 雲端資料查詢（登入後才啟用）
-  const cloudProgressQuery = trpc.progress.getAll.useQuery(undefined, {
-    enabled: isAuthenticated,
-    staleTime: 60_000,
-  });
-  const cloudArticlesQuery = trpc.articles.getUnlocked.useQuery(undefined, {
-    enabled: isAuthenticated,
-    staleTime: 60_000,
-  });
-  const cloudAchievementsQuery = trpc.achievements.getAll.useQuery(undefined, {
-    enabled: isAuthenticated,
-    staleTime: 60_000,
-  });
-
-  // 伺服器與瀏覽器首次輸出同一份預設狀態；掛載後才讀取個人本機進度，
-  // 避免SSR因localStorage不存在而失敗，也避免水合時出現內容不一致。
+  // Keep the initial client render deterministic; individual state loads after mounting.
   useEffect(() => {
     setGameState(loadFromStorage());
     setHasLoadedStorage(true);
   }, []);
 
-  // 登入後：先把本地進度上傳，再把雲端資料載回合併
   useEffect(() => {
-    if (!isAuthenticated || !user) return;
-    const state = loadFromStorage();
-
-    // 上傳本地進度到雲端
-    const hasLocalData =
-      Object.keys(state.villageProgress).length > 0 ||
-      state.unlockedArticles.length > 0;
-    if (hasLocalData) {
-      setIsSyncing(true);
-      syncFromLocal
-        .mutateAsync({
-          villageProgress: Object.values(state.villageProgress),
-          unlockedArticleIds: state.unlockedArticles,
-          achievementIds: state.unlockedAchievements,
-        })
-        .finally(() => setIsSyncing(false));
-    }
-
-    // 同步玩家名稱
-    if (state.playerName) {
-      updatePlayerNameMutation.mutate({ playerName: state.playerName });
-    }
-  }, []);
-
-  // 雲端資料載回後，與本地進度合併
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    const cloudProgress = cloudProgressQuery.data;
-    const cloudArticles = cloudArticlesQuery.data;
-    const cloudAchievements = cloudAchievementsQuery.data;
-    if (!cloudProgress && !cloudArticles && !cloudAchievements) return;
-
-    setGameState((prev) => {
-      let merged = { ...prev };
-
-      // 合併村落進度（取本地與雲端的較大值）
-      if (cloudProgress && cloudProgress.length > 0) {
-        const mergedVillageProgress = { ...prev.villageProgress };
-        for (const cp of cloudProgress) {
-          const local = prev.villageProgress[cp.villageId];
-          const cloudScenarios: string[] = cp.completedScenarios ?? [];
-          if (!local) {
-            mergedVillageProgress[cp.villageId] = {
-              villageId: cp.villageId,
-              completedScenarios: cloudScenarios,
-              totalCorrect: cp.totalCorrect,
-              totalAttempts: cp.totalAttempts,
-              currentStreak: cp.currentStreak,
-              maxStreak: cp.maxStreak,
-            };
-          } else {
-            const mergedScenarios = Array.from(
-              new Set([...local.completedScenarios, ...cloudScenarios])
-            );
-            mergedVillageProgress[cp.villageId] = {
-              villageId: cp.villageId,
-              completedScenarios: mergedScenarios,
-              totalCorrect: Math.max(local.totalCorrect, cp.totalCorrect),
-              totalAttempts: Math.max(local.totalAttempts, cp.totalAttempts),
-              currentStreak: Math.max(local.currentStreak, cp.currentStreak),
-              maxStreak: Math.max(local.maxStreak, cp.maxStreak),
-            };
-          }
-        }
-        merged = { ...merged, villageProgress: mergedVillageProgress };
-      }
-
-      // 合併解鎖法條
-      if (cloudArticles && cloudArticles.length > 0) {
-        const mergedArticles = Array.from(
-          new Set([...prev.unlockedArticles, ...cloudArticles])
-        );
-        merged = { ...merged, unlockedArticles: mergedArticles };
-      }
-
-      // 合併成就
-      if (cloudAchievements && cloudAchievements.length > 0) {
-        const mergedAchievements = Array.from(
-          new Set([...prev.unlockedAchievements, ...cloudAchievements])
-        );
-        merged = { ...merged, unlockedAchievements: mergedAchievements };
-      }
-
-      return merged;
-    });
-  }, [
-    isAuthenticated,
-    cloudProgressQuery.data,
-    cloudArticlesQuery.data,
-    cloudAchievementsQuery.data,
-  ]);
-
-  // 持久化到 localStorage
-  useEffect(() => {
-    if (!hasLoadedStorage) return;
-    saveToStorage(gameState);
+    if (hasLoadedStorage) saveToStorage(gameState);
   }, [gameState, hasLoadedStorage]);
 
-  const setPlayerName = useCallback(
-    (name: string) => {
-      setGameState((prev) => ({ ...prev, playerName: name }));
-      if (isAuthenticated) {
-        updatePlayerNameMutation.mutate({ playerName: name });
-      }
-    },
-    [isAuthenticated]
-  );
+  const setPlayerName = useCallback((name: string) => {
+    setGameState((previous) => ({ ...previous, playerName: name }));
+  }, []);
 
   const setGeminiApiKey = useCallback((key: string) => {
-    setGameState((prev) => ({ ...prev, geminiApiKey: key }));
+    setGameState((previous) => ({ ...previous, geminiApiKey: key }));
   }, []);
 
   const getDailyChallenge = useCallback((): DailyChallengeState => {
@@ -274,25 +137,25 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const ensureDailyChallenge = useCallback(() => {
     const today = getLocalDateKey();
-    setGameState((prev) => {
-      if (prev.dailyChallenge.dateKey === today && prev.dailyChallenge.scenarioIds.length > 0) {
-        return prev;
+    setGameState((previous) => {
+      if (previous.dailyChallenge.dateKey === today && previous.dailyChallenge.scenarioIds.length > 0) {
+        return previous;
       }
-      return { ...prev, dailyChallenge: buildDailyChallenge(today) };
+      return { ...previous, dailyChallenge: buildDailyChallenge(today) };
     });
   }, []);
 
   const recordDailyChallengeAnswer = useCallback((scenarioId: string, isCorrect: boolean) => {
     const today = getLocalDateKey();
-    setGameState((prev) => {
-      const dailyChallenge = prev.dailyChallenge.dateKey === today
-        ? prev.dailyChallenge
+    setGameState((previous) => {
+      const dailyChallenge = previous.dailyChallenge.dateKey === today
+        ? previous.dailyChallenge
         : buildDailyChallenge(today);
       if (!dailyChallenge.scenarioIds.includes(scenarioId) || scenarioId in dailyChallenge.answers) {
-        return prev;
+        return previous;
       }
       return {
-        ...prev,
+        ...previous,
         dailyChallenge: {
           ...dailyChallenge,
           answers: { ...dailyChallenge.answers, [scenarioId]: isCorrect },
@@ -302,158 +165,100 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const removeWrongScenario = useCallback((scenarioId: string) => {
-    setGameState((prev) => ({
-      ...prev,
-      wrongScenarioIds: prev.wrongScenarioIds.filter((id) => id !== scenarioId),
+    setGameState((previous) => ({
+      ...previous,
+      wrongScenarioIds: previous.wrongScenarioIds.filter((id) => id !== scenarioId),
     }));
   }, []);
 
   const toggleFavoriteScenario = useCallback((scenarioId: string) => {
-    setGameState((prev) => ({
-      ...prev,
-      favoriteScenarioIds: toggleFavoriteScenarioId(prev.favoriteScenarioIds, scenarioId),
+    setGameState((previous) => ({
+      ...previous,
+      favoriteScenarioIds: toggleFavoriteScenarioId(previous.favoriteScenarioIds, scenarioId),
     }));
   }, []);
 
   const isScenarioFavorited = useCallback(
     (scenarioId: string) => gameState.favoriteScenarioIds.includes(scenarioId),
-    [gameState.favoriteScenarioIds]
+    [gameState.favoriteScenarioIds],
   );
 
   const getVillageProgress = useCallback(
-    (villageId: string): VillageProgress => {
-      return gameState.villageProgress[villageId] ?? defaultVillageProgress(villageId);
-    },
-    [gameState.villageProgress]
+    (villageId: string): VillageProgress => gameState.villageProgress[villageId] ?? defaultVillageProgress(villageId),
+    [gameState.villageProgress],
   );
 
   const isScenarioCompleted = useCallback(
-    (scenarioId: string): boolean => {
-      return Object.values(gameState.villageProgress).some((vp) =>
-        vp.completedScenarios.includes(scenarioId)
-      );
-    },
-    [gameState.villageProgress]
+    (scenarioId: string): boolean => Object.values(gameState.villageProgress).some((progress) => progress.completedScenarios.includes(scenarioId)),
+    [gameState.villageProgress],
   );
 
   const getOverallStats = useCallback(() => {
     const allProgress = Object.values(gameState.villageProgress);
-    const totalCorrect = allProgress.reduce((s, p) => s + p.totalCorrect, 0);
-    const totalAttempts = allProgress.reduce((s, p) => s + p.totalAttempts, 0);
-    const maxStreak = Math.max(0, ...allProgress.map((p) => p.maxStreak));
-    const completedScenarios = allProgress.flatMap((p) => p.completedScenarios);
-    const completedVillages = VILLAGES.filter((v) => {
-      const villageScenarios = SCENARIOS.filter((s) => s.villageId === v.id);
-      const vp = gameState.villageProgress[v.id];
-      if (!vp) return false;
-      return villageScenarios.every((s) => vp.completedScenarios.includes(s.id));
-    }).map((v) => v.id);
+    const totalCorrect = allProgress.reduce((sum, progress) => sum + progress.totalCorrect, 0);
+    const totalAttempts = allProgress.reduce((sum, progress) => sum + progress.totalAttempts, 0);
+    const maxStreak = Math.max(0, ...allProgress.map((progress) => progress.maxStreak));
+    const completedScenarios = allProgress.flatMap((progress) => progress.completedScenarios);
+    const completedVillages = VILLAGES.filter((village) => {
+      const villageScenarios = SCENARIOS.filter((scenario) => scenario.villageId === village.id);
+      const progress = gameState.villageProgress[village.id];
+      return Boolean(progress && villageScenarios.every((scenario) => progress.completedScenarios.includes(scenario.id)));
+    }).map((village) => village.id);
     return { totalCorrect, totalAttempts, maxStreak, completedScenarios, completedVillages };
   }, [gameState.villageProgress]);
 
-  const checkAndUnlockAchievements = useCallback(
-    (newState: GameState) => {
-      const allProgress = Object.values(newState.villageProgress);
-      const totalCorrect = allProgress.reduce((s, p) => s + p.totalCorrect, 0);
-      const totalAttempts = allProgress.reduce((s, p) => s + p.totalAttempts, 0);
-      const maxStreak = Math.max(0, ...allProgress.map((p) => p.maxStreak));
-      const completedScenarios = allProgress.flatMap((p) => p.completedScenarios);
-      const completedVillages = VILLAGES.filter((v) => {
-        const villageScenarios = SCENARIOS.filter((s) => s.villageId === v.id);
-        const vp = newState.villageProgress[v.id];
-        if (!vp) return false;
-        return villageScenarios.every((s) => vp.completedScenarios.includes(s.id));
-      }).map((v) => v.id);
+  const checkAndUnlockAchievements = useCallback((state: GameState) => {
+    const allProgress = Object.values(state.villageProgress);
+    const completedScenarios = allProgress.flatMap((progress) => progress.completedScenarios);
+    const completedVillages = VILLAGES.filter((village) => {
+      const villageScenarios = SCENARIOS.filter((scenario) => scenario.villageId === village.id);
+      const progress = state.villageProgress[village.id];
+      return Boolean(progress && villageScenarios.every((scenario) => progress.completedScenarios.includes(scenario.id)));
+    }).map((village) => village.id);
+    const stats: AchievementStats = {
+      totalAttempts: allProgress.reduce((sum, progress) => sum + progress.totalAttempts, 0),
+      totalCorrect: allProgress.reduce((sum, progress) => sum + progress.totalCorrect, 0),
+      currentStreak: Math.max(0, ...allProgress.map((progress) => progress.currentStreak)),
+      maxStreak: Math.max(0, ...allProgress.map((progress) => progress.maxStreak)),
+      completedVillages,
+      completedScenarios,
+      unlockedArticles: state.unlockedArticles,
+    };
+    return ACHIEVEMENTS
+      .filter((achievement) => !state.unlockedAchievements.includes(achievement.id) && achievement.condition(stats))
+      .map((achievement) => achievement.id);
+  }, []);
 
-      const stats: AchievementStats = {
-        totalAttempts,
-        totalCorrect,
-        currentStreak: Math.max(0, ...allProgress.map((p) => p.currentStreak)),
-        maxStreak,
-        completedVillages,
+  const recordAnswer = useCallback((villageId: string, scenarioId: string, isCorrect: boolean, articleIds: string[]) => {
+    setGameState((previous) => {
+      const progress = previous.villageProgress[villageId] ?? defaultVillageProgress(villageId);
+      const currentStreak = isCorrect ? progress.currentStreak + 1 : 0;
+      const completedScenarios = progress.completedScenarios.includes(scenarioId)
+        ? progress.completedScenarios
+        : [...progress.completedScenarios, scenarioId];
+      const updatedProgress: VillageProgress = {
+        ...progress,
         completedScenarios,
-        unlockedArticles: newState.unlockedArticles,
+        totalCorrect: progress.totalCorrect + (isCorrect ? 1 : 0),
+        totalAttempts: progress.totalAttempts + 1,
+        currentStreak,
+        maxStreak: Math.max(progress.maxStreak, currentStreak),
       };
-
-      const newlyUnlocked: string[] = [];
-      for (const achievement of ACHIEVEMENTS) {
-        if (
-          !newState.unlockedAchievements.includes(achievement.id) &&
-          achievement.condition(stats)
-        ) {
-          newlyUnlocked.push(achievement.id);
-        }
+      const updatedState: GameState = {
+        ...previous,
+        villageProgress: { ...previous.villageProgress, [villageId]: updatedProgress },
+        unlockedArticles: Array.from(new Set([...previous.unlockedArticles, ...articleIds])),
+        wrongScenarioIds: isCorrect
+          ? previous.wrongScenarioIds
+          : addUniqueWrongScenarioId(previous.wrongScenarioIds, scenarioId),
+      };
+      const newAchievementIds = checkAndUnlockAchievements(updatedState);
+      if (newAchievementIds.length > 0) {
+        updatedState.unlockedAchievements = [...previous.unlockedAchievements, ...newAchievementIds];
       }
-      return newlyUnlocked;
-    },
-    []
-  );
-
-  const recordAnswer = useCallback(
-    (villageId: string, scenarioId: string, isCorrect: boolean, articleIds: string[]) => {
-      setGameState((prev) => {
-        const vp = prev.villageProgress[villageId] ?? defaultVillageProgress(villageId);
-        const newStreak = isCorrect ? vp.currentStreak + 1 : 0;
-        const newMaxStreak = Math.max(vp.maxStreak, newStreak);
-        const newCompleted = vp.completedScenarios.includes(scenarioId)
-          ? vp.completedScenarios
-          : [...vp.completedScenarios, scenarioId];
-
-        const updatedVp: VillageProgress = {
-          ...vp,
-          completedScenarios: newCompleted,
-          totalCorrect: vp.totalCorrect + (isCorrect ? 1 : 0),
-          totalAttempts: vp.totalAttempts + 1,
-          currentStreak: newStreak,
-          maxStreak: newMaxStreak,
-        };
-
-        // 解鎖法條
-        const newUnlocked = Array.from(new Set([...prev.unlockedArticles, ...articleIds]));
-
-        const newState: GameState = {
-          ...prev,
-          villageProgress: { ...prev.villageProgress, [villageId]: updatedVp },
-          unlockedArticles: newUnlocked,
-          wrongScenarioIds: isCorrect
-            ? prev.wrongScenarioIds
-            : addUniqueWrongScenarioId(prev.wrongScenarioIds, scenarioId),
-        };
-
-        // 檢查成就
-        const newlyUnlockedAchievements = checkAndUnlockAchievements(newState);
-        if (newlyUnlockedAchievements.length > 0) {
-          newState.unlockedAchievements = [
-            ...prev.unlockedAchievements,
-            ...newlyUnlockedAchievements,
-          ];
-          if (isAuthenticated) {
-            for (const achId of newlyUnlockedAchievements) {
-              unlockAchievementMutation.mutate({ achievementId: achId });
-            }
-          }
-        }
-
-        // 雲端同步
-        if (isAuthenticated) {
-          saveVillageProgressMutation.mutate({
-            villageId,
-            completedScenarios: updatedVp.completedScenarios,
-            totalCorrect: updatedVp.totalCorrect,
-            totalAttempts: updatedVp.totalAttempts,
-            currentStreak: updatedVp.currentStreak,
-            maxStreak: updatedVp.maxStreak,
-          });
-          if (articleIds.length > 0) {
-            unlockArticlesMutation.mutate({ articleIds });
-          }
-        }
-
-        return newState;
-      });
-    },
-    [isAuthenticated]
-  );
+      return updatedState;
+    });
+  }, [checkAndUnlockAchievements]);
 
   return (
     <GameContext.Provider
@@ -471,7 +276,6 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         removeWrongScenario,
         toggleFavoriteScenario,
         isScenarioFavorited,
-        isSyncing,
       }}
     >
       {children}
@@ -480,7 +284,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useGame() {
-  const ctx = useContext(GameContext);
-  if (!ctx) throw new Error("useGame must be used within GameProvider");
-  return ctx;
+  const context = useContext(GameContext);
+  if (!context) throw new Error("useGame must be used within GameProvider");
+  return context;
 }
