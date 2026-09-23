@@ -5,11 +5,26 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { getArticleById, getScenarioById, SCENARIOS } from "../../../shared/gameData";
+import {
+  getArticleById,
+  getScenarioById,
+  SCENARIOS,
+} from "../../../shared/gameData";
 import { getScenarioPath, getVillagePath } from "../../../shared/gameRoutes";
 import { useLocation, useParams } from "wouter";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, XCircle, Lightbulb, Sparkles, SkipForward, Key, ExternalLink } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  CheckCircle2,
+  XCircle,
+  Lightbulb,
+  Sparkles,
+  SkipForward,
+  Key,
+  ExternalLink,
+} from "lucide-react";
 import { toast } from "sonner";
 import { getPublicAssetPath } from "@shared/siteConfig";
 
@@ -48,10 +63,13 @@ export default function ScenarioPage() {
     toggleFavoriteScenario,
   } = useGame();
   const scenario = getScenarioById(scenarioId ?? "");
-  const isDailyChallenge = typeof window !== "undefined" &&
+  const isDailyChallenge =
+    typeof window !== "undefined" &&
     new URLSearchParams(window.location.search).get("mode") === "daily";
   const [phase, setPhase] = useState<GamePhase>("question");
-  const [visibleLines, setVisibleLines] = useState(() => scenario?.story.length ?? 0);
+  const [visibleLines, setVisibleLines] = useState(
+    () => scenario?.story.length ?? 0
+  );
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [essayText, setEssayText] = useState("");
@@ -82,7 +100,7 @@ export default function ScenarioPage() {
     if (visibleLines >= scenario.story.length) return;
 
     storyTimerRef.current = setTimeout(() => {
-      setVisibleLines((v) => v + 1);
+      setVisibleLines(v => v + 1);
     }, 800);
 
     return () => {
@@ -102,12 +120,15 @@ export default function ScenarioPage() {
   }
 
   const colors = VILLAGE_COLORS[scenario.villageId] ?? VILLAGE_COLORS.general;
-  const difficultyColor = DIFFICULTY_COLOR[scenario.difficulty] ?? DIFFICULTY_COLOR.easy;
-  const relatedArticles = scenario.relatedArticles.map((id) => getArticleById(id)).filter(Boolean);
+  const difficultyColor =
+    DIFFICULTY_COLOR[scenario.difficulty] ?? DIFFICULTY_COLOR.easy;
+  const relatedArticles = scenario.relatedArticles
+    .map(id => getArticleById(id))
+    .filter(Boolean);
 
   const handleChoiceSelect = (choiceId: number) => {
     if (selectedChoice !== null) return;
-    const choice = scenario.choices.find((c) => c.id === choiceId);
+    const choice = scenario.choices.find(c => c.id === choiceId);
     if (!choice) return;
 
     setSelectedChoice(choiceId);
@@ -167,7 +188,7 @@ ${essayText}
 請以繁體中文回覆，格式清晰，並給予整體評分（優/良/可/待加強）。`;
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -178,8 +199,7 @@ ${essayText}
       );
 
       if (!response.ok) {
-        const err = await response.json();
-        throw new Error(err?.error?.message || "API 呼叫失敗");
+        throw new Error("AI 批改 API 呼叫失敗");
       }
 
       const data = await response.json();
@@ -190,9 +210,10 @@ ${essayText}
       } else {
         throw new Error("無法取得批改結果");
       }
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "批改失敗，請確認 API Key 是否正確";
-      toast.error(message);
+    } catch {
+      toast.error(
+        "AI 批改暫時無法使用，請稍後再試，或確認您的 API Key 是否有效"
+      );
     } finally {
       setIsGradingEssay(false);
     }
@@ -214,13 +235,17 @@ ${essayText}
       const currentIndex = dailyChallenge.scenarioIds.indexOf(scenario.id);
       const nextScenarioId = dailyChallenge.scenarioIds
         .slice(currentIndex + 1)
-        .find((id) => !(id in dailyChallenge.answers));
-      navigate(nextScenarioId ? `${getScenarioPath(nextScenarioId)}?mode=daily` : "/daily-challenge");
+        .find(id => !(id in dailyChallenge.answers));
+      navigate(
+        nextScenarioId
+          ? `${getScenarioPath(nextScenarioId)}?mode=daily`
+          : "/daily-challenge"
+      );
       return;
     }
-    const currentIndex = SCENARIOS.findIndex((s) => s.id === scenario.id);
+    const currentIndex = SCENARIOS.findIndex(s => s.id === scenario.id);
     const nextInVillage = SCENARIOS.slice(currentIndex + 1).find(
-      (s) => s.villageId === scenario.villageId
+      s => s.villageId === scenario.villageId
     );
     if (nextInVillage) {
       navigate(getScenarioPath(nextInVillage.id));
@@ -257,7 +282,10 @@ ${essayText}
               {DIFFICULTY_LABEL[scenario.difficulty] ?? scenario.difficulty}
             </Badge>
             {isScenarioCompleted(scenario.id) && (
-              <Badge variant="secondary" className="text-xs bg-emerald-100 text-emerald-700 border-emerald-200">
+              <Badge
+                variant="secondary"
+                className="text-xs bg-emerald-100 text-emerald-700 border-emerald-200"
+              >
                 已完成
               </Badge>
             )}
@@ -266,11 +294,13 @@ ${essayText}
       </header>
 
       <main className="container max-w-3xl mx-auto px-4 py-8 space-y-6">
-
         {/* ===== 情境插圖 ===== */}
         {scenario.imageUrl && (
           <section className="rounded-2xl overflow-hidden border border-border shadow-sm bg-card">
-            <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+            <div
+              className="relative w-full"
+              style={{ paddingBottom: "56.25%" }}
+            >
               {!imageLoaded && !imageError && (
                 <div className="absolute inset-0 flex items-center justify-center bg-secondary">
                   <div className="flex flex-col items-center gap-2 text-muted-foreground">
@@ -283,7 +313,9 @@ ${essayText}
                 <div className="absolute inset-0 flex items-center justify-center bg-secondary">
                   <div className="flex flex-col items-center gap-2 text-muted-foreground">
                     <span className="text-4xl">🖼️</span>
-                    <span className="text-xs">{scenario.chapter} · {scenario.title}</span>
+                    <span className="text-xs">
+                      {scenario.chapter} · {scenario.title}
+                    </span>
                   </div>
                 </div>
               )}
@@ -300,7 +332,9 @@ ${essayText}
               )}
               {imageLoaded && !imageError && (
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 py-3">
-                  <p className="text-white text-sm font-medium">{scenario.title}</p>
+                  <p className="text-white text-sm font-medium">
+                    {scenario.title}
+                  </p>
                   <p className="text-white/70 text-xs">{scenario.chapter}</p>
                 </div>
               )}
@@ -319,7 +353,9 @@ ${essayText}
         <section className="bg-card rounded-2xl border border-border p-6 shadow-sm">
           <div className="flex items-center gap-2 mb-4">
             <span className="text-xl">📖</span>
-            <h2 className="font-display font-semibold text-foreground">情境故事</h2>
+            <h2 className="font-display font-semibold text-foreground">
+              情境故事
+            </h2>
           </div>
           <div className="space-y-3">
             {scenario.story.map((line, index) => (
@@ -360,7 +396,9 @@ ${essayText}
           <section className="bg-card rounded-2xl border border-border p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <span className="text-xl">❓</span>
-              <h2 className="font-display font-semibold text-foreground">法律問題</h2>
+              <h2 className="font-display font-semibold text-foreground">
+                法律問題
+              </h2>
             </div>
             <p className="text-foreground font-medium mb-5 leading-relaxed">
               {scenario.question}
@@ -369,11 +407,13 @@ ${essayText}
               {scenario.choices.map((choice, index) => {
                 const isSelected = selectedChoice === choice.id;
                 const showResult = phase === "result";
-                let choiceStyle = "bg-secondary border-border hover:bg-accent hover:border-accent-foreground/20";
+                let choiceStyle =
+                  "bg-secondary border-border hover:bg-accent hover:border-accent-foreground/20";
 
                 if (showResult) {
                   if (choice.isCorrect) {
-                    choiceStyle = "bg-emerald-50 border-emerald-300 correct-answer";
+                    choiceStyle =
+                      "bg-emerald-50 border-emerald-300 correct-answer";
                   } else if (isSelected && !choice.isCorrect) {
                     choiceStyle = "bg-red-50 border-red-300 wrong-answer";
                   } else {
@@ -396,7 +436,9 @@ ${essayText}
                         {String.fromCharCode(65 + index)}
                       </span>
                       <div className="flex-1">
-                        <p className="text-foreground text-sm leading-relaxed">{choice.text}</p>
+                        <p className="text-foreground text-sm leading-relaxed">
+                          {choice.text}
+                        </p>
                         {showResult && (
                           <div className="mt-2 flex items-start gap-1.5">
                             {choice.isCorrect ? (
@@ -424,17 +466,53 @@ ${essayText}
         {phase === "question" && (
           <section className="bg-card rounded-2xl border border-border p-6 shadow-sm">
             <details>
-              <summary className="cursor-pointer font-display font-semibold text-foreground">法條與解題導讀</summary>
+              <summary className="cursor-pointer font-display font-semibold text-foreground">
+                法條與解題導讀
+              </summary>
               <div className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground">
-                <p><strong className="text-foreground">法條依據：</strong>{scenario.legalBasis ?? "請依題目所列相關法條判斷。"}</p>
+                <p>
+                  <strong className="text-foreground">法條依據：</strong>
+                  {scenario.legalBasis ?? "請依題目所列相關法條判斷。"}
+                </p>
                 <div>
-                  <p className="font-medium text-foreground mb-2">選項判斷重點</p>
+                  <p className="font-medium text-foreground mb-2">
+                    選項判斷重點
+                  </p>
                   <ul className="space-y-2 list-disc pl-5">
-                    {scenario.choices.map((choice) => <li key={choice.id}><strong className="text-foreground">{choice.isCorrect ? "正確選項：" : "選項說明："}</strong>{choice.explanation}</li>)}
+                    {scenario.choices.map(choice => (
+                      <li key={choice.id}>
+                        <strong className="text-foreground">
+                          {choice.isCorrect ? "正確選項：" : "選項說明："}
+                        </strong>
+                        {choice.explanation}
+                      </li>
+                    ))}
                   </ul>
                 </div>
-                {relatedArticles.length > 0 && <div><p className="font-medium text-foreground mb-2">相關法條</p>{relatedArticles.map((article) => article && <p key={article.id}><strong className="text-foreground">{article.number} {article.title}：</strong>{article.content}</p>)}</div>}
-                <div><p className="font-medium text-foreground">申論練習</p><p>{scenario.essayPrompt}</p><p className="mt-1"><strong className="text-foreground">提示：</strong>{scenario.essayHint}</p></div>
+                {relatedArticles.length > 0 && (
+                  <div>
+                    <p className="font-medium text-foreground mb-2">相關法條</p>
+                    {relatedArticles.map(
+                      article =>
+                        article && (
+                          <p key={article.id}>
+                            <strong className="text-foreground">
+                              {article.number} {article.title}：
+                            </strong>
+                            {article.content}
+                          </p>
+                        )
+                    )}
+                  </div>
+                )}
+                <div>
+                  <p className="font-medium text-foreground">申論練習</p>
+                  <p>{scenario.essayPrompt}</p>
+                  <p className="mt-1">
+                    <strong className="text-foreground">提示：</strong>
+                    {scenario.essayHint}
+                  </p>
+                </div>
               </div>
             </details>
           </section>
@@ -457,7 +535,9 @@ ${essayText}
                 ) : (
                   <XCircle className="w-5 h-5 text-red-500" />
                 )}
-                <span className={`font-display font-semibold ${isCorrect ? "text-emerald-700" : "text-red-600"}`}>
+                <span
+                  className={`font-display font-semibold ${isCorrect ? "text-emerald-700" : "text-red-600"}`}
+                >
                   {isCorrect ? "答對了！太棒了！" : "答錯了，繼續加油！"}
                 </span>
               </div>
@@ -473,29 +553,42 @@ ${essayText}
               <section className="bg-card rounded-2xl border border-border p-6 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
                   <BookOpen className="w-5 h-5 text-primary" />
-                  <h2 className="font-display font-semibold text-foreground">相關法條</h2>
-                  <Badge variant="secondary" className="text-xs ml-auto">已解鎖</Badge>
+                  <h2 className="font-display font-semibold text-foreground">
+                    相關法條
+                  </h2>
+                  <Badge variant="secondary" className="text-xs ml-auto">
+                    已解鎖
+                  </Badge>
                 </div>
                 <div className="space-y-4">
-                  {relatedArticles.map((article) => article && (
-                    <div key={article.id} className="article-card rounded-xl p-4">
-                      <div className="flex items-start gap-3">
-                        <div className="shrink-0">
-                          <Badge variant="outline" className={`text-xs ${colors}`}>
-                            {article.number}
-                          </Badge>
+                  {relatedArticles.map(
+                    article =>
+                      article && (
+                        <div
+                          key={article.id}
+                          className="article-card rounded-xl p-4"
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className="shrink-0">
+                              <Badge
+                                variant="outline"
+                                className={`text-xs ${colors}`}
+                              >
+                                {article.number}
+                              </Badge>
+                            </div>
+                            <div>
+                              <h3 className="font-medium text-foreground text-sm mb-1">
+                                {article.title}
+                              </h3>
+                              <p className="text-sm text-muted-foreground leading-relaxed">
+                                {article.content}
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-medium text-foreground text-sm mb-1">
-                            {article.title}
-                          </h3>
-                          <p className="text-sm text-muted-foreground leading-relaxed">
-                            {article.content}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                      )
+                  )}
                 </div>
               </section>
             )}
@@ -504,105 +597,125 @@ ${essayText}
             <section className="bg-card rounded-2xl border border-border p-6 shadow-sm">
               <div className="flex items-center gap-2 mb-2">
                 <Lightbulb className="w-5 h-5 text-amber-500" />
-                <h2 className="font-display font-semibold text-foreground">申論練習</h2>
-                <Badge variant="outline" className="text-xs ml-auto text-muted-foreground">可跳過</Badge>
+                <h2 className="font-display font-semibold text-foreground">
+                  申論練習
+                </h2>
+                <Badge
+                  variant="outline"
+                  className="text-xs ml-auto text-muted-foreground"
+                >
+                  可跳過
+                </Badge>
               </div>
               <p className="text-sm text-muted-foreground mb-4">
                 深化理解，練習法律論述能力
               </p>
 
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
-                <p className="text-sm font-medium text-amber-800 mb-1">📝 申論題目</p>
+                <p className="text-sm font-medium text-amber-800 mb-1">
+                  📝 申論題目
+                </p>
                 <p className="text-sm text-amber-900">{scenario.essayPrompt}</p>
               </div>
 
               <div className="bg-secondary rounded-xl p-3 mb-4">
-                <p className="text-xs text-muted-foreground font-medium mb-1">💡 作答提示</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">{scenario.essayHint}</p>
+                <p className="text-xs text-muted-foreground font-medium mb-1">
+                  💡 作答提示
+                </p>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {scenario.essayHint}
+                </p>
               </div>
 
               <Textarea
                 value={essayText}
-                onChange={(e) => setEssayText(e.target.value)}
+                onChange={e => setEssayText(e.target.value)}
                 placeholder="在此輸入你的申論答案..."
                 className="min-h-[120px] bg-input border-border resize-none mb-3"
               />
 
               {/* AI 批改區域 */}
               <>
-              {showApiKeyInput || !gameState.geminiApiKey ? (
-                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-3">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Key className="w-4 h-4 text-blue-600" />
-                        <p className="text-sm font-medium text-blue-800">設定 Gemini API Key</p>
-                        <a
-                          href="/settings"
-                          className="ml-auto text-xs text-blue-600 hover:text-blue-800 underline flex items-center gap-0.5"
-                        >
-                          詳細教學
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                      </div>
-                      <p className="text-xs text-blue-700 mb-3 leading-relaxed">
-                        AI 批改功能使用您自己的 Google Gemini API 額度，完全免費，不會向您收取額外費用。
-                        <a
-                          href="https://aistudio.google.com/app/apikey"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="ml-1 underline inline-flex items-center gap-0.5"
-                        >
-                          前往 Google AI Studio 取得
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
+                {showApiKeyInput || !gameState.geminiApiKey ? (
+                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Key className="w-4 h-4 text-blue-600" />
+                      <p className="text-sm font-medium text-blue-800">
+                        設定 Gemini API Key
                       </p>
-                      <div className="flex gap-2">
-                        <Input
-                          type="password"
-                          value={apiKeyInput}
-                          onChange={(e) => setApiKeyInput(e.target.value)}
-                          placeholder="貼上你的 Gemini API Key..."
-                          className="flex-1 text-sm bg-white border-blue-200"
-                        />
-                        <Button size="sm" onClick={handleSaveApiKey} className="shrink-0">
-                          儲存
-                        </Button>
-                      </div>
-                      <p className="text-xs text-blue-600 mt-2">
-                        📌 步驟：前往 Google AI Studio → 建立 API 金鑰 → 複製貼上
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="flex-1 flex items-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        已設定 Gemini API Key
-                      </div>
-                      <button
-                        onClick={() => setShowApiKeyInput(true)}
-                        className="text-xs text-muted-foreground hover:text-foreground underline"
+                      <a
+                        href="/settings"
+                        className="ml-auto text-xs text-blue-600 hover:text-blue-800 underline flex items-center gap-0.5"
                       >
-                        更換
-                      </button>
+                        詳細教學
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
                     </div>
-                  )}
+                    <p className="text-xs text-blue-700 mb-3 leading-relaxed">
+                      AI 批改功能使用您自己的 Google Gemini API
+                      額度，完全免費，不會向您收取額外費用。
+                      <a
+                        href="https://aistudio.google.com/app/apikey"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-1 underline inline-flex items-center gap-0.5"
+                      >
+                        前往 Google AI Studio 取得
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </p>
+                    <div className="flex gap-2">
+                      <Input
+                        type="password"
+                        value={apiKeyInput}
+                        onChange={e => setApiKeyInput(e.target.value)}
+                        placeholder="貼上你的 Gemini API Key..."
+                        className="flex-1 text-sm bg-white border-blue-200"
+                      />
+                      <Button
+                        size="sm"
+                        onClick={handleSaveApiKey}
+                        className="shrink-0"
+                      >
+                        儲存
+                      </Button>
+                    </div>
+                    <p className="text-xs text-blue-600 mt-2">
+                      📌 步驟：前往 Google AI Studio → 建立 API 金鑰 → 複製貼上
+                    </p>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex-1 flex items-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      已設定 Gemini API Key
+                    </div>
+                    <button
+                      onClick={() => setShowApiKeyInput(true)}
+                      className="text-xs text-muted-foreground hover:text-foreground underline"
+                    >
+                      更換
+                    </button>
+                  </div>
+                )}
 
-                  <Button
-                    onClick={handleGradeEssay}
-                    disabled={isGradingEssay || !essayText.trim()}
-                    className="w-full gap-2 bg-primary hover:bg-primary/90 mb-3"
-                  >
-                    {isGradingEssay ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        AI 批改中...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="w-4 h-4" />
-                        AI 智慧批改
-                      </>
-                    )}
-                  </Button>
+                <Button
+                  onClick={handleGradeEssay}
+                  disabled={isGradingEssay || !essayText.trim()}
+                  className="w-full gap-2 bg-primary hover:bg-primary/90 mb-3"
+                >
+                  {isGradingEssay ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      AI 批改中...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4" />
+                      AI 智慧批改
+                    </>
+                  )}
+                </Button>
               </>
 
               {/* AI 批改結果 */}
@@ -610,7 +723,9 @@ ${essayText}
                 <div className="bg-gradient-to-br from-violet-50 to-blue-50 border border-violet-200 rounded-xl p-5 mt-2">
                   <div className="flex items-center gap-2 mb-3">
                     <Sparkles className="w-4 h-4 text-violet-600" />
-                    <span className="text-sm font-medium text-violet-800">AI 批改結果</span>
+                    <span className="text-sm font-medium text-violet-800">
+                      AI 批改結果
+                    </span>
                   </div>
                   <div className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
                     {aiFeedback}
@@ -654,7 +769,6 @@ ${essayText}
             </button>
           </div>
         )}
-
       </main>
       <SiteFooter />
     </div>

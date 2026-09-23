@@ -1,7 +1,7 @@
 export const SITE_CONFIG = {
   brand: "LawVibe 法律風",
   product: "民法鎮大冒險",
-  contactEmail: "guaned0402@gmail.com",
+  contactEmail: "lawvibe2026@gmail.com",
   copyright: "© 2026 LawVibe 法律風｜民法鎮大冒險｜All Rights Reserved.",
 } as const;
 
