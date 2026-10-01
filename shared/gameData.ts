@@ -3,6 +3,7 @@ import { GENERAL_BATCH_1_ARTICLES, GENERAL_BATCH_1_SCENARIOS } from "./generalBa
 import { GENERAL_BATCH_2_ARTICLES, GENERAL_BATCH_2_SCENARIOS } from "./generalBatch2";
 import { GENERAL_BATCH_3_ARTICLES, GENERAL_BATCH_3_SCENARIOS } from "./generalBatch3";
 import { GENERAL_BATCH_4_ARTICLES, GENERAL_BATCH_4_SCENARIOS } from "./generalBatch4";
+import { GENERAL_BATCH_5_ARTICLES, GENERAL_BATCH_5_SCENARIOS } from "./generalBatch5";
 import { OBLIGATION_BATCH_1_ARTICLES, OBLIGATION_BATCH_1_SCENARIOS } from "./obligationBatch1";
 import { OBLIGATION_BATCH_2_ARTICLES, OBLIGATION_BATCH_2_SCENARIOS } from "./obligationBatch2";
 import { OBLIGATION_BATCH_3_ARTICLES, OBLIGATION_BATCH_3_SCENARIOS } from "./obligationBatch3";
@@ -73,7 +74,7 @@ export const VILLAGES: Village[] = [
     icon: "⚖️",
     color: "#7C6B4E",
     bgGradient: "from-amber-50 to-yellow-100",
-    totalScenarios: 40,
+    totalScenarios: 50,
   },
   {
     id: "obligation",
@@ -230,6 +231,7 @@ export const LAW_ARTICLES: LawArticle[] = [
   ...(GENERAL_BATCH_2_ARTICLES as unknown as LawArticle[]),
   ...(GENERAL_BATCH_3_ARTICLES as unknown as LawArticle[]),
   ...(GENERAL_BATCH_4_ARTICLES as unknown as LawArticle[]),
+  ...(GENERAL_BATCH_5_ARTICLES as unknown as LawArticle[]),
   ...(OBLIGATION_BATCH_1_ARTICLES as unknown as LawArticle[]),
   ...(OBLIGATION_BATCH_2_ARTICLES as unknown as LawArticle[]),
   ...(OBLIGATION_BATCH_3_ARTICLES as unknown as LawArticle[]),
@@ -2324,6 +2326,7 @@ export const SCENARIOS: Scenario[] = [
   ...(GENERAL_BATCH_2_SCENARIOS as unknown as Scenario[]),
   ...(GENERAL_BATCH_3_SCENARIOS as unknown as Scenario[]),
   ...(GENERAL_BATCH_4_SCENARIOS as unknown as Scenario[]),
+  ...(GENERAL_BATCH_5_SCENARIOS as unknown as Scenario[]),
   ...(OBLIGATION_BATCH_1_SCENARIOS as unknown as Scenario[]),
   ...(OBLIGATION_BATCH_2_SCENARIOS as unknown as Scenario[]),
   ...(OBLIGATION_BATCH_3_SCENARIOS as unknown as Scenario[]),

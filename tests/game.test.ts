@@ -46,11 +46,10 @@ describe("gameData - Scenarios", () => {
     }
   });
 
-  it("should meet the final 200-scenario distribution across five 40-scenario villages", () => {
-    expect(SCENARIOS).toHaveLength(200);
+  it("should meet the current 210-scenario distribution", () => {
+    expect(SCENARIOS).toHaveLength(210);
     for (const village of VILLAGES) {
-      expect(village.totalScenarios).toBe(40);
-      expect(getScenariosByVillage(village.id)).toHaveLength(40);
+      expect(getScenariosByVillage(village.id)).toHaveLength(village.totalScenarios);
     }
   });
 
@@ -76,9 +75,9 @@ describe("gameData - Scenarios", () => {
     }
   });
 
-  it("should expose forty general village cards and resolve every general batch 4 route parameter", () => {
+  it("should expose fifty general village cards and resolve every general batch 4 route parameter", () => {
     const generalScenarios = getScenariosByVillage("general");
-    expect(generalScenarios).toHaveLength(40);
+    expect(generalScenarios).toHaveLength(50);
     expect(generalScenarios.map((scenario) => scenario.id)).toEqual(expect.arrayContaining([
       "general-036",
       "general-037",
@@ -91,6 +90,16 @@ describe("gameData - Scenarios", () => {
       expect(scenario?.id).toBe(scenarioId);
       expect(scenario?.title).toBeTruthy();
       expect(scenario?.question).toBeTruthy();
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("should resolve every General batch 5 route parameter", () => {
+    for (const scenarioId of ["general-041", "general-042", "general-043", "general-044", "general-045", "general-046", "general-047", "general-048", "general-049", "general-050"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(scenario?.id).toBe(scenarioId);
+      expect(scenario?.villageId).toBe("general");
+      expect(scenario?.choices).toHaveLength(4);
       expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
     }
   });
@@ -482,4 +491,3 @@ describe("gameData - Achievements", () => {
     expect(result).toBe(true);
   });
 });
-
