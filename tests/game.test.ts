@@ -46,8 +46,8 @@ describe("gameData - Scenarios", () => {
     }
   });
 
-  it("should meet the current 210-scenario distribution", () => {
-    expect(SCENARIOS).toHaveLength(210);
+  it("should meet the current 220-scenario distribution", () => {
+    expect(SCENARIOS).toHaveLength(220);
     for (const village of VILLAGES) {
       expect(getScenariosByVillage(village.id)).toHaveLength(village.totalScenarios);
     }
@@ -148,13 +148,23 @@ describe("gameData - Scenarios", () => {
 
   it("should expose obligation batch 4 cards and resolve their scenario routes", () => {
     const obligationScenarioIds = getScenariosByVillage("obligation").map((scenario) => scenario.id);
-    expect(getVillageById("obligation")?.totalScenarios).toBe(40);
+    expect(getVillageById("obligation")?.totalScenarios).toBe(50);
     expect(obligationScenarioIds).toEqual(expect.arrayContaining([
       "obligation-036", "obligation-037", "obligation-038", "obligation-039", "obligation-040",
     ]));
     for (const scenarioId of ["obligation-036", "obligation-037", "obligation-038", "obligation-039", "obligation-040"]) {
       const scenario = getScenarioById(scenarioId);
       expect(getScenarioPath(scenarioId)).toBe(`/scenario/${scenarioId}`);
+      expect(scenario?.villageId).toBe("obligation");
+      expect(scenario?.choices).toHaveLength(4);
+      expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("should resolve every Obligation batch 5 route parameter", () => {
+    for (const scenarioId of ["obligation-041", "obligation-042", "obligation-043", "obligation-044", "obligation-045", "obligation-046", "obligation-047", "obligation-048", "obligation-049", "obligation-050"]) {
+      const scenario = getScenarioById(scenarioId);
+      expect(scenario?.id).toBe(scenarioId);
       expect(scenario?.villageId).toBe("obligation");
       expect(scenario?.choices).toHaveLength(4);
       expect(scenario?.relatedArticles.length).toBeGreaterThan(0);
